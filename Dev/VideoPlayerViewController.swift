@@ -24,7 +24,7 @@
 //
 //    var player = AVPlayer()
 //    var playerItem : AVPlayerItem?
-//    var ref: DatabaseReference?
+//    var ref: FIRDatabaseReference?
 //
 //
 //    var blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
@@ -36,17 +36,17 @@
 //    let voteUpBtn = UIButton(type: UIButtonType.system) as UIButton
 //    let voteUpBtnDone = UIButton(type: UIButtonType.system) as UIButton
 //    //var rideWithUberbutton = RequestButton()
-//    let videosRef = Database.database().reference(withPath: "videos")
-//    let locationsRef = Database.database().reference(withPath: "locations")
-//    let storage = Storage.storage()
-//    let geofireRef = Database.database().reference()
-//    let user = Auth.auth()?.currentUser
-//    var videos: Array<Item> = []
-//    var mostRecentVideos : Array<Item> = []
+//    let videosRef = FIRDatabase.database().reference(withPath: "videos")
+//    let locationsRef = FIRDatabase.database().reference(withPath: "locations")
+//    let storage = FIRStorage.storage()
+//    let geofireRef = FIRDatabase.database().reference()
+//    let user = FIRAuth.auth()?.currentUser
+//    var videos: Array<FIRItem> = []
+//    var mostRecentVideos : Array<FIRItem> = []
 //    var keys : Array<String> = []
-//    var mostPopularVideos : [Item] = []
-//    var followingVideosList : [Item] = []
-//    var refHandle: DatabaseHandle?
+//    var mostPopularVideos : [FIRItem] = []
+//    var followingVideosList : [FIRItem] = []
+//    var refHandle: FIRDatabaseHandle?
 //
 //    let dateFormatter = DateFormatter()
 //    let closeBtn = UIButton(type: UIButtonType.system) as UIButton
@@ -135,7 +135,7 @@
 //            
 //            self.videosRef.child(key!).observe(.value, with: { (snapshot) in
 //                
-//               var snap = Item?(snapshot)
+//               var snap = FIRItem?(snapshot)
 //                
 //                if(snap != nil){
 //                    if count == 0 {
@@ -179,12 +179,12 @@
 //        
 //        if !self.isFinishedPlaying {
 //            let key = SingletonData.staticInstance.key
-//            var snap = Item?()
+//            var snap = FIRItem?()
 //            
 //            self.videosRef.child(key!).queryLimited(toFirst: 1).observe(.value, with: { (snapshot) in
 //                
 //                
-//                snap = Item(snapshot)
+//                snap = FIRItem(snapshot)
 //                
 //                if(snap != nil){
 //                    if count == 0 {

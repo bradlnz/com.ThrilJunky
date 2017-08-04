@@ -21,22 +21,22 @@
 //import PageMenu
 //import AsyncDisplayKit
 //
-//class MostRecentViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, DatabaseReferenceable{
+//class MostRecentViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FIRDatabaseReferenceable{
 //    
 //    
 //
 //    var asyncVideoViewController = AsyncVideoViewController()
 //
 //
-//    let videosRef = Database.database().reference(withPath: "videos")
-//    let locationsRef = Database.database().reference(withPath: "locations")
-//    let storage = Storage.storage()
-//    let geofireRef = Database.database().reference()
-//    let user = Auth.auth()?.currentUser
-//    var videos: Array<Item> = []
-//    var mostRecentVideos : Array<Item> = []
+//    let videosRef = FIRDatabase.database().reference(withPath: "videos")
+//    let locationsRef = FIRDatabase.database().reference(withPath: "locations")
+//    let storage = FIRStorage.storage()
+//    let geofireRef = FIRDatabase.database().reference()
+//    let user = FIRAuth.auth()?.currentUser
+//    var videos: Array<FIRItem> = []
+//    var mostRecentVideos : Array<FIRItem> = []
 //    var keys : Array<String> = []
-//    var mostRecentVideosList : [Item] = []
+//    var mostRecentVideosList : [FIRItem] = []
 //    let dateFormatter = DateFormatter()
 //    
 //    
@@ -78,7 +78,7 @@
 //                
 //                self.videosRef.child(key).observe(.value, with: { (snapshot) in
 //                    
-//                    self.mostRecentVideosList.append(Item(snapshot))
+//                    self.mostRecentVideosList.append(FIRItem(snapshot))
 //                    self.mostRecentVideosList.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending })
 //                    
 //                    

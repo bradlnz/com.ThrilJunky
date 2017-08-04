@@ -15,7 +15,7 @@ import AVFoundation
 import FBSDKLoginKit
 import FBSDKShareKit
 import FBSDKCoreKit
-import PKHUD
+//import PKHUD
 //import Kingfisher
 
 
@@ -26,13 +26,13 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
    // var timeline: TimelineView!
     @IBOutlet weak var timelineView: UITableView!
     
-    var ref: DatabaseReference?
-    let videosRef = Database.database().reference(withPath: "profiles")
-    let videosAllRef = Database.database().reference(withPath: "videos")
+    var ref: FIRDatabaseReference?
+    let videosRef = FIRDatabase.database().reference(withPath: "profiles")
+    let videosAllRef = FIRDatabase.database().reference(withPath: "videos")
     
-    let storage = Storage.storage()
-    var videos: Array<DataSnapshot> = []
-    var refHandle: DatabaseHandle?
+    let storage = FIRStorage.storage()
+    var videos: Array<FIRDataSnapshot> = []
+    var refHandle: FIRDatabaseHandle?
     var isFinishedPlaying : Bool = false
     let closeBtn = UIButton(type: UIButtonType.system) as UIButton
     var objs: [AnyObject?] = []
@@ -61,7 +61,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
         SingletonData.staticInstance.setSelectedObject(obj)
         let imageURL = URL(string: obj.imagePath)
         SingletonData.staticInstance.setVideoImage(imageURL)
-        SingletonData.staticInstance.setSelectedVideoItem("https://project-316688844667019748.appspot.com.storage.googleapis.com/videos/" + obj.videoPath)
+        SingletonData.staticInstance.setSelectedVideoItem("https://project-316688844667019748.appspot.com.storage.googleapis.com/" + obj.videoPath)
 
         self.present(asyncVideoController, animated: true, completion: nil)
         
@@ -74,7 +74,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        HUD.show(.progress)
+   //     HUD.show(.progress)
         
         self.timelineView.dataSource = self
         self.timelineView.delegate = self
@@ -86,7 +86,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
 //            }
 //        }
         // Do any additional setup after loading the view, typically from a nib.
-        let currentUser = Auth.auth().currentUser
+        let currentUser = FIRAuth.auth()?.currentUser
        // let processorCover = BlurImageProcessor(blurRadius: 10.0)
      //   let processor = ResizingImageProcessor(targetSize: CGSize(width: 110, height: 50))
        
@@ -95,17 +95,17 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
        // profilePhoto.kf.setImage(with: currentUser?.photoURL, options: [.processor(processor)])
         //profilePhoto.asCircle()
         DispatchQueue.main.async {
-            self.ref = Database.database().reference()
+            self.ref = FIRDatabase.database().reference()
             
             
             DispatchQueue.main.async {
-                self.videosRef.child(currentUser!.uid).queryOrderedByValue().observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
+                self.videosRef.child(currentUser!.uid).queryOrderedByValue().observeSingleEvent(of: .value) { (snapshot: FIRDataSnapshot) in
                     print(snapshot)
                     if snapshot.hasChildren(){
                         
                         for snap in snapshot.children.reversed(){
                         
-                            let item = RealmObject(value: [snap as! DataSnapshot])
+                            let item = RealmObject(value: [snap as! FIRDataSnapshot])
                             if(item.ActivityCategories != "" && item.address != "" && item.createdAt != "" && item.displayName != "" && item.displayTitle != ""){
                                 
                                 let dateFormatter = DateFormatter()
@@ -135,7 +135,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
                                 self.timelineView.reloadData()
                             }
                           
-                         HUD.hide()
+                         //HUD.hide()
                         }
                         
                     
@@ -194,7 +194,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.delete) {
-           let currentUser = Auth.auth().currentUser
+           let currentUser = FIRAuth.auth()?.currentUser
             var item = self.videoItems[indexPath.row]
             self.videosAllRef.child(item.key).removeValue()
             self.videosRef.child(currentUser!.uid).child(item.key).removeValue()

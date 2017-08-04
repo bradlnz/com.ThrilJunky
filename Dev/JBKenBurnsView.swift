@@ -375,7 +375,7 @@ class JBKenBurnsView: UIView {
     //MARK: - Notification Responses
     
     /// If ´screenOrientationAwareness´ is true, this notification response will relayout and present the next image whenever the screen orientation changes.
-    @objc internal func deviceOrientationDidChange() {
+    internal func deviceOrientationDidChange() {
         
         var didActuallyChange = false
         let newOrientation: UIDeviceOrientation = UIDevice.current.orientation

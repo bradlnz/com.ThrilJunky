@@ -22,21 +22,21 @@
 //import AsyncDisplayKit
 //
 //
-//class MostPopularViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, DatabaseReferenceable{
+//class MostPopularViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FIRDatabaseReferenceable{
 //    
 //    
 //    var asyncVideoViewController = AsyncVideoViewController()
-//    var ref: DatabaseReference?
-//    let videosRef = Database.database().reference(withPath: "videos")
-//    let locationsRef = Database.database().reference(withPath: "locations")
-//    let storage = Storage.storage()
-//    let geofireRef = Database.database().reference()
-//    let user = Auth.auth()?.currentUser
-//    var videos: Array<Item> = []
+//    var ref: FIRDatabaseReference?
+//    let videosRef = FIRDatabase.database().reference(withPath: "videos")
+//    let locationsRef = FIRDatabase.database().reference(withPath: "locations")
+//    let storage = FIRStorage.storage()
+//    let geofireRef = FIRDatabase.database().reference()
+//    let user = FIRAuth.auth()?.currentUser
+//    var videos: Array<FIRItem> = []
 //    var keys : Array<String> = []
-//    var mostPopularVideos : [Item] = []
-//    var mostPopularVideosList : [Item] = []
-//    var refHandle: DatabaseHandle?
+//    var mostPopularVideos : [FIRItem] = []
+//    var mostPopularVideosList : [FIRItem] = []
+//    var refHandle: FIRDatabaseHandle?
 //    //let cache = Shared.dataCache
 //    let dateFormatter = DateFormatter()
 //    
@@ -86,7 +86,7 @@
 //            
 //                        self.videosRef.child(key).observe(.value, with: { (snapshot) in
 //            
-//                            self.mostPopularVideosList.append(Item(snapshot))
+//                            self.mostPopularVideosList.append(FIRItem(snapshot))
 //            
 //            
 //                            self.mostPopularVideosList.sort(by: {$0.averageVote > $1.averageVote})

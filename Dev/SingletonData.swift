@@ -17,6 +17,7 @@ class SingletonData{
     var loggedInUserToken = ""
     var coLocation : String?
     var location : CLLocation?
+    var mapLocation: CLLocation?
     var overrideLocation : CLLocation?
     var overrideDistance : Bool?
     var title : String?
@@ -30,7 +31,7 @@ class SingletonData{
     var selectedObjectId : String?
     var selectedAnnotation: PinAnnotation?
     var selectedObject: RealmObject?
-    var selectedObjects: [Item]?
+    var selectedObjects: [FIRItem]?
     var selectedItemHasUserVoted : Bool?
     var selectedPicker: String!
     var activityProvider: String?
@@ -99,7 +100,7 @@ class SingletonData{
         self.closestVideo.removeAll()
     }
     
-    func setSelectedObjects(_ input : [Item]?){
+    func setSelectedObjects(_ input : [FIRItem]?){
         selectedObjects = input
     }
     func setVideoImage(_ input : URL?){
@@ -162,6 +163,9 @@ class SingletonData{
         overrideLocation = input
     }
     
+    func setMapLocation(_ input : CLLocation!){
+        mapLocation = input
+    }
     
     func setLocation(_ input : CLLocation!){
         location = input
@@ -260,10 +264,10 @@ class SingletonData{
         closestVideo = []
     }
     
-    func removeDuplicates(_ array: [Item]) -> [Item] {
+    func removeDuplicates(_ array: [FIRItem]) -> [FIRItem] {
         var encountered = Set<String>()
         
-        var result: [Item] = []
+        var result: [FIRItem] = []
         for value in array {
             
             if encountered.contains(value.key) {
@@ -320,7 +324,7 @@ class SingletonData{
         return scaledImage!
     }
     
-//    func indexOfMessage(snapshot: DataSnapshot) -> Int {
+//    func indexOfMessage(snapshot: FIRDataSnapshot) -> Int {
 //        var index = 0
 //        for video in self.videos {
 //            if (snapshot.key == video.key) {

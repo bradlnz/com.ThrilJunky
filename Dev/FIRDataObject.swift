@@ -1,18 +1,18 @@
 import Firebase
 
-class DataObject: NSObject {
+class FIRDataObject: NSObject {
     
-    let snapshot: DataSnapshot
+    let snapshot: FIRDataSnapshot
     var key: String { return snapshot.key }
-    var ref: DatabaseReference { return snapshot.ref }
+    var ref: FIRDatabaseReference { return snapshot.ref }
     
-    required init(snapshot: DataSnapshot) {
+    required init(snapshot: FIRDataSnapshot) {
         
         self.snapshot = snapshot
         
         super.init()
         
-        for child in (snapshot.children.allObjects as? [DataSnapshot])! {
+        for child in (snapshot.children.allObjects as? [FIRDataSnapshot])! {
             if responds(to: Selector(child.key)){
                 setValue(child.value, forKey: child.key)
             }
@@ -20,12 +20,12 @@ class DataObject: NSObject {
     }
 }
 
-protocol DatabaseReferenceable {
-    var ref: DatabaseReference { get }
+protocol FIRDatabaseReferenceable {
+    var ref: FIRDatabaseReference { get }
 }
 
-extension DatabaseReferenceable {
-    var ref: DatabaseReference {
-        return Database.database().reference()
+extension FIRDatabaseReferenceable {
+    var ref: FIRDatabaseReference {
+        return FIRDatabase.database().reference()
     }
 }

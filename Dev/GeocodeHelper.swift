@@ -10,7 +10,7 @@
 import Foundation
 import CoreLocation
 import MapKit
-import PKHUD
+//import PKHUD
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -82,7 +82,7 @@ class GeocodeHelper {
     }
     
     fileprivate func startGeocodeSearch(_ searchTerm: String) {
-        HUD.show(.progress)
+     //   HUD.show(.progress)
         let request = MKLocalSearchRequest()
         request.naturalLanguageQuery = searchTerm
         let search = MKLocalSearch(request: request)
@@ -92,7 +92,7 @@ class GeocodeHelper {
             } else {
                 let res = (response!.mapItems as [MKMapItem]).map{$0.placemark.geocoderPlace}
                 self?.didDecode(searchTerm, places: res)
-                HUD.hide()
+             //   HUD.hide()
             }
         }
         lastSearch = search

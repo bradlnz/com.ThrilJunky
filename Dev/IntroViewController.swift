@@ -21,7 +21,7 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource, UIP
 
         
         
-        Auth.auth().addStateDidChangeListener { auth, user in
+        FIRAuth.auth()?.addStateDidChangeListener { auth, user in
             
             
             if let user = user {

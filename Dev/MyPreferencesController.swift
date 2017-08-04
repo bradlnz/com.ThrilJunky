@@ -15,20 +15,20 @@ import AVFoundation
 import FBSDKLoginKit
 import FBSDKShareKit
 import FBSDKCoreKit
-import PKHUD
+//import PKHUD
 //import Kingfisher
 
 class MyPreferencesController: UIViewController, UINavigationControllerDelegate {
     
     @IBOutlet weak var preferencesView: UIView!
 
-    let user = Auth.auth().currentUser
+    let user = FIRAuth.auth()?.currentUser
 
-    var ref: DatabaseReference?
-    let videosRef = Database.database().reference(withPath: "profiles")
-    let storage = Storage.storage()
-    var videos: Array<DataSnapshot> = []
-    var refHandle: DatabaseHandle?
+    var ref: FIRDatabaseReference?
+    let videosRef = FIRDatabase.database().reference(withPath: "profiles")
+    let storage = FIRStorage.storage()
+    var videos: Array<FIRDataSnapshot> = []
+    var refHandle: FIRDatabaseHandle?
     var isFinishedPlaying : Bool = false
     let closeBtn = UIButton(type: UIButtonType.system) as UIButton
     var objs: [AnyObject?] = []
@@ -49,10 +49,10 @@ class MyPreferencesController: UIViewController, UINavigationControllerDelegate 
         
         distance.text = "\(currentValue) mi"
         
-        self.ref = Database.database().reference()
+        self.ref = FIRDatabase.database().reference()
         
         
-        let userId = Auth.auth().currentUser?.uid
+        let userId = FIRAuth.auth()?.currentUser?.uid
 
         self.ref?.child("profiles").child(userId!).child("maxDistance").updateChildValues(["setDistance" : sender.value])
     }
@@ -61,9 +61,9 @@ class MyPreferencesController: UIViewController, UINavigationControllerDelegate 
 
     @IBAction func logout(_ sender: Any) {
         
-        let firebaseAuth = Auth.auth()
+        let firebaseAuth = FIRAuth.auth()
         do {
-            try firebaseAuth.signOut()
+            try firebaseAuth?.signOut()
            
             DispatchQueue.main.async{
                 let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: "LoginScreen")
@@ -78,7 +78,7 @@ class MyPreferencesController: UIViewController, UINavigationControllerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let remoteConfig = RemoteConfig.remoteConfig()
+        let remoteConfig = FIRRemoteConfig.remoteConfig()
         
         remoteConfig.fetch(withExpirationDuration: 0, completionHandler: { (status, error) in
             
@@ -110,15 +110,15 @@ class MyPreferencesController: UIViewController, UINavigationControllerDelegate 
         
      
         self.preferencesView.isHidden = false
-        let currentUser = Auth.auth().currentUser
-          self.ref = Database.database().reference()
+        let currentUser = FIRAuth.auth()?.currentUser
+          self.ref = FIRDatabase.database().reference()
         
-        self.ref!.child("profiles").child(currentUser!.uid).child("maxDistance").queryOrderedByValue().observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
+self.ref!.child("profiles").child(currentUser!.uid).child("maxDistance").queryOrderedByValue().observeSingleEvent(of: .value) { (snapshot: FIRDataSnapshot) in
             print(snapshot)
             
             if snapshot.hasChildren(){
                 for item in snapshot.children {
-                    let childSnapshot = item as! DataSnapshot
+                    let childSnapshot = item as! FIRDataSnapshot
                     
                     let itemVal = childSnapshot.value as! Int
                     self.distanceValue = Int(itemVal)
@@ -267,14 +267,14 @@ class MyPreferencesController: UIViewController, UINavigationControllerDelegate 
     
 //    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
 //        
-//          let user = Auth.auth()?.currentUser
+//          let user = FIRAuth.auth()?.currentUser
 //        
 //        switch(SingletonData.staticInstance.selectedPicker){
 //            case "profile":
 //     
 //              HUD.show(.Progress)
 //                // Create the file metadata
-//                let profileImgMetadata = StorageMetadata()
+//                let profileImgMetadata = FIRStorageMetadata()
 //                profileImgMetadata.contentType = "image/jpeg"
 //                let storageImgRef = self.storage.reference()
 //                  let photoRef = storageImgRef.child("images/" + user!.uid)

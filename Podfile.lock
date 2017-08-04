@@ -14,12 +14,18 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - Alamofire (4.4.0)
+  - AlamofireImage (3.2.0):
+    - Alamofire (~> 4.1)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
+  - ClusterKit (0.1.2):
+    - ClusterKit/Core (= 0.1.2)
+  - ClusterKit/Core (0.1.2)
   - FBAnnotationClusteringSwift (1.0.1)
   - FBSDKCoreKit (4.22.0):
     - Bolts (~> 1.7)
@@ -28,73 +34,82 @@ PODS:
   - FBSDKMessengerShareKit (1.3.2)
   - FBSDKShareKit (4.22.0):
     - FBSDKCoreKit
-  - Firebase (4.0.0):
-    - Firebase/Core (= 4.0.0)
-  - Firebase/AdMob (4.0.0):
+  - Firebase (3.17.0):
+    - Firebase/Core (= 3.17.0)
+  - Firebase/AdMob (3.17.0):
     - Firebase/Core
-    - Google-Mobile-Ads-SDK (= 7.20.0)
-  - Firebase/Auth (4.0.0):
+    - Google-Mobile-Ads-SDK (= 7.19.1)
+  - Firebase/AppIndexing (3.17.0):
     - Firebase/Core
-    - FirebaseAuth (= 4.0.0)
-  - Firebase/Core (4.0.0):
-    - FirebaseAnalytics (= 4.0.0)
-    - FirebaseCore (= 4.0.0)
-  - Firebase/Crash (4.0.0):
+    - FirebaseAppIndexing (= 1.2.0)
+  - Firebase/Auth (3.17.0):
     - Firebase/Core
-    - FirebaseCrash (= 2.0.0)
-  - Firebase/Database (4.0.0):
+    - FirebaseAuth (= 3.1.1)
+  - Firebase/Core (3.17.0):
+    - FirebaseAnalytics (= 3.9.0)
+    - FirebaseCore (= 3.6.0)
+  - Firebase/Crash (3.17.0):
     - Firebase/Core
-    - FirebaseDatabase (= 4.0.0)
-  - Firebase/DynamicLinks (4.0.0):
+    - FirebaseCrash (= 1.1.6)
+  - Firebase/Database (3.17.0):
     - Firebase/Core
-    - FirebaseDynamicLinks (= 2.0.0)
-  - Firebase/Messaging (4.0.0):
+    - FirebaseDatabase (= 3.1.2)
+  - Firebase/DynamicLinks (3.17.0):
     - Firebase/Core
-    - FirebaseMessaging (= 2.0.0)
-  - Firebase/RemoteConfig (4.0.0):
+    - FirebaseDynamicLinks (= 1.4.0)
+  - Firebase/Messaging (3.17.0):
     - Firebase/Core
-    - FirebaseRemoteConfig (= 2.0.0)
-  - Firebase/Storage (4.0.0):
+    - FirebaseMessaging (= 1.2.3)
+  - Firebase/RemoteConfig (3.17.0):
     - Firebase/Core
-    - FirebaseStorage (= 2.0.0)
-  - FirebaseAnalytics (4.0.0):
-    - FirebaseCore (~> 4.0)
-    - FirebaseInstanceID (~> 2.0)
+    - FirebaseRemoteConfig (= 1.3.4)
+  - Firebase/Storage (3.17.0):
+    - Firebase/Core
+    - FirebaseStorage (= 1.1.0)
+  - FirebaseAnalytics (3.9.0):
+    - FirebaseCore (~> 3.6)
+    - FirebaseInstanceID (~> 1.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseAuth (4.0.0):
-    - FirebaseAnalytics (~> 4.0)
+  - FirebaseAppIndexing (1.2.0)
+  - FirebaseAuth (3.1.1):
+    - FirebaseAnalytics (~> 3.7)
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (4.0.0):
+  - FirebaseCore (3.6.0):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseCrash (2.0.0):
-    - FirebaseAnalytics (~> 4.0)
-    - FirebaseInstanceID (~> 2.0)
+  - FirebaseCrash (1.1.6):
+    - FirebaseAnalytics (~> 3.7)
+    - FirebaseInstanceID (~> 1.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - Protobuf (~> 3.1)
-  - FirebaseDatabase (4.0.0):
-    - FirebaseAnalytics (~> 4.0)
-  - FirebaseDynamicLinks (2.0.0):
-    - FirebaseAnalytics (~> 4.0)
-  - FirebaseInstanceID (2.0.0):
-    - FirebaseCore (~> 4.0)
-  - FirebaseMessaging (2.0.0):
-    - FirebaseAnalytics (~> 4.0)
-    - FirebaseCore (~> 4.0)
-    - FirebaseInstanceID (~> 2.0)
+  - FirebaseDatabase (3.1.2):
+    - FirebaseAnalytics (~> 3.7)
+  - FirebaseDynamicLinks (1.4.0):
+    - FirebaseAnalytics (~> 3.9)
+  - FirebaseInstanceID (1.0.10):
+    - FirebaseCore (~> 3.6)
+  - FirebaseMessaging (1.2.3):
+    - FirebaseAnalytics (~> 3.8)
+    - FirebaseInstanceID (~> 1.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - Protobuf (~> 3.1)
-  - FirebaseRemoteConfig (2.0.0):
-    - FirebaseAnalytics (~> 4.0)
-    - FirebaseInstanceID (~> 2.0)
+  - FirebaseRemoteConfig (1.3.4):
+    - FirebaseAnalytics (~> 3.7)
+    - FirebaseInstanceID (~> 1.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - Protobuf (~> 3.1)
-  - FirebaseStorage (2.0.0):
-    - FirebaseAnalytics (~> 4.0)
-    - FirebaseCore (~> 4.0)
+  - FirebaseStorage (1.1.0):
+    - FirebaseAnalytics (~> 3.7)
     - GTMSessionFetcher/Core (~> 1.1)
-  - Google-Mobile-Ads-SDK (7.20.0)
+  - Google-Mobile-Ads-SDK (7.19.1)
+  - GoogleMaps (2.3.0):
+    - GoogleMaps/Maps (= 2.3.0)
+  - GoogleMaps/Base (2.3.0)
+  - GoogleMaps/Maps (2.3.0):
+    - GoogleMaps/Base
+  - GooglePlaces (2.3.0):
+    - GoogleMaps/Base (= 2.3.0)
   - GoogleToolboxForMac/DebugUtils (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - GoogleToolboxForMac/Defines (2.1.1)
@@ -107,13 +122,13 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.1)
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
-  - GTMSessionFetcher/Core (1.1.10)
+  - GTMSessionFetcher/Core (1.1.9)
   - Kingfisher (3.9.1)
   - Koloda (4.1):
     - pop (~> 1.0)
   - MIBadgeButton-Swift (0.5)
   - OAuthSwift (1.1.1)
-  - ObjectMapper (2.2.7)
+  - ObjectMapper (2.2.6)
   - PINCache (3.0.1-beta.4):
     - PINCache/Arc-exception-safe (= 3.0.1-beta.4)
     - PINCache/Core (= 3.0.1-beta.4)
@@ -131,7 +146,7 @@ PODS:
     - PINRemoteImage/Core
   - PKHUD (4.2.1)
   - pop (1.0.9)
-  - Protobuf (3.3.0)
+  - Protobuf (3.2.1)
   - ReachabilitySwift (3)
   - Realm (2.7.0):
     - Realm/Headers (= 2.7.0)
@@ -141,6 +156,7 @@ PODS:
   - RealmSwift (2.7.0):
     - Realm (= 2.7.0)
   - SlideMenuControllerSwift (3.0.1)
+  - SwiftyCam (2.3.0)
   - SwiftyImage (1.1.0)
   - Texture (2.3.2):
     - Texture/PINRemoteImage (= 2.3.2)
@@ -154,6 +170,8 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1)
+  - AlamofireImage
+  - ClusterKit
   - FBAnnotationClusteringSwift
   - FBSDKCoreKit
   - FBSDKLoginKit
@@ -161,6 +179,7 @@ DEPENDENCIES:
   - FBSDKShareKit
   - Firebase
   - Firebase/AdMob
+  - Firebase/AppIndexing
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Crash
@@ -169,15 +188,18 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Firebase/RemoteConfig
   - Firebase/Storage
+  - GoogleMaps
+  - GooglePlaces
   - Kingfisher
   - Koloda (~> 4.0)
   - MIBadgeButton-Swift (from `https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git`, branch `master`)
   - OAuthSwift (~> 1.1)
-  - PKHUD (~> 4.0)
+  - PKHUD
   - ReachabilitySwift (~> 3)
   - RealmGeoQueries
   - RealmSwift
   - SlideMenuControllerSwift
+  - SwiftyCam
   - SwiftyImage (~> 1.0)
   - Texture
   - UberRides (from `https://github.com/long/rides-ios-sdk.git`, branch `swift-3-dev`)
@@ -200,46 +222,53 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  AlamofireImage: 157ed682cc81d3b9db4fb90c1f12180ac552d93b
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  ClusterKit: 4f28aa069364e8448bb9ee8a810f551f862220fa
   FBAnnotationClusteringSwift: a1f4c07f5472b13acd69de04c61e68e2d7daaad3
   FBSDKCoreKit: c693bad19feb225469eeff14452ba364522ee48b
   FBSDKLoginKit: 1fa529fc622d7b32ebeaffbecd377180833c6d30
   FBSDKMessengerShareKit: 41c0b1a667d685c9433f993eb9611b3d5074e1cb
   FBSDKShareKit: 21ab3c8d173f4fa20c47c1061f3a9fac5950b5fa
-  Firebase: 284eea779b73fdff309791817da7c68bff8dd572
-  FirebaseAnalytics: 6f08e746f7d66f5452931bc2e822b5df9c66b64a
-  FirebaseAuth: ebb6abcbabae00fc47446d690c19ce68d8484fde
-  FirebaseCore: 85ad466044c2f013cdb167f85d426d15b128114a
-  FirebaseCrash: 600ec2cbd8e10c3064a42de2c6ee7687bd02a076
-  FirebaseDatabase: d829b3a8c3e2ac7a16773c5df226966b0805dfc2
-  FirebaseDynamicLinks: ad3bef2e8addfa1490af9db02201429c5c9447dd
-  FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
-  FirebaseMessaging: 227406c05b0dc9290702d2e9f18ab5528f0c2cf2
-  FirebaseRemoteConfig: b1bde8c572a1ca13558b5b179f4563cb877aa34b
-  FirebaseStorage: 8110a1ed2034c8fbfd83890d2acc9cdbbd99afec
-  Google-Mobile-Ads-SDK: 168312cdc167fa22746d4ea8e839fc4825dd2966
+  Firebase: 4b66b5b59c43edac745b87f0c87e42cdd0279c13
+  FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
+  FirebaseAppIndexing: adf2f3b14b6828f1d4c539fc72434962cf29ea2c
+  FirebaseAuth: cc8a1824170adbd351edb7f994490a3fb5c18be6
+  FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
+  FirebaseCrash: db4c05d9c75baa050744d31b36357c8f1efba481
+  FirebaseDatabase: 05c96d7b43a7368dc91c07791adb49683e1738d1
+  FirebaseDynamicLinks: 0dbfd974f560dd1bda7498afc24697adb5cce72f
+  FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
+  FirebaseMessaging: 753d05a925e9eb8eadd09a0ffc9b808578b72fac
+  FirebaseRemoteConfig: af3003f4e8daa2bd1d5cf90d3cccc1fe224f8ed9
+  FirebaseStorage: a5c55b23741a49a72af8f30f95b3bb5ddbeda12d
+  Google-Mobile-Ads-SDK: 43ac87810e4961f5093024d3525bfe022f956da3
+  GoogleMaps: 340a6a0bebd17c2db8abcd3921976c7c53c86cb8
+  GooglePlaces: 74d322c74184ea4576184089b496d291cf0dcd38
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
-  GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
+  GTMSessionFetcher: 5c046c76a1f859bc9c187e918f18e4fc7bb57b5e
   Kingfisher: 6729a0baaa458245bfb8cd5a1296c71c10d6eb6c
   Koloda: 6c4fa3ce9a68776a8ef973311e53fdda432799a8
   MIBadgeButton-Swift: 9e57309b00b168d75ca8fecb45bc75124a8ffddf
   OAuthSwift: 6e3a103b3e5639411769cc7e199ec7e14bd1547f
-  ObjectMapper: 65abcfd9a61cf7396cbd14a4fb22fddfcc46577e
+  ObjectMapper: 042708195cc46c20871cbcbec0453826398273fd
   PINCache: a89c8f609232afac77128557bd12c861844423d7
   PINOperation: ac23db44796d4a564ecf9b5ea7163510f579b71d
   PINRemoteImage: e4e02e15a6f96cedbcef2abf1c9c1228dc9897d7
   PKHUD: 957ce2a68b3c97a51839b30216120c1dbc0c3a78
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
+  Protobuf: 2ccbaf193f6c65adc67745453ca0c13234c32796
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
   Realm: 07e5d3a9e0e41d65fd5f9f05150ed6295d0f093b
   RealmGeoQueries: 84f2628e2fcc7593a41639c7b8526d6e88a1f071
   RealmSwift: 6d06425d3900c86473c4f323bf6949b43fca22bc
   SlideMenuControllerSwift: 9a163b16d54afab734add42858cba7ef7c307755
+  SwiftyCam: be1f832a32b12810e86e23a87caccadd855226ea
   SwiftyImage: 4d3feb0211beb7217b39ac553e3ee64ceb72d611
   Texture: 18664254419f35de27af76399b3b265cbad5740a
   UberRides: 96eb232374a6e8e616c20fdba83c2643a6ad08dc
 
-PODFILE CHECKSUM: bd4af99f01143eef7dfccff4d0b5a59b232bd838
+PODFILE CHECKSUM: c767f9aef4580d0cf999c4f60be1023c959203e7
 
 COCOAPODS: 1.1.1

@@ -1,7 +1,5 @@
 #import <Foundation/Foundation.h>
 
-#import "FIRDynamicLinksSwiftNameSupport.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -10,6 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 /**
+ * @enum FIRDynamicLinkMatchConfidence
  * @abstract The confidence level of the matched Dynamic Link.
  */
 typedef NS_ENUM(NSUInteger, FIRDynamicLinkMatchConfidence) {
@@ -23,13 +22,12 @@ typedef NS_ENUM(NSUInteger, FIRDynamicLinkMatchConfidence) {
    *     information related to the Dynamic Link.
    */
   FIRDynamicLinkMatchConfidenceStrong
-} FIR_SWIFT_NAME(DynamicLinkMatchConfidence);
+};
 
 /**
  * @class FIRDynamicLink
  * @abstract A received Dynamic Link.
  */
-FIR_SWIFT_NAME(DynamicLink)
 @interface FIRDynamicLink : NSObject
 
 /**

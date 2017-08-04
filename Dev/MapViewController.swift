@@ -1,371 +1,292 @@
-////
-////  MapViewController.swift
-////  ThrilJunky
-////
-////  Created by Brad Lietz on 11/09/2016.
-////  Copyright © 2016 ThrilJunky LLC. All rights reserved.
-////
+import UIKit
+import GoogleMaps
+import ClusterKit
+import Firebase
+import ObjectiveC
+import Kingfisher
+import RealmSwift
+
+class MapViewController: UIViewController {
+    
+    @IBOutlet weak var mapView: GMSMapView!
+    
+    @IBOutlet weak var dismissMapBtn: UIButton!
+    var realm : Realm! = nil
+    var places = [Place]()
+    var arViewController: ARViewController!
+    var locationManager = CLLocationManager()
+    var currentLocation: CLLocation?
+    var zoomLevel: Float = 15.0
+     let videoRootPath = "https://storage.googleapis.com/project-316688844667019748.appspot.com/"
+     let videosRef = FIRDatabase.database().reference(withPath: "videos")
+    
+    var items = [FIRItem]()
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        locationManager.delegate = nil
+        mapView.delegate = nil
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        UIApplication.shared.statusBarStyle = .lightContent
+        
+        locationManager = CLLocationManager()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.distanceFilter = 50
+        locationManager.startUpdatingLocation()
+        locationManager.delegate = self
+        mapView.delegate = self
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        
+        
+        
+        dismissMapBtn.layer.cornerRadius = 25
+        dismissMapBtn.layer.masksToBounds = true
+        dismissMapBtn.layer.allowsEdgeAntialiasing = true
+        
+        self.items.removeAll()
+        
+        self.videosRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            
+            for snap in snapshot.children{
+                print(snapshot.children)
+                let item = FIRItem(snapshot: snap as! FIRDataSnapshot)
+                
+                if(item.videoPath != ""){
+                    
+                    
+                    FIRDatabase.database().reference().child("businesses").queryOrdered(byChild: "uid").queryEqual(toValue: item.uid).observeSingleEvent(of: .value, with: { (snap) in
+                        
+                        
+                        for var vid in snap.children {
+                            let business = BusinessModel(snapshot: vid as! FIRDataSnapshot)
+                            
+                            let numberFormatter = NumberFormatter()
+                            let lat = numberFormatter.number(from: business.latitude)
+                            let lng = numberFormatter.number(from: business.longitude)
+                            
+                  
+                            let marker = GMSMarker()
+                            marker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(lat!), longitude: CLLocationDegrees(lng!))
+                            marker.title = item.displayTitle
+                            marker.video = item
+                            let url = URL(string: item.imagePath)
+                            let imgView = UIImageView(image: marker.icon)
+                            imgView.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+                            imgView.layer.cornerRadius = 25
+                            imgView.layer.masksToBounds = true
+        //                    imgView.layer.borderWidth = 3
+        //                    imgView.layer.allowsEdgeAntialiasing = true
+        //                    imgView.layer.borderColor = UIColor.white.cgColor
+                            imgView.kf.setImage(with: url)
+                    
+                            marker.iconView = imgView
+                            
+                            marker.map = self.mapView
+                    
+                     let img2 = UIImageView(image: marker.icon)
+                            img2.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+                            img2.layer.cornerRadius = 25
+                            img2.layer.masksToBounds = true
+                            img2.kf.setImage(with: url)
+
+                            let place = Place(location: CLLocation(latitude: Double(lat!), longitude: Double(lng!)), reference: "", name: business.businessName, address: business.address, img: img2, key: business.key)
+                            
+                    self.places.append(place)
+                    
+                    self.items.append(item)
+                            
+                        }
+                        
+                       })
+                }
+            }
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
+    @IBAction func openAr(_ sender: Any) {
+        
+        arViewController = ARViewController()
+        arViewController.dataSource = self
+        arViewController.maxDistance = 30000
+        arViewController.maxVisibleAnnotations = 30
+        arViewController.maxVerticalLevel = 5
+        arViewController.headingSmoothingFactor = 0.15
+        
+        arViewController.trackingManager.userDistanceFilter = 25
+        arViewController.trackingManager.reloadDistanceFilter = 75
+        print(self.places)
+        arViewController.setAnnotations(self.places)
+        arViewController.uiOptions.debugEnabled = false
+        arViewController.uiOptions.closeButtonEnabled = true
+        
+        self.present(arViewController, animated: true, completion: nil)
+    }
+    
+    @IBAction func dismissMap(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+}
+
+public final class ObjectAssociation<T: AnyObject> {
+    
+    private let policy: objc_AssociationPolicy
+    
+    /// - Parameter policy: An association policy that will be used when linking objects.
+    public init(policy: objc_AssociationPolicy = .OBJC_ASSOCIATION_RETAIN_NONATOMIC) {
+        
+        self.policy = policy
+    }
+    
+    /// Accesses associated object.
+    /// - Parameter index: An object whose associated object is to be accessed.
+    public subscript(index: AnyObject) -> T? {
+        
+        get { return objc_getAssociatedObject(index, Unmanaged.passUnretained(self).toOpaque()) as! T? }
+        set { objc_setAssociatedObject(index, Unmanaged.passUnretained(self).toOpaque(), newValue, policy) }
+    }
+}
+
+extension GMSMarker {
+    private static let association = ObjectAssociation<FIRItem>()
+    
+    var video: FIRItem? {
+        
+        get { return GMSMarker.association[self] }
+        set { GMSMarker.association[self] = newValue }
+    }
+}
+extension MapViewController: GMSMapViewDelegate {
 //
-//import UIKit
-//import AVKit
-//import AVFoundation
-//import UberRides
-//import Firebase
-//import Haneke
-//import ReachabilitySwift
-//import FBAnnotationClusteringSwift
-//import PKHUD
-//import GeoFire
-////import PopupDialog
-//import PageMenu
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        
+        
+        let obj = RealmObject()
+        
+        let item = marker.video!
+        
+        obj.address = item.address
+        obj.createdAt = item.createdAt
+        obj.displayName = item.displayName
+        obj.displayTitle = item.displayTitle
+        obj.imagePath = item.imagePath
+        obj.key = item.key
+        obj.lat = Float(marker.position.latitude)
+        obj.lng = Float(marker.position.longitude)
+        obj.videoPath = item.videoPath
+        obj.website = item.website
+        
+        SingletonData.staticInstance.setSelectedObject(obj)
+        
+        self.performSegue(withIdentifier: "moreInfoMapSegue", sender: self)
+        
+        return true
+    }
 //
-//class MapViewController: UIViewController, MKMapViewDelegate{
-//
-//    let geocoder = CLGeocoder()
-//    var playerViewController = PlayerViewController()
-//    let overlayHintController = OverlayHintController()
-//    let clusteringManager = FBClusteringManager()
-//    var pageMenu : CAPSPageMenu?
-//    var reachability : Reachability? = nil
-//    var player = AVPlayer()
-//    var playerItem : AVPlayerItem?
-//    var ref: DatabaseReference?
-//    var cluster:[FBAnnotation] = []
-//    var playbackLikelyToKeepUpContext = UnsafeMutablePointer<(Void)>(nil)
-//    var playbackBufferFullContext = UnsafeMutablePointer<(Void)>(nil)
-//    var playbackBufferEmptyContext = UnsafeMutablePointer<(Void)>(nil)
-//    var playbackStatusContext = UnsafeMutablePointer<(Void)>(nil)
-//    var blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
-//    var blurEffectView : UIVisualEffectView?
-//    var callButton = UIButton(frame: CGRect(x: 0, y: 0, width: 210, height: 40))
-//    var websiteButton = UIButton(frame: CGRect(x: 0, y: 0, width: 210, height: 40))
-//    var getDirectionsButton = UIButton(frame: CGRect(x: 0, y: 00, width: 210, height: 40))
-//    var closeButton = UIButton(type: UIButtonType.system) as UIButton
-//    let voteUpBtn = UIButton(type: UIButtonType.system) as UIButton
-//    let voteUpBtnDone = UIButton(type: UIButtonType.system) as UIButton
-//  //  var rideWithUberbutton = RequestButton()
-//    let videosRef = Database.database().reference(withPath: "videos")
-//    let locationsRef = Database.database().reference(withPath: "locations")
-//    let storage = Storage.storage()
-//    let geofireRef = Database.database().reference()
-//    let user = Auth.auth()?.currentUser
-//    var videos: Array<Item> = []
-//    var mostRecentVideos : Array<Item> = []
-//    var keys : Array<String> = []
-//    var mostPopularVideos : [Item] = []
-//    var followingVideosList : [Item] = []
-//    var refHandle: DatabaseHandle?
-//    let cache = Shared.dataCache
-//    let dateFormatter = DateFormatter()
-//    let closeBtn = UIButton(type: UIButtonType.system) as UIButton
-//    let tickBtn = UIButton(type: UIButtonType.system) as UIButton
-//    var isFinishedPlaying : Bool = false
 //    
-//    var images = [UIImage(named: "Indoor"),
-//                  UIImage(named: "Outdoor"),
-//                  UIImage(named: "Food"),
-//                  UIImage(named: "Nightlife"),
-//                  UIImage(named: "Events"),
-//                  UIImage(named: "Other")]
-//    
-//    var categories: [String] = ["Indoor",
-//                                "Outdoor",
-//                                "Food",
-//                                "Nightlife",
-//                                "Events",
-//                                "Other"]
-//    
-//    @IBOutlet weak var mapView: MKMapView!
-//    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        self.mapView.delegate = self
-//
-//        OperationQueue().addOperation({
-//            let mapBoundsWidth = Double(self.mapView.bounds.size.width)
-//            let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
-//            let scale:Double = mapBoundsWidth / mapRectWidth
-//            
-//            var annotationArray : [MKAnnotation]? = nil
-//            
-//            
-//            annotationArray = self.clusteringManager.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
-//            
-//            
-//            self.clusteringManager.displayAnnotations(annotationArray!, onMapView:self.mapView)
-//        })
-//        
-//        self.mapView.showsPointsOfInterest = false
-//        self.mapView.showsUserLocation = true
-//        
-//        let span = MKCoordinateSpanMake(0.2, 0.2)
-//        
-//        
-//        let loc = SingletonData.staticInstance.location
-//        print(loc)
-//        if loc != nil {
-//            let region = MKCoordinateRegion(center: loc!.coordinate, span: span)
-//            self.mapView.setRegion(region, animated: true)
-//        }
-//        
-//        
-//        
-//        if loc != nil {
-//            
-//            
-//            videosRef.observe(.childAdded, with: { (snapshot) -> Void in
-//                print("added")
-//                self.videos.append(Item(snapshot))
-//            })
-//            
-//
-//            
-//            if videos.count <= 0 && cluster.count <= 0{
-//                
-//                
-//                
-//                self.refHandle = self.videosRef.queryOrderedByValue().observe(.value, with: { (snapshot) in
-//                    
-//                    self.videos.removeAll()
-//                    self.cluster.removeAll()
-//                    var allAnnotations = self.clusteringManager.allAnnotations()
-//                    allAnnotations.removeAll()
-//                    self.mapView.removeAnnotations(allAnnotations)
-//                    
-//                    for snap in snapshot.children{
-//                        let item = Item(snap as! DataSnapshot)
-//                        
-//                        
-//                        self.videos.append(item)
-//                        
-//                        
-//                        let pinAnnotation = PinAnnotation()
-//                        
-//                        let lat : Double = Double(item.latitude)!
-//                        let lng : Double = Double(item.longitude)!
-//                        
-//                        let coord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-//                        
-//                        
-//                        pinAnnotation.category = item.ActivityCategory
-//                        pinAnnotation.phoneNumber = item.phoneNumber
-//                        pinAnnotation.website = item.website
-//                        pinAnnotation.address = item.address
-//                        pinAnnotation.displayName = item.displayName
-//                        pinAnnotation.displayHint = item.displayHint
-//                        pinAnnotation.displayMsg = item.displayMsg
-//                        pinAnnotation.createdAt = item.createdAt
-//                        pinAnnotation.title = item.displayTitle
-//                        pinAnnotation.subtitle = item.ActivityCategory
-//                        pinAnnotation.videoPath = item.videoPath
-//                        pinAnnotation.coordinate = coord
-//                        pinAnnotation.userPhoto = item.userPhoto
-//                        pinAnnotation.imagePath = item.imagePath
-//                        pinAnnotation.key = item.key
-//                        
-//                        self.cluster.append(pinAnnotation)
-//                        allAnnotations.append(pinAnnotation)
-//                        
-//                    }
-//                    
-//                    
-//                    self.clusteringManager.setAnnotations(self.cluster)
-//                    self.clusteringManager.displayAnnotations(allAnnotations, onMapView:self.mapView)
-//                    
-//                }) { (error) in
-//                    print(error.localizedDescription)
-//                }
-//                
-//            }
-//        }
-//
-//        // Do any additional setup after loading the view.
-//    }
-//    
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        
-//        var reuseId = ""
-//        if annotation.isKindOfClass(FBAnnotationCluster) {
-//            reuseId = "Cluster"
-//            var clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId)
-//            clusterView = FBAnnotationClusterView(annotation: annotation, reuseIdentifier: reuseId, options: nil)
-//            return clusterView
-//        } else {
-//            reuseId = "Pin"
-//            if annotation is PinAnnotation {
-//                let ann = annotation as! PinAnnotation
-//                let pinAnnotationView = MKAnnotationView(annotation: ann, reuseIdentifier: reuseId)
-//                
-//                pinAnnotationView.draggable = false
-//                pinAnnotationView.canShowCallout = true
-//                pinAnnotationView.calloutOffset = CGPoint(x: 0, y: 10)
-//                
-//                var image : UIImage? = nil
-//                
-//                
-//                image = UIImage(named: ann.category!)
-//                if image == nil {
-//                    
-//                    image = UIImage.circle(30, color: UIColor.purple)
-//                }
-//                
-//                
-//                let size = CGSize(width: 50, height: 50)
-//                let resizedAndMaskedImage = SingletonData.staticInstance.imageResize(image!, sizeChange: size)
-//                pinAnnotationView.image = resizedAndMaskedImage
-//                
-//                pinAnnotationView.tintColor = UIColor.purpleColor()
-//                
-//                
-//                let button = UIButton(type: UIButtonType.detailDisclosure)
-//                button.addTarget(self, action: #selector(MapViewController.buttonClicked), for: UIControlEvents.touchUpInside)
-//                pinAnnotationView.rightCalloutAccessoryView = button
-//                
-//                
-//                return pinAnnotationView
-//                
-//                
-//            }
-//        }
-//        
-//        
-//        
-//        return nil
-//    }
-//    
-//    
-//    
-//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-//        
-//        if(view.annotation is MKUserLocation)
-//        {
-//            
-//            
-//        } else {
-//            
-//            if view.annotation!.isKindOfClass(FBAnnotationCluster) {
-//                
-//                for item in self.cluster {
-//                    print(item)
-//                }
-//                
-//                self.clusteringManager.displayAnnotations(self.cluster, onMapView:self.mapView)
-//                
-//            } else
-//            {
-//                let ann = view.annotation as! PinAnnotation
-//                
-//                
-//                SingletonData.staticInstance.setSelectedAnnotation(ann)
-//                SingletonData.staticInstance.setSelectedVideoItem(ann.videoPath!)
-//                
-//            }
-//        }
-//    }
-//    
-//    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-//        
-//        
-//        do {
-//            reachability = try Reachability.reachabilityForInternetConnection()
-//        } catch {
-//            print("Unable to create Reachability")
-//            
-//        }
-//        
-//        
-//        reachability!.whenReachable = { reachability in
-//            // this is called on a background thread, but UI updates must
-//            // be on the main thread, like this:
-//            DispatchQueue.main.async {
-//                if reachability.isReachableViaWiFi() {
-//                    print("Reachable via WiFi")
-//                    NSOperationQueue().addOperationWithBlock({
-//                        let mapBoundsWidth = Double(self.mapView.bounds.size.width)
-//                        let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
-//                        let scale:Double = mapBoundsWidth / mapRectWidth
-//                        
-//                        var annotationArray : [MKAnnotation]? = nil
-//                        
-//                        
-//                        annotationArray = self.clusteringManager.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
-//                        
-//                        
-//                        self.clusteringManager.displayAnnotations(annotationArray!, onMapView:self.mapView)
-//                    })
-//                } else {
-//                    print("Reachable via Cellular")
-//                    NSOperationQueue().addOperationWithBlock({
-//                        let mapBoundsWidth = Double(self.mapView.bounds.size.width)
-//                        let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
-//                        let scale:Double = mapBoundsWidth / mapRectWidth
-//                        
-//                        var annotationArray : [MKAnnotation]? = nil
-//                        
-//                        
-//                        annotationArray = self.clusteringManager.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
-//                        
-//                        
-//                        self.clusteringManager.displayAnnotations(annotationArray!, onMapView:self.mapView)
-//                    })
-//                }
-//            }
-//        }
-//        reachability!.whenUnreachable = { reachability in
-//            // this is called on a background thread, but UI updates must
-//            // be on the main thread, like this:
-//            DispatchQueue.main.async {
-//                print("Not reachable")
-//                if self.cluster.count > 0 {
-//                    self.cluster.removeAll()
-//                    self.mapView.removeAnnotations(self.cluster)
-//                    print(self.cluster)
-//                    self.clusteringManager.displayAnnotations(self.cluster, onMapView: self.mapView)
-//                }
-//            }
-//        }
-//        
-//        do {
-//            try reachability!.startNotifier()
-//        } catch {
-//            print("Unable to start notifier")
-//        }
-//        
-//    }
-//
-//    func buttonClicked(){
-//        DispatchQueue.main.async {
-//            
-//            
-//            let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "VideoPlayer")
-//            
-//            self.present(viewController, animated: true, completion: nil)
-//            
-//            
-//            //            self.playVideo(SingletonData.staticInstance.selectedVideoItem)
-//        }
-//    }
-//    
-//    
-//    @IBAction func backButon(_ sender: AnyObject) {
-//        self.dismiss(animated: true, completion: nil)
-//    }
-//    
-//    override func didReceiveMemoryWarning() {
-//        super.didReceiveMemoryWarning()
-//        // Dispose of any resources that can be recreated.
-//    }
-//    
-//
-//    /*
-//    // MARK: - Navigation
-//
-//    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        // Get the new view controller using segue.destinationViewController.
-//        // Pass the selected object to the new view controller.
-//    }
-//    */
-//
-//}
+}
+
+extension MapViewController: CLLocationManagerDelegate {
+    
+    // Handle incoming location events.
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location: CLLocation = locations.last!
+        print("Location: \(location)")
+        
+        if(SingletonData.staticInstance.mapLocation == nil){
+            let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
+                                                  longitude: location.coordinate.longitude,
+                                                  zoom: 14)
+            
+            SingletonData.staticInstance.setMapLocation(location)
+            
+            if mapView.isHidden {
+                mapView.isHidden = false
+                mapView.camera = camera
+            } else {
+                mapView.animate(to: camera)
+            }
+            
+        } else {
+            let camera = GMSCameraPosition.camera(withLatitude: SingletonData.staticInstance.mapLocation!.coordinate.latitude,
+                                                  longitude: SingletonData.staticInstance.mapLocation!.coordinate.longitude,
+                                                  zoom: 14)
+            
+            if mapView.isHidden {
+                mapView.isHidden = false
+                mapView.camera = camera
+            } else {
+                mapView.animate(to: camera)
+            }
+        }
+        
+    }
+    
+    // Handle authorization for the location manager.
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .restricted:
+            print("Location access was restricted.")
+        case .denied:
+            print("User denied access to location.")
+            // Display the map using the default location.
+            mapView.isHidden = false
+        case .notDetermined:
+            print("Location status not determined.")
+        case .authorizedAlways: fallthrough
+        case .authorizedWhenInUse:
+            print("Location status is OK.")
+        }
+    }
+    
+    
+}
+
+extension MapViewController: ARDataSource {
+    func ar(_ arViewController: ARViewController, viewForAnnotation: ARAnnotation) -> ARAnnotationView {
+        let annotationView = AnnotationView()
+        annotationView.annotation = viewForAnnotation
+        annotationView.delegate = self
+        annotationView.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
+        
+        return annotationView
+    }
+}
+
+extension MapViewController: AnnotationViewDelegate {
+    func didTouch(annotationView: AnnotationView) {
+        if let annotation = annotationView.annotation as? Place {
+            
+            let obj = RealmObject()
+            
+            
+        
+            obj.key = annotation.key
+        
+            SingletonData.staticInstance.setSelectedObject(obj)
+            
+            self.performSegue(withIdentifier: "moreInfoMapSegue", sender: self)
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+}

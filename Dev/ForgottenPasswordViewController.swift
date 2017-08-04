@@ -31,7 +31,7 @@ class ForgottenPasswordViewController: UIViewController {
     }
     
     @IBAction func sendEmail(_ sender: Any) {
-        Auth.auth().sendPasswordReset(withEmail: emailField.text!) { (error) in
+        FIRAuth.auth()?.sendPasswordReset(withEmail: emailField.text!) { (error) in
             if(error != nil){
                 
                 self.dismiss(animated: true, completion: {

@@ -54,7 +54,20 @@
 		8236C5261ED17AD60010C0AC /* CustomOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8236C5251ED17AD60010C0AC /* CustomOverlayView.xib */; };
 		8240043B1ED8EB2700665511 /* CAGradientLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240043A1ED8EB2700665511 /* CAGradientLayer.swift */; };
 		8240043D1ED8EB4800665511 /* UINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240043C1ED8EB4800665511 /* UINavigationBar.swift */; };
+		824150EC1F13767800ED6D2A /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824150EB1F13767800ED6D2A /* UIColor.swift */; };
+		824150F21F13978D00ED6D2A /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824150F11F13978D00ED6D2A /* VideoModel.swift */; };
 		8247AFCC1ED4587500BB7A6F /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8247AFCB1ED4587500BB7A6F /* CanvasView.swift */; };
+		8252076A1F1C900F000BA503 /* ArMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825207691F1C900F000BA503 /* ArMapViewController.swift */; };
+		825207721F1C9332000BA503 /* ARTrackingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8252076E1F1C927A000BA503 /* ARTrackingManager.swift */; };
+		825207731F1C9335000BA503 /* ARAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8252076D1F1C927A000BA503 /* ARAnnotation.swift */; };
+		825207741F1C9337000BA503 /* ARAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8252076C1F1C927A000BA503 /* ARAnnotationView.swift */; };
+		825207761F1C933C000BA503 /* ARConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825207701F1C927A000BA503 /* ARConfiguration.swift */; };
+		825207771F1C933E000BA503 /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8252076F1F1C927A000BA503 /* ARViewController.swift */; };
+		825207781F1C9346000BA503 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825207681F1C8F61000BA503 /* PlaceAnnotation.swift */; };
+		825207791F1C9349000BA503 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825207661F1C8F61000BA503 /* Place.swift */; };
+		8252077A1F1C934D000BA503 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825207671F1C8F61000BA503 /* AnnotationView.swift */; };
+		8252077B1F1C9350000BA503 /* PlacesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825207651F1C8F46000BA503 /* PlacesLoader.swift */; };
+		8252077C1F1C9379000BA503 /* DebugMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825207711F1C9293000BA503 /* DebugMapViewController.swift */; };
 		826733041EFD37EF00E8B1AD /* IntroController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826733031EFD37EF00E8B1AD /* IntroController.swift */; };
 		827405641EBC4B9800AB3EF3 /* MoreInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827405631EBC4B9800AB3EF3 /* MoreInfoController.swift */; };
 		827405661EBE964500AB3EF3 /* MoreInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827405651EBE964500AB3EF3 /* MoreInfoCell.swift */; };
@@ -62,6 +75,12 @@
 		8274056A1EBE994A00AB3EF3 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827405691EBE994A00AB3EF3 /* Action.swift */; };
 		82A545E21EE8D83700A401C4 /* RealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A545E11EE8D83700A401C4 /* RealmObject.swift */; };
 		82CB9F441ECFAD3600AC46DA /* ModalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CB9F431ECFAD3600AC46DA /* ModalController.swift */; };
+		82E4A6571F1ACB5800F6D636 /* BusinessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E4A6561F1ACB5800F6D636 /* BusinessModel.swift */; };
+		82E4A6591F1ACB7D00F6D636 /* ContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E4A6581F1ACB7D00F6D636 /* ContentModel.swift */; };
+		82E4A65B1F1B4A2200F6D636 /* CameraSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E4A65A1F1B4A2200F6D636 /* CameraSectionController.swift */; };
+		82E4A65D1F1B4B1700F6D636 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E4A65C1F1B4B1700F6D636 /* PhotoViewController.swift */; };
+		82E4A65F1F1B4B3900F6D636 /* SwiftyRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E4A65E1F1B4B3900F6D636 /* SwiftyRecordButton.swift */; };
+		82E4A6611F1B4B8C00F6D636 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E4A6601F1B4B8C00F6D636 /* VideoViewController.swift */; };
 		82F40FB91E9758CA00E82ABB /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F40FB81E9758CA00E82ABB /* libc++.tbd */; };
 		82F40FBB1E9758D600E82ABB /* libc.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F40FBA1E9758D600E82ABB /* libc.tbd */; };
 		82F4F4B01DF164FF00C2338A /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F4F4AF1DF164FF00C2338A /* String.swift */; };
@@ -184,7 +203,25 @@
 		8236C5251ED17AD60010C0AC /* CustomOverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomOverlayView.xib; sourceTree = "<group>"; };
 		8240043A1ED8EB2700665511 /* CAGradientLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAGradientLayer.swift; sourceTree = "<group>"; };
 		8240043C1ED8EB4800665511 /* UINavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationBar.swift; sourceTree = "<group>"; };
+		824150EB1F13767800ED6D2A /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		824150F11F13978D00ED6D2A /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
 		8247AFCB1ED4587500BB7A6F /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
+		825207611F1C8F2D000BA503 /* DebugMapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DebugMapViewController.xib; sourceTree = "<group>"; };
+		825207621F1C8F2D000BA503 /* hdar_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hdar_close.png; sourceTree = "<group>"; };
+		825207631F1C8F2D000BA503 /* hdar_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hdar_close@2x.png"; sourceTree = "<group>"; };
+		825207641F1C8F2D000BA503 /* hdar_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hdar_close@3x.png"; sourceTree = "<group>"; };
+		825207651F1C8F46000BA503 /* PlacesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesLoader.swift; sourceTree = "<group>"; };
+		825207661F1C8F61000BA503 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		825207671F1C8F61000BA503 /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
+		825207681F1C8F61000BA503 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
+		825207691F1C900F000BA503 /* ArMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArMapViewController.swift; sourceTree = "<group>"; };
+		8252076B1F1C91C5000BA503 /* HDAugmentedReality */ = {isa = PBXFileReference; lastKnownFileType = text; name = HDAugmentedReality; path = Dev/HDAugmentedReality; sourceTree = "<group>"; };
+		8252076C1F1C927A000BA503 /* ARAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ARAnnotationView.swift; path = HDAugmentedReality/Classes/ARAnnotationView.swift; sourceTree = SOURCE_ROOT; };
+		8252076D1F1C927A000BA503 /* ARAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ARAnnotation.swift; path = HDAugmentedReality/Classes/ARAnnotation.swift; sourceTree = SOURCE_ROOT; };
+		8252076E1F1C927A000BA503 /* ARTrackingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ARTrackingManager.swift; path = HDAugmentedReality/Classes/ARTrackingManager.swift; sourceTree = SOURCE_ROOT; };
+		8252076F1F1C927A000BA503 /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ARViewController.swift; path = HDAugmentedReality/Classes/ARViewController.swift; sourceTree = SOURCE_ROOT; };
+		825207701F1C927A000BA503 /* ARConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ARConfiguration.swift; path = HDAugmentedReality/Classes/ARConfiguration.swift; sourceTree = SOURCE_ROOT; };
+		825207711F1C9293000BA503 /* DebugMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DebugMapViewController.swift; path = HDAugmentedReality/Classes/Debug/DebugMapViewController.swift; sourceTree = SOURCE_ROOT; };
 		826733031EFD37EF00E8B1AD /* IntroController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroController.swift; sourceTree = "<group>"; };
 		827405631EBC4B9800AB3EF3 /* MoreInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreInfoController.swift; sourceTree = "<group>"; };
 		827405651EBE964500AB3EF3 /* MoreInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreInfoCell.swift; sourceTree = "<group>"; };
@@ -192,6 +229,12 @@
 		827405691EBE994A00AB3EF3 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		82A545E11EE8D83700A401C4 /* RealmObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmObject.swift; sourceTree = "<group>"; };
 		82CB9F431ECFAD3600AC46DA /* ModalController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalController.swift; sourceTree = "<group>"; };
+		82E4A6561F1ACB5800F6D636 /* BusinessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessModel.swift; sourceTree = "<group>"; };
+		82E4A6581F1ACB7D00F6D636 /* ContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModel.swift; sourceTree = "<group>"; };
+		82E4A65A1F1B4A2200F6D636 /* CameraSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSectionController.swift; sourceTree = "<group>"; };
+		82E4A65C1F1B4B1700F6D636 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		82E4A65E1F1B4B3900F6D636 /* SwiftyRecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyRecordButton.swift; sourceTree = "<group>"; };
+		82E4A6601F1B4B8C00F6D636 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		82F40FB81E9758CA00E82ABB /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		82F40FBA1E9758D600E82ABB /* libc.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libc.tbd; path = usr/lib/libc.tbd; sourceTree = SDKROOT; };
 		82F4F4AF1DF164FF00C2338A /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -305,6 +348,47 @@
 			name = JTSImageViewController;
 			sourceTree = "<group>";
 		};
+		825207571F1C8F2D000BA503 /* HDAugmentedReality */ = {
+			isa = PBXGroup;
+			children = (
+				825207581F1C8F2D000BA503 /* Classes */,
+				825207601F1C8F2D000BA503 /* Resources */,
+			);
+			path = HDAugmentedReality;
+			sourceTree = "<group>";
+		};
+		825207581F1C8F2D000BA503 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				8252076E1F1C927A000BA503 /* ARTrackingManager.swift */,
+				8252076D1F1C927A000BA503 /* ARAnnotation.swift */,
+				8252076C1F1C927A000BA503 /* ARAnnotationView.swift */,
+				825207701F1C927A000BA503 /* ARConfiguration.swift */,
+				8252076F1F1C927A000BA503 /* ARViewController.swift */,
+				8252075E1F1C8F2D000BA503 /* Debug */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		8252075E1F1C8F2D000BA503 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				825207711F1C9293000BA503 /* DebugMapViewController.swift */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
+		825207601F1C8F2D000BA503 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				825207611F1C8F2D000BA503 /* DebugMapViewController.xib */,
+				825207621F1C8F2D000BA503 /* hdar_close.png */,
+				825207631F1C8F2D000BA503 /* hdar_close@2x.png */,
+				825207641F1C8F2D000BA503 /* hdar_close@3x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		A2133A271C420675008ACA2D = {
 			isa = PBXGroup;
 			children = (
@@ -327,6 +411,11 @@
 		A2133A321C420675008ACA2D /* Dev */ = {
 			isa = PBXGroup;
 			children = (
+				825207671F1C8F61000BA503 /* AnnotationView.swift */,
+				825207661F1C8F61000BA503 /* Place.swift */,
+				825207681F1C8F61000BA503 /* PlaceAnnotation.swift */,
+				825207651F1C8F46000BA503 /* PlacesLoader.swift */,
+				825207571F1C8F2D000BA503 /* HDAugmentedReality */,
 				8221088B1DF23CC6009E5637 /* TimelineView.swift */,
 				822108771DF23C56009E5637 /* JTSImageViewController */,
 				02264E091DA8F3CA0080A721 /* DraggableView.swift */,
@@ -413,6 +502,11 @@
 				8205EE311EC3BA4F0084F88B /* TestFadeSlideShowController.swift */,
 				82CB9F431ECFAD3600AC46DA /* ModalController.swift */,
 				826733031EFD37EF00E8B1AD /* IntroController.swift */,
+				82E4A65A1F1B4A2200F6D636 /* CameraSectionController.swift */,
+				82E4A65C1F1B4B1700F6D636 /* PhotoViewController.swift */,
+				82E4A65E1F1B4B3900F6D636 /* SwiftyRecordButton.swift */,
+				82E4A6601F1B4B8C00F6D636 /* VideoViewController.swift */,
+				825207691F1C900F000BA503 /* ArMapViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -452,6 +546,9 @@
 				827405691EBE994A00AB3EF3 /* Action.swift */,
 				8236C5211ECFBE090010C0AC /* ModalPlaceCell.swift */,
 				82A545E11EE8D83700A401C4 /* RealmObject.swift */,
+				824150F11F13978D00ED6D2A /* VideoModel.swift */,
+				82E4A6561F1ACB5800F6D636 /* BusinessModel.swift */,
+				82E4A6581F1ACB7D00F6D636 /* ContentModel.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -472,6 +569,7 @@
 				82F4F4AF1DF164FF00C2338A /* String.swift */,
 				8240043A1ED8EB2700665511 /* CAGradientLayer.swift */,
 				8240043C1ED8EB4800665511 /* UINavigationBar.swift */,
+				824150EB1F13767800ED6D2A /* UIColor.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -479,6 +577,7 @@
 		D3147837F54FD3515203BAC3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8252076B1F1C91C5000BA503 /* HDAugmentedReality */,
 				82F40FBA1E9758D600E82ABB /* libc.tbd */,
 				82F40FB81E9758CA00E82ABB /* libc++.tbd */,
 				A967DE6AA66C82E22FE0F67B /* Pods_ThrilJunky.framework */,
@@ -526,12 +625,16 @@
 					A2133A2F1C420675008ACA2D = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = PH92JLT3N6;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 0810;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
 							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -696,18 +799,22 @@
 				A2D799721D83CCAC00C570D1 /* BeginningViewController.swift in Sources */,
 				A2EFAB921C50E26200635477 /* CameraViewController.swift in Sources */,
 				A22B287D1D85261A003B58C7 /* MostPopularViewController.swift in Sources */,
+				8252077B1F1C9350000BA503 /* PlacesLoader.swift in Sources */,
 				A23551201D23D1660010A7D7 /* PostCollectionViewCell.swift in Sources */,
 				A2EFAB8E1C4F944500635477 /* RegisterViewController.swift in Sources */,
 				82FA12C61DFAA0A3003CCAB6 /* PickerDialog.swift in Sources */,
+				825207721F1C9332000BA503 /* ARTrackingManager.swift in Sources */,
 				A29851C91CA50E9400AC933E /* CategoryService.swift in Sources */,
 				02647AED1DA8CA8F0035F3B1 /* GGOverlayView.swift in Sources */,
 				A21495D31D15350F006B65FF /* CollectionViewFilterCell.swift in Sources */,
 				8205EE281EC2E7EF0084F88B /* TestSlideShowController.swift in Sources */,
 				0266B2261D2A69EA001099C6 /* OverlayHintController.swift in Sources */,
 				0259867A1DCD8F45005BBD52 /* YourPicksCell.swift in Sources */,
+				82E4A6611F1B4B8C00F6D636 /* VideoViewController.swift in Sources */,
 				023BE2AD1DD6F3F1008E4694 /* GeocodeHelper.swift in Sources */,
 				A22B28751D841C2F003B58C7 /* FollowingViewController.swift in Sources */,
 				02264E0C1DA8F3CA0080A721 /* DraggableViewBackground.swift in Sources */,
+				824150EC1F13767800ED6D2A /* UIColor.swift in Sources */,
 				A23529781CE8033F006D9228 /* Categories.swift in Sources */,
 				A2133A641C424762008ACA2D /* ListItem.swift in Sources */,
 				A23529761CE802A3006D9228 /* Category.swift in Sources */,
@@ -716,6 +823,7 @@
 				023BE2AF1DD6F438008E4694 /* Dispatch+GeocodeHelper.swift in Sources */,
 				02787BC81D649088007B8C8D /* PlayViewController.swift in Sources */,
 				02CE05751D5ECE4700972E75 /* MostPopularCollectionViewCell.swift in Sources */,
+				82E4A65D1F1B4B1700F6D636 /* PhotoViewController.swift in Sources */,
 				A24474E71D7BA4A200EE969B /* TextField.swift in Sources */,
 				A22BA4ED1C97FC23006ECC81 /* YelpClient.swift in Sources */,
 				8240043B1ED8EB2700665511 /* CAGradientLayer.swift in Sources */,
@@ -725,17 +833,22 @@
 				02D04F2E1D3CF3470029C36F /* CollectionViewItemCell.swift in Sources */,
 				A22D26B91D0E935500FE2047 /* BusinessInfo.swift in Sources */,
 				8236C5221ECFBE090010C0AC /* ModalPlaceCell.swift in Sources */,
+				8252077C1F1C9379000BA503 /* DebugMapViewController.swift in Sources */,
 				82CB9F441ECFAD3600AC46DA /* ModalController.swift in Sources */,
+				825207761F1C933C000BA503 /* ARConfiguration.swift in Sources */,
 				8240043D1ED8EB4800665511 /* UINavigationBar.swift in Sources */,
 				A2948CB01D6FC6DD008DE726 /* LocationSearchViewController.swift in Sources */,
 				A22BA4F31C981B8A006ECC81 /* ImageLoader.swift in Sources */,
 				A2C1D0B81C71E2C00012EE15 /* MyPreferencesController.swift in Sources */,
+				825207781F1C9346000BA503 /* PlaceAnnotation.swift in Sources */,
 				027F05171D65C14D006562E9 /* HintTableViewCell.swift in Sources */,
 				A23357D61CAE63BE0049AFC5 /* IntroScreenController.swift in Sources */,
 				A2F683311C75DFA20089FAD8 /* PlayerViewController.swift in Sources */,
 				A2E669751D03C6EE006AFD1F /* ViewController.swift in Sources */,
+				8252077A1F1C934D000BA503 /* AnnotationView.swift in Sources */,
 				A2BFEB1E1CF044130062CC3C /* BusinessSearchTable.swift in Sources */,
 				82FCE30A1E641444006348A6 /* TimelineTableViewCell.swift in Sources */,
+				825207771F1C933E000BA503 /* ARViewController.swift in Sources */,
 				A2E883291CDF4FC500337CB8 /* UIView.swift in Sources */,
 				A2799E9E1CCE12AF00EFA09B /* ContentViewController.swift in Sources */,
 				8205EE321EC3BA4F0084F88B /* TestFadeSlideShowController.swift in Sources */,
@@ -747,15 +860,18 @@
 				823685971DE9CD1D00F81EE0 /* ActionPicksController.swift in Sources */,
 				8236C5241ED17A730010C0AC /* CustomOverlayView.swift in Sources */,
 				A227A70D1CE0D993006D94D3 /* CategoryController.swift in Sources */,
+				82E4A65F1F1B4B3900F6D636 /* SwiftyRecordButton.swift in Sources */,
 				822108881DF23C88009E5637 /* JTSSimpleImageDownloader.m in Sources */,
 				8205EE2C1EC2EDB50084F88B /* JBKenBurnsView.swift in Sources */,
 				82A545E21EE8D83700A401C4 /* RealmObject.swift in Sources */,
 				82F56A7E1E0A52F9001D6DC1 /* ContainerViewController.swift in Sources */,
+				82E4A6571F1ACB5800F6D636 /* BusinessModel.swift in Sources */,
 				A2799EA01CCE13A300EFA09B /* IntroViewController.swift in Sources */,
 				8221088C1DF23CC6009E5637 /* TimelineView.swift in Sources */,
 				02AEF59F1D5DBBFC0000664F /* Array.swift in Sources */,
 				A2E883231CDF4F2000337CB8 /* UIImage.swift in Sources */,
 				8274056A1EBE994A00AB3EF3 /* Action.swift in Sources */,
+				824150F21F13978D00ED6D2A /* VideoModel.swift in Sources */,
 				02B956BE1D9BE9F30017FB57 /* MainNode.swift in Sources */,
 				A235511E1D23C7460010A7D7 /* SharePostViewController.swift in Sources */,
 				A2E47C601C47B52000E83B8F /* SingletonData.swift in Sources */,
@@ -775,6 +891,7 @@
 				A232BFC81D0B8E0900B5ADCE /* ThumbnailCollectionViewCell.swift in Sources */,
 				827405641EBC4B9800AB3EF3 /* MoreInfoController.swift in Sources */,
 				826733041EFD37EF00E8B1AD /* IntroController.swift in Sources */,
+				825207731F1C9335000BA503 /* ARAnnotation.swift in Sources */,
 				827405661EBE964500AB3EF3 /* MoreInfoCell.swift in Sources */,
 				02264E0B1DA8F3CA0080A721 /* DraggableView.swift in Sources */,
 				A2BFEB1C1CF020460062CC3C /* LocationSearchTableExtension.swift in Sources */,
@@ -785,12 +902,17 @@
 				822108861DF23C88009E5637 /* JTSImageInfo.m in Sources */,
 				8221088E1DF23D11009E5637 /* MyProfileViewController.swift in Sources */,
 				A22D26B71D0E873600FE2047 /* BusinessCell.swift in Sources */,
+				8252076A1F1C900F000BA503 /* ArMapViewController.swift in Sources */,
 				A2B228EE1D74397E00914B5E /* Int32.swift in Sources */,
+				825207791F1C9349000BA503 /* Place.swift in Sources */,
 				02B2349E1D51D7A700DA68D2 /* FIRDataObject.swift in Sources */,
 				A22B287B1D85022D003B58C7 /* MostRecentViewController.swift in Sources */,
 				827405681EBE965B00AB3EF3 /* MoreInfoCollectionCell.swift in Sources */,
+				825207741F1C9337000BA503 /* ARAnnotationView.swift in Sources */,
 				029190541D9F540D00C1E6CE /* OverlayViewContent.swift in Sources */,
+				82E4A65B1F1B4A2200F6D636 /* CameraSectionController.swift in Sources */,
 				021411461D9A8058006B77C0 /* AsyncVideoViewController.swift in Sources */,
+				82E4A6591F1ACB7D00F6D636 /* ContentModel.swift in Sources */,
 				02D919F51D633A530094215F /* PlaceController.swift in Sources */,
 				822108891DF23C88009E5637 /* UIApplication+JTSImageViewController.m in Sources */,
 				A2362E6C1D72BE2900E5C014 /* FollowingVideoCollectionViewCell.swift in Sources */,
@@ -864,7 +986,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -911,7 +1033,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -929,18 +1051,19 @@
 				CODE_SIGN_ENTITLEMENTS = ThrilJunky.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PH92JLT3N6;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Dev/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ThrilJunky.App;
 				PRODUCT_NAME = ThrilJunky;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Dev/KASlideShow-Swift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -955,17 +1078,18 @@
 				CODE_SIGN_ENTITLEMENTS = ThrilJunky.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PH92JLT3N6;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Dev/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ThrilJunky.App;
 				PRODUCT_NAME = ThrilJunky;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Dev/KASlideShow-Swift-Bridging-Header.h";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

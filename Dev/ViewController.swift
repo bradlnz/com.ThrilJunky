@@ -14,30 +14,30 @@ import UberRides
 import Firebase
 import ReachabilitySwift
 import FBAnnotationClusteringSwift
-import PKHUD
-import GeoQueries
 import SwiftyImage
 import AsyncDisplayKit
 import MIBadgeButton_Swift
-import PKHUD
+//import PKHUD
 import Koloda
 import RealmSwift
+import GeoQueries
+import GooglePlaces
 
-class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable, ASVideoNodeDelegate, ReloadCardsDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, LocationSearchViewDelegate {
+class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     let geocoder = CLGeocoder()
-    let clusteringManager = FBClusteringManager()
+    var clusteringManager : FBClusteringManager? = nil
     var asyncVideoController = AsyncVideoViewController()
     var playerViewController = PlayerViewController()
     let overlayHintController = OverlayHintController()
     let overlayViewContent = OverlayViewContent()
-    var locationSearchViewController : LocationSearchViewController?
+   // var locationSearchViewController : LocationSearchViewController?
     
     //var pageMenu : CAPSPageMenu?
     var reachability : Reachability? = nil
     var player = AVPlayer()
     var playerItem : AVPlayerItem?
-    var ref: DatabaseReference?
+    var ref: FIRDatabaseReference?
     var cluster:[FBAnnotation] = []
     var videoNode : ASVideoNode! = nil
     var networkImage = ASNetworkImageNode()
@@ -45,10 +45,10 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
     var initialize : Bool? = true
     var initLoad : Bool? = true
     var realm : Realm! = nil
+    var swiping : Bool? = false
     private var dragArea: UIView?
     private var dragAreaBounds = CGRect.zero
-    
-    
+   
     @IBOutlet weak var expandRadius: UILabel!
     @IBOutlet weak var noMoreTitle: UILabel!
     @IBOutlet weak var refreshBtn: UIButton!
@@ -70,25 +70,25 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
     let voteUpBtn = UIButton(type: UIButtonType.system) as UIButton
     let voteUpBtnDone = UIButton(type: UIButtonType.system) as UIButton
    // var rideWithUberbutton = RequestButton()
-    let videosRef = Database.database().reference(withPath: "videos")
-    let badgesRef = Database.database().reference(withPath: "profiles")
-      var data : [Item] = []
+    let videosRef = FIRDatabase.database().reference(withPath: "videos")
+    let badgesRef = FIRDatabase.database().reference(withPath: "profiles")
+      var data : [FIRItem] = []
     var count = SingletonData.staticInstance.catCount 
-    let locationsRef = Database.database().reference(withPath: "locations")
-    let storage = Storage.storage()
-    let geofireRef = Database.database().reference()
-    let user = Auth.auth().currentUser
+    let locationsRef = FIRDatabase.database().reference(withPath: "locations")
+    let storage = FIRStorage.storage()
+    let geofireRef = FIRDatabase.database().reference()
+    let user = FIRAuth.auth()?.currentUser
     var videos: [RealmObject] = []
-    var closestVideos: [Item] = []
-    var mostRecentVideos : Array<Item> = []
+    var closestVideos: [FIRItem] = []
+    var mostRecentVideos : Array<FIRItem> = []
     var keys : Array<String> = []
-    var mostPopularVideos : [Item] = []
-    var followingVideosList : [Item] = []
+    var mostPopularVideos : [FIRItem] = []
+    var followingVideosList : [FIRItem] = []
     
     var categoryLevel : String? = "ActivityCategories"
     var filteredData : [RealmObject] = []
     
-    var refHandle: DatabaseHandle?
+    var refHandle: FIRDatabaseHandle?
     var keysSwiped = [String]()
     var yesLabel : UILabel?
     var noLabel : UILabel?
@@ -123,34 +123,28 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
     let Desc = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     let imageViewProfile = UIImageView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
 
-    @IBOutlet weak var filterViewBg: UIView!
+ //   @IBOutlet weak var filterViewBg: UIView!
 
     @IBOutlet weak var whatsHappeningLabel: UILabel!
     @IBOutlet weak var menu: UIView!
-   
-    @IBOutlet weak var bg: UIView!
+  
   
     @IBOutlet weak var navItem: UINavigationItem!
     @IBOutlet weak var filterBtn: UIBarButtonItem!
     @IBOutlet weak var shareBtn: UIButton!
     
     @IBOutlet weak var yourPicksBtn: MIBadgeButton!
-//    @IBOutlet weak var slider: UISlider!
-//    @IBOutlet weak var travelRadius: UILabel!
     
-    
-    @IBOutlet weak var mapView: MKMapView!
-    
-  
-//    @IBOutlet weak var mostPopular: UICollectionView!
-//    @IBOutlet weak var mostRecent: UICollectionView!
-//    @IBOutlet weak var overviewLayer: UIView!
-//    
     @IBOutlet weak var toggleMap: UIButton!
     
     
     @IBOutlet weak var cardView: KolodaView!
 //    @IBOutlet weak var followingVideos: UICollectionView!
+    
+    
+ 
+
+    
     var heightConstraint : NSLayoutConstraint?
     
     var setView : UIView!
@@ -171,220 +165,236 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
     
     
     @IBAction func searchLocation(_ sender: Any) {
-        SingletonData.staticInstance.setIsPostVideo(false)
-        let popup : LocationSearchViewController = self.storyboard?.instantiateViewController(withIdentifier: "LocationSearchViewController") as! LocationSearchViewController
+//        SingletonData.staticInstance.setIsPostVideo(false)
+//        let popup : LocationSearchViewController = self.storyboard?.instantiateViewController(withIdentifier: "LocationSearchViewController") as! LocationSearchViewController
+//
+//       // popup.delegateBg = self
+//        let navigationController = UINavigationController(rootViewController: popup)
+//
+//        navigationController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+//        self.present(navigationController, animated: false, completion: nil)
+//
+       // self.videos.removeAll()
         
-        popup.delegateBg = self 
-        let navigationController = UINavigationController(rootViewController: popup)
+        let autocompleteController = GMSAutocompleteViewController()
+        autocompleteController.delegate = self
         
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        self.present(navigationController, animated: false, completion: nil)
+        // Set a filter to return only addresses.
+        let filter = GMSAutocompleteFilter()
+        filter.type = GMSPlacesAutocompleteTypeFilter.region
+        autocompleteController.autocompleteFilter = filter
         
-
+        present(autocompleteController, animated: true, completion: nil)
+        
     }
-
-    func changeLocation(){
-        self.bg.isHidden = true
-        //   self.place.isHidden = true
-        //    self.whatsHappeningLabel.isHidden = true
-        self.cardView.isHidden = true
-        self.catCollectionView.isHidden = true
     
-        var region = MKCoordinateRegion()
-        region.center = SingletonData.staticInstance.overrideLocation!.coordinate
-        var span = MKCoordinateSpan()
-        span.latitudeDelta = 0.05
-        span.longitudeDelta = 0.05
-        region.span = span
-        mapView.setRegion(region, animated: true)
-    }
+    
+    
+
+//    func changeLocation(){
+//        DispatchQueue.main.async {
+//        self.bg.isHidden = true
+//        //   self.place.isHidden = true
+//        //    self.whatsHappeningLabel.isHidden = true
+//        self.cardView.isHidden = true
+//        self.catCollectionView.isHidden = true
+//
+//        var region = MKCoordinateRegion()
+//        region.center = SingletonData.staticInstance.overrideLocation!.coordinate
+//        var span = MKCoordinateSpan()
+//        span.latitudeDelta = 0.05
+//        span.longitudeDelta = 0.05
+//        region.span = span
+//        self.mapView.setRegion(region, animated: true)
+//        }
+//    }
     
     @IBOutlet weak var drawPolygonButton: UIButton!
     var isDrawingPolygon: Bool = false
 
     @IBAction func didTouchUp(insideDraw sender: UIButton) {
         
-        if self.cardView.isHidden == false {
-            self.bg.isHidden = true
-            //   self.place.isHidden = true
-            //    self.whatsHappeningLabel.isHidden = true
-            self.cardView.isHidden = true
-            self.catCollectionView.isHidden = true
-        }
-        if isDrawingPolygon == false {
-            isDrawingPolygon = true
-            drawPolygonButton.setTitle("done", for: .normal)
-            coordinates.removeAll()
-            mapView.isUserInteractionEnabled = false
-        }
-        else {
-            let numberOfPoints: Int = coordinates.count
-            
-            var maxLat: Float = -200
-            var maxLong: Float = -200
-            var minLat: Float = MAXFLOAT
-            var minLong: Float = MAXFLOAT
-            for i in 0..<coordinates.count {
-                let location: CLLocationCoordinate2D = coordinates[i]
-                if Float(location.latitude) < minLat {
-                    minLat = Float(location.latitude)
-                }
-                if Float(location.longitude) < minLong {
-                    minLong = Float(location.longitude)
-                }
-                if Float(location.latitude) > maxLat {
-                    maxLat = Float(location.latitude)
-                }
-                if Float(location.longitude) > maxLong {
-                    //Change to be greater than
-                    maxLong = Float(location.longitude)
-                }
-            }
-            //Center point
-            //The min's and max's should be ADDED not subtracted
-            let a = (maxLat + minLat) * 0.5
-            let b = (maxLong + minLong) * 0.5
-            let center: CLLocationCoordinate2D = CLLocationCoordinate2DMake(Double(a), Double(b))
-            let area = 5000 //regionArea(locations: coordinates) / 10000
-         
-            if area > 0 {
-             SingletonData.staticInstance.setDistance(Float(area))
-             SingletonData.staticInstance.setOverrideDistance(input: true)
-             self.cardView.reloadData()
-            }
-            
-            if self.cardView.isHidden == true
-            {
-                
-                if (center.latitude > -180.0 && center.longitude < 180.0)
-                {
-                    self.loadClosestVideos(loc: CLLocation(latitude: center.latitude, longitude: center.longitude))
-                     self.loadNextCard()
-                }
-              
-                self.bg.isHidden = false
-                self.cardView.isHidden = false
-                self.catCollectionView.isHidden = false
-            } else {
-                self.noMoreTitle.isHidden = true
-                self.expandRadius.isHidden = true
-                self.refreshBtn.isHidden = true
-                
-                self.bg.isHidden = true
-            
-                self.cardView.isHidden = true
-                self.catCollectionView.isHidden = true
-            }
-            
-            if numberOfPoints > 2 {
-                 points = [CLLocationCoordinate2D](repeating: CLLocationCoordinate2D(), count: numberOfPoints)
-                for i in 0..<numberOfPoints {
-                    points[i] = coordinates[i]
-                }
-                mapView.add(MKPolygon(coordinates: points, count: numberOfPoints))
-            }
-            if polyLine != nil {
-                mapView.remove(polyLine!)
-            }
-            mapView.removeOverlays(mapView.overlays)
-            isDrawingPolygon = false
-            drawPolygonButton.setTitle("draw", for: .normal)
-            mapView.isUserInteractionEnabled = true
-        }
+//        if self.cardView.isHidden == false {
+//            self.bg.isHidden = true
+//            //   self.place.isHidden = true
+//            //    self.whatsHappeningLabel.isHidden = true
+//            self.cardView.isHidden = true
+//            self.catCollectionView.isHidden = true
+//        }
+//        if isDrawingPolygon == false {
+//            isDrawingPolygon = true
+//            drawPolygonButton.setTitle("done", for: .normal)
+//            coordinates.removeAll()
+//            mapView.isUserInteractionEnabled = false
+//        }
+//        else {
+//            let numberOfPoints: Int = coordinates.count
+//
+//            var maxLat: Float = -200
+//            var maxLong: Float = -200
+//            var minLat: Float = MAXFLOAT
+//            var minLong: Float = MAXFLOAT
+//            for i in 0..<coordinates.count {
+//                let location: CLLocationCoordinate2D = coordinates[i]
+//                if Float(location.latitude) < minLat {
+//                    minLat = Float(location.latitude)
+//                }
+//                if Float(location.longitude) < minLong {
+//                    minLong = Float(location.longitude)
+//                }
+//                if Float(location.latitude) > maxLat {
+//                    maxLat = Float(location.latitude)
+//                }
+//                if Float(location.longitude) > maxLong {
+//                    //Change to be greater than
+//                    maxLong = Float(location.longitude)
+//                }
+//            }
+//            //Center point
+//            //The min's and max's should be ADDED not subtracted
+//            let a = (maxLat + minLat) * 0.5
+//            let b = (maxLong + minLong) * 0.5
+//            let center: CLLocationCoordinate2D = CLLocationCoordinate2DMake(Double(a), Double(b))
+//            let area = regionArea(locations: coordinates) / 10000
+//
+//            if area > 0 {
+//             SingletonData.staticInstance.setDistance(Float(area))
+//             SingletonData.staticInstance.setOverrideDistance(input: true)
+//             self.cardView.reloadData()
+//            }
+//
+//            if self.cardView.isHidden == true
+//            {
+//
+//                if (center.latitude > -180.0 && center.longitude < 180.0)
+//                {
+//                    self.loadClosestVideos(loc: CLLocation(latitude: center.latitude, longitude: center.longitude))
+//                     self.loadNextCard()
+//                }
+//
+//                self.bg.isHidden = false
+//                self.cardView.isHidden = false
+//                self.catCollectionView.isHidden = false
+//            } else {
+//                self.noMoreTitle.isHidden = true
+//                self.expandRadius.isHidden = true
+//                self.refreshBtn.isHidden = true
+//
+//                self.bg.isHidden = true
+//
+//                self.cardView.isHidden = true
+//                self.catCollectionView.isHidden = true
+//            }
+//
+//            if numberOfPoints > 2 {
+//                 points = [CLLocationCoordinate2D](repeating: CLLocationCoordinate2D(), count: numberOfPoints)
+//                for i in 0..<numberOfPoints {
+//                    points[i] = coordinates[i]
+//                }
+//                mapView.add(MKPolygon(coordinates: points, count: numberOfPoints))
+//            }
+//            if polyLine != nil {
+//                mapView.remove(polyLine!)
+//            }
+//            mapView.removeOverlays(mapView.overlays)
+//            isDrawingPolygon = false
+//            drawPolygonButton.setTitle("draw", for: .normal)
+//            mapView.isUserInteractionEnabled = true
+//        }
     }
     let kEarthRadius = 6378137.0
     
     
-    func pointIsInside(point: MKMapPoint, polygon: MKPolygon) -> Bool {
-        let mapRect = MKMapRectMake(point.x, point.y, 0.0001, 0.0001)
-        return polygon.intersects(mapRect)
-    }
-    
-    // CLLocationCoordinate2D uses degrees but we need radians
+//    func pointIsInside(point: MKMapPoint, polygon: MKPolygon) -> Bool {
+//        let mapRect = MKMapRectMake(point.x, point.y, 0.0001, 0.0001)
+//        return polygon.intersects(mapRect)
+//    }
+//
+//    // CLLocationCoordinate2D uses degrees but we need radians
 //    func radians(degrees: Double) -> Double {
 //        return degrees * M_PI / 180
 //    }
-    
+//
 //    func regionArea(locations: [CLLocationCoordinate2D]) -> Double {
-//        
+//
 //        guard locations.count > 2 else { return 0 }
 //        var area = 0.0
-//        
+//
 //        for i in 0..<locations.count {
 //            let p1 = locations[i > 0 ? i - 1 : locations.count - 1]
 //            let p2 = locations[i]
-//            
+//
 //            area += radians(degrees: p2.longitude - p1.longitude) * (2 + sin(radians(degrees: p1.latitude)) + sin(radians(degrees: p2.latitude)) )
 //        }
-//        
+//
 //        area = -(area * kEarthRadius * kEarthRadius / 2)
-//        
+//
 //        return max(area, -area) // In order not to worry about is polygon clockwise or counterclockwise defined.
 //    }
-//    
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        touchesBegan(touches.first!)
-    }
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        touchesMoved(touches.first!)
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        touchesEnded(touches.first!)
-    }
-    
-  
-      func touchesBegan(_ touch: UITouch) {
-        if isDrawingPolygon == false {
-            return
-        }
-        let location: CGPoint? = touch.location(in: mapView)
-        let coordinate: CLLocationCoordinate2D = mapView.convert(location!, toCoordinateFrom: mapView)
-        addCoordinate(coordinate)
-    }
-    
-     func touchesMoved(_ touch: UITouch) {
-        if isDrawingPolygon == false {
-            return
-        }
-
-        let location: CGPoint? = touch.location(in: mapView)
-        let coordinate: CLLocationCoordinate2D = mapView.convert(location!, toCoordinateFrom: mapView)
-        addCoordinate(coordinate)
-    }
-    
-      func touchesEnded(_ touch: UITouch) {
-        if isDrawingPolygon == false {
-            return
-        }
-     
-        let location: CGPoint? = touch.location(in: mapView)
-        let coordinate: CLLocationCoordinate2D = mapView.convert(location!, toCoordinateFrom: mapView)
-        addCoordinate(coordinate)
-    
-       
-        didTouchUp(insideDraw: drawPolygonButton)
-    }
-    
- 
-    func addCoordinate(_ coordinate: CLLocationCoordinate2D) {
-        coordinates.append(coordinate)
-        let numberOfPoints: Int = coordinates.count
-        if numberOfPoints > 2 {
-            let oldPolyLine: MKPolyline? = polyLine
-            var points = [CLLocationCoordinate2D](repeating: CLLocationCoordinate2D(), count: numberOfPoints)
-            for i in 0..<numberOfPoints {
-                points[i] = coordinates[i]
-            }
-            let newPolyLine = MKPolyline(coordinates: points, count: numberOfPoints)
-            mapView.add(newPolyLine)
-            polyLine = newPolyLine
-            if oldPolyLine != nil {
-                mapView.remove(oldPolyLine!)
-            }
-        }
-    }
+//
+//
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        touchesBegan(touches.first!)
+//    }
+//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        touchesMoved(touches.first!)
+//    }
+//
+//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        touchesEnded(touches.first!)
+//    }
+//
+//
+//      func touchesBegan(_ touch: UITouch) {
+//        if isDrawingPolygon == false {
+//            return
+//        }
+//        let location: CGPoint? = touch.location(in: mapView)
+//        let coordinate: CLLocationCoordinate2D = mapView.convert(location!, toCoordinateFrom: mapView)
+//        addCoordinate(coordinate)
+//    }
+//
+//     func touchesMoved(_ touch: UITouch) {
+//        if isDrawingPolygon == false {
+//            return
+//        }
+//
+//        let location: CGPoint? = touch.location(in: mapView)
+//        let coordinate: CLLocationCoordinate2D = mapView.convert(location!, toCoordinateFrom: mapView)
+//        addCoordinate(coordinate)
+//    }
+//
+//      func touchesEnded(_ touch: UITouch) {
+//        if isDrawingPolygon == false {
+//            return
+//        }
+//
+//        let location: CGPoint? = touch.location(in: mapView)
+//        let coordinate: CLLocationCoordinate2D = mapView.convert(location!, toCoordinateFrom: mapView)
+//        addCoordinate(coordinate)
+//
+//
+//        didTouchUp(insideDraw: drawPolygonButton)
+//    }
+//
+//
+//    func addCoordinate(_ coordinate: CLLocationCoordinate2D) {
+//        coordinates.append(coordinate)
+//        let numberOfPoints: Int = coordinates.count
+//        if numberOfPoints > 2 {
+//            let oldPolyLine: MKPolyline? = polyLine
+//            var points = [CLLocationCoordinate2D](repeating: CLLocationCoordinate2D(), count: numberOfPoints)
+//            for i in 0..<numberOfPoints {
+//                points[i] = coordinates[i]
+//            }
+//            let newPolyLine = MKPolyline(coordinates: points, count: numberOfPoints)
+//            mapView.add(newPolyLine)
+//            polyLine = newPolyLine
+//            if oldPolyLine != nil {
+//                mapView.remove(oldPolyLine!)
+//            }
+//        }
+//    }
     
     func reportVideo(_ item : RealmObject) {
         let pickerData = [
@@ -408,13 +418,13 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
         self.noMoreTitle.isHidden = false
         self.expandRadius.isHidden = false
         self.refreshBtn.isHidden = false
-        HUD.hide()
+      //  HUD.hide()
     }
     
     func reloadCards(input: Bool) {
         
       
-        self.bg.isHidden = false
+    //    self.bg.isHidden = false
         self.cardView.isHidden = false
         
         let alertController = UIAlertController(title: "Thank you for contributing", message: "Thank you for contributing it really helps the community find fun activities to do.", preferredStyle: .alert)
@@ -472,7 +482,7 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
         
         catCollectionView.reloadData()
         self.catCollectionView.isHidden = false
-        let userId = Auth.auth().currentUser?.uid
+        let userId = FIRAuth.auth()?.currentUser?.uid
         self.ref?.child("profiles").child(userId!).child("swiped").removeValue()
         self.cardView.resetCurrentCardIndex()
         
@@ -482,28 +492,68 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
     
     
     override func viewDidAppear(_ animated: Bool) {
-        let selectedMapItem = SingletonData.staticInstance.selectedMapItem
-        
-        var annotations = self.cluster as! [PinAnnotation]
-        var ann : PinAnnotation?
-        
-        
-        if(selectedMapItem != nil){
-            if let i = annotations.index(where: { $0.title?.range(of: selectedMapItem!.name!) != nil || $0.address?.range(of: selectedMapItem!.address!) != nil }) {
-                
-                DispatchQueue.main.async {
-                    ann = annotations[i];
-                    
-                    self.mapView.selectAnnotation(ann!, animated: true)
-                }
-                
-            }
-            
-        }
+//        var selectedMapItem = SingletonData.staticInstance.selectedMapItem
+//        
+//        var annotations = self.cluster as! [PinAnnotation]
+//        var ann : PinAnnotation?
+//        
+//        
+//        if(selectedMapItem != nil){
+//            if let i = annotations.index(where: { $0.title?.range(of: selectedMapItem!.name!) != nil || $0.address?.range(of: selectedMapItem!.address!) != nil }) {
+//                
+//                DispatchQueue.main.async {
+//                    ann = annotations[i];
+//                    
+//                    self.mapView.selectAnnotation(ann!, animated: true)
+//                }
+//                
+//            }
+//            
+//        }
     }
     
+    func thumbsDownButtonPressed(){
+        self.cardView!.swipe(.left)
+    }
+    func thumbsUpButtonPressed(){
+        self.cardView!.swipe(.right)
+    }
     override func viewDidLoad() {
         load()
+        
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: 210, y: self.view.bounds.height - 90, width: 80, height: 80)
+        button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        button.backgroundColor = UIColor.white
+        button.clipsToBounds = true
+        button.tintColor = UIColor.green
+        button.setImage(UIImage(named:"pin"), for: .normal)
+        button.addTarget(self, action: #selector(thumbsUpButtonPressed), for: .touchUpInside)
+        view.addSubview(button)
+        
+        
+        let buttonDown = UIButton(type: .custom)
+        buttonDown.frame = CGRect(x: 100, y: self.view.bounds.height - 90, width: 80, height: 80)
+        buttonDown.layer.cornerRadius = 0.5 * button.bounds.size.width
+        buttonDown.backgroundColor = UIColor.white
+        buttonDown.clipsToBounds = true
+        buttonDown.tintColor = UIColor.red
+        buttonDown.setImage(UIImage(named:"cancel"), for: .normal)
+        buttonDown.addTarget(self, action: #selector(thumbsDownButtonPressed), for: .touchUpInside)
+        view.addSubview(buttonDown)
+//        let camera = GMSCameraPosition.camera(withLatitude: -33.868,
+//                                              longitude: 151.2086,
+//                                              zoom: 14)
+//        let map = GMSMapView.map(withFrame: .zero, camera: camera)
+//
+//        let marker = GMSMarker()
+//        marker.position = camera.target
+//        marker.snippet = "Hello World"
+//        marker.appearAnimation = kGMSMarkerAnimationPop
+//        marker.map = map
+//
+      //  self.mapView = mapView
+        
     }
     func load() {
         super.viewDidLoad()
@@ -511,12 +561,19 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
         try! realm.write {
             realm.deleteAll()
         }
-        
-        
-        
-        let logo = UIImage(named: "textNavBar")
-        let imageView = UIImageView(image:logo)
-        self.navigationItem.titleView = imageView
+//        var bounds = self.navigationController?.navigationBar.bounds as CGRect!
+//        bounds!.offsetBy(dx: 0.0, dy: -20.0)
+//        bounds!.size.height = bounds!.height
+//
+//        let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+//        visualEffectView.frame = bounds!
+//        visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        self.navigationController?.navigationBar.addSubview(visualEffectView)
+//        
+        self.clusteringManager = FBClusteringManager()
+        //let logo = UIImage(named: "textNavBar")
+        //let imageView = UIImageView(image:logo)
+       // self.navigationItem.titleView = imageView
         let popup : IntroController = self.storyboard?.instantiateViewController(withIdentifier: "IntroController") as! IntroController
         let navigationController = UINavigationController(rootViewController: popup)
         
@@ -524,23 +581,16 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
         self.present(navigationController, animated: false, completion: nil)
         
         isDrawingPolygon = false
-        drawPolygonButton.setTitle("draw", for: .normal)
-        mapView.isUserInteractionEnabled = true
+        //drawPolygonButton.setTitle("draw", for: .normal)
+      //  mapView.isUserInteractionEnabled = true
         self.refreshBtn.isHidden = true
         self.expandRadius.isHidden = true
         self.noMoreTitle.isHidden = true
         self.cardView.dataSource = self
         self.cardView.delegate = self
+      
+       // locationSearchViewController?.delegateBg = self
         
-        self.videoNode = ASVideoNode()
-        self.videoNode.delegate = self
-        locationSearchViewController?.delegateBg = self
-        
-        if self.canvasView == nil {
-            self.canvasView = CanvasView(frame: mapView.frame)
-            self.canvasView?.isUserInteractionEnabled = true
-            self.canvasView?.delegate = self
-        }
         
         
         self.cardView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 450)
@@ -549,35 +599,35 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
         
         self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
         
-        // since I can connect from multiple devices, we store each connection instance separately
-        // any time that connectionsRef's value is null (i.e. has no children) I am offline
-        let myConnectionsRef = Database.database().reference(withPath: "users/" + user!.displayName! + "/connections")
-        
-        // stores the timestamp of my last disconnect (the last time I was seen online)
-        let lastOnlineRef = Database.database().reference(withPath: "users/" + user!.displayName! + "/lastOnline")
-        
-        let connectedRef = Database.database().reference(withPath: ".info/connected")
-        
-        connectedRef.observe(.value, with: { snapshot in
-            // only handle connection established (or I've reconnected after a loss of connection)
-            guard let connected = snapshot.value as? Bool, connected else {
-                return
-            }
-            // add this device to my connections list
-            // this value could contain info about the device or a timestamp instead of just true
-            let con = myConnectionsRef.childByAutoId()
-            con.setValue("YES")
-            
-            // when this device disconnects, remove it
-            con.onDisconnectRemoveValue()
-            
-            // when I disconnect, update the last time I was seen online
-            lastOnlineRef.onDisconnectSetValue(ServerValue.timestamp())
-        })
-        
-        let remoteConfig = RemoteConfig.remoteConfig()
-        
-        
+//        // since I can connect from multiple devices, we store each connection instance separately
+//        // any time that connectionsRef's value is null (i.e. has no children) I am offline
+//        let myConnectionsRef = FIRDatabase.database().reference(withPath: "users/" + user!.displayName! + "/connections")
+//        
+//        // stores the timestamp of my last disconnect (the last time I was seen online)
+//        let lastOnlineRef = FIRDatabase.database().reference(withPath: "users/" + user!.displayName! + "/lastOnline")
+//        
+//        let connectedRef = FIRDatabase.database().reference(withPath: ".info/connected")
+//        
+//        connectedRef.observe(.value, with: { snapshot in
+//            // only handle connection established (or I've reconnected after a loss of connection)
+//            guard let connected = snapshot.value as? Bool, connected else {
+//                return
+//            }
+//            // add this device to my connections list
+//            // this value could contain info about the device or a timestamp instead of just true
+//            let con = myConnectionsRef.childByAutoId()
+//            con.setValue("YES")
+//            
+//            // when this device disconnects, remove it
+//            con.onDisconnectRemoveValue()
+//            
+//            // when I disconnect, update the last time I was seen online
+//            lastOnlineRef.onDisconnectSetValue(FIRServerValue.timestamp())
+//        })
+//        
+//        let remoteConfig = FIRRemoteConfig.remoteConfig()
+//        
+//        
 //        let alertController = UIAlertController(title: "How to begin?", message: "Swipe left for NO! and right for YES! otherwise tap the map icon below to scroll around.", preferredStyle: .alert)
 //        
 //        // Initialize Actions
@@ -595,36 +645,35 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
  
         
         
-        remoteConfig.fetch(withExpirationDuration: 0, completionHandler: { (status, error) in
-            
-            print(status)
-            remoteConfig.activateFetched()
-            
-            var json : NSArray!
-            do {
-                
-                json = try JSONSerialization.jsonObject(with: remoteConfig.configValue(forKey: "Categories").dataValue, options: JSONSerialization.ReadingOptions()) as? NSArray
-            } catch {
-                print(error)
-            }
-            
-            
-            var arr : [[String:Any]] = []
-            
-            
-            for (key, value) in json.enumerated() {
-                let obj = json[key] as! [String:Any]
-                arr.append(obj)
-            }
-            
-            SingletonData.staticInstance.setActivities(input: arr)
-        })
+//        remoteConfig.fetch(withExpirationDuration: 0, completionHandler: { (status, error) in
+//            
+//            print(status)
+//            remoteConfig.activateFetched()
+//            
+//            var json : NSArray!
+//            do {
+//                
+//                json = try JSONSerialization.jsonObject(with: remoteConfig.configValue(forKey: "Categories").dataValue, options: JSONSerialization.ReadingOptions()) as? NSArray
+//            } catch {
+//                print(error)
+//            }
+//            
+//            
+//            var arr : [[String:Any]] = []
+//            
+//            
+//            for (key, value) in json.enumerated() {
+//                let obj = json[key] as! [String:Any]
+//                arr.append(obj)
+//            }
+//            
+//            SingletonData.staticInstance.setActivities(input: arr)
+//        })
+//        
         
-        
-        self.videoNode.delegate = self
-        
+     
         self.catCollectionView.isHidden = false
-        self.filterViewBg.isHidden = true
+     //   self.filterViewBg.isHidden = true
         self.catCollectionView.delegate = self
         self.catCollectionView.dataSource = self
         
@@ -636,30 +685,29 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
         //            item1.distanceFromLoc > item2.distanceFromLoc
         //        })
         
-        self.mapView.delegate = self
+       // self.mapView.delegate = self
+       // self.mapView.mapType = .standard
         
-        
-        self.ref = Database.database().reference()
+        self.ref = FIRDatabase.database().reference()
         
         // UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         
-        OperationQueue().addOperation({
-            let mapBoundsWidth = Double(self.mapView.bounds.size.width)
-            let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
-            let scale:Double = mapBoundsWidth / mapRectWidth
-            
-            var annotationArray : [MKAnnotation]? = nil
-            
-            
-            annotationArray = self.clusteringManager.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
-            
-            
-            self.clusteringManager.displayAnnotations(annotationArray!, onMapView:self.mapView)
-        })
+//        OperationQueue().addOperation({
+//            let mapBoundsWidth = Double(self.mapView.bounds.size.width)
+//            let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
+//            let scale:Double = mapBoundsWidth / mapRectWidth
+//
+//            var annotationArray : [MKAnnotation]? = nil
+//
+//
+//            annotationArray = self.clusteringManager?.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
+//
+//
+//            self.clusteringManager?.displayAnnotations(annotationArray!, onMapView:self.mapView)
+//        })
         
         
-        self.mapView.showsPointsOfInterest = false
-        self.mapView.showsUserLocation = true
+        
         
         if loc != nil {
             
@@ -669,85 +717,79 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
                 
                 self.videosRef.observeSingleEvent(of: .value, with: { (snapshot) in
                     
-                    //self.videos.removeAll()
-                    //self.cluster.removeAll()
-                    var allAnnotations = self.clusteringManager.allAnnotations()
-                    // allAnnotations.removeAll()
-                    self.mapView.removeAnnotations(allAnnotations)
+                  //  self.videos.removeAll()
+               // self.cluster.removeAll()
+              //      var allAnnotations = self.clusteringManager?.allAnnotations()
+                
+                   // self.mapView.removeAnnotations(allAnnotations!)
                     
                     for snap in snapshot.children{
                         let item = FIRItem(snapshot: snap as! FIRDataSnapshot)
                         
-                        if(item.ActivityCategories != "" && item.address != "" && item.displayTitle != "" && item.imagePath != "" && item.latitude != "" && item.longitude != "" && item.taggedLocation != "" && item.videoPath != ""){
+                        if(item.videoPath != ""){
                            
-                            let pinAnnotation = PinAnnotation()
+                          //  let pinAnnotation = PinAnnotation()
                             
-                            let lat : Double = Double(item.latitude)!
-                            let lng : Double = Double(item.longitude)!
-                            
-                            let coord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-                            
-                            
-                            pinAnnotation.coord = coord
-                            pinAnnotation.category = item.ActivityCategories
-                            pinAnnotation.phoneNumber = item.phoneNumber
-                            pinAnnotation.website = item.website
-                            pinAnnotation.address = item.address
-                            pinAnnotation.displayName = item.displayName
-                            pinAnnotation.displayTitle = item.displayTitle
-                            pinAnnotation.displayHint = item.displayHint
-                            pinAnnotation.displayMsg = item.displayMsg
-                            pinAnnotation.createdAt = item.createdAt
-                            pinAnnotation.title = item.displayTitle
-                            pinAnnotation.subtitle = item.ActivityCategories
-                            pinAnnotation.videoPath = item.videoPath
-                            pinAnnotation.coordinate = coord
-                            pinAnnotation.userPhoto = item.userPhoto
-                            pinAnnotation.imagePath = item.imagePath
-                            pinAnnotation.key = item.key
-                            
-                            
-                            // Get the default Realm
-                            let realm = try! Realm()
-                            
-                            try! realm.write {
+                            self.ref.child("businesses").queryOrdered(byChild: "uid").queryEqual(toValue: item.uid).observe(.value, with: { (snap) in
+                                // Get user value
                                 
-                                let numberFormatter = NumberFormatter()
-                                let lat = numberFormatter.number(from: item.latitude)
-                                let lng = numberFormatter.number(from: item.longitude)
+                                let lat : Double!
+                                let lng : Double!
                                 
                                 
-                                let obj = RealmObject()
+                                for var vid in snap.children {
+                                    let business = BusinessModel(snapshot: vid as! FIRDataSnapshot)
+                                    
+                                    let numberFormatter = NumberFormatter()
+                                    let lat = numberFormatter.number(from: business.latitude)
+                                    let lng = numberFormatter.number(from: business.longitude)
+                                    
+                                    // Get the default Realm
+                                    let realm = try! Realm()
+                                    
+                                    try! realm.write {
+                                        
+                                        let obj = RealmObject()
+                                        
+                                        obj.ActivityCategories = item.ActivityCategories
+                                        obj.RefinedActivityCategories = item.RefinedActivityCategories
+                                        obj.SubActivityCategories = item.SubActivityCategories
+                                        obj.address = item.address
+                                        obj.createdAt = item.createdAt
+                                        obj.displayName = business.businessName
+                                        obj.displayTitle = business.businessName
+                                        obj.imagePath = item.imagePath
+                                        obj.key = item.key
+                                        obj.lat = Float(lat!)
+                                        obj.lng = Float(lng!)
+                                        obj.videoPath = item.videoPath
+                                        obj.website = item.website
+                                        
+                                        
+                                        realm.add(obj)
+                                    }
+                                }
                                 
-                                obj.ActivityCategories = item.ActivityCategories
-                                obj.RefinedActivityCategories = item.RefinedActivityCategories
-                                obj.SubActivityCategories = item.SubActivityCategories
-                                obj.address = item.address
-                                obj.createdAt = item.createdAt
-                                obj.displayName = item.displayName
-                                obj.displayTitle = item.displayTitle
-                                obj.imagePath = item.imagePath
-                                obj.key = item.key
-                                obj.lat = lat as! Float
-                                obj.lng = lng as! Float
-                                obj.videoPath = item.videoPath
-                                obj.website = item.website
+                                self.loadClosestVideos(loc: SingletonData.staticInstance.location)
+                                self.loadNextCard()
                                 
-                               
-                                realm.add(obj)
+                            }) { (error) in
+                                print(error.localizedDescription)
                             }
                             
                             
-                            self.cluster.append(pinAnnotation)
-                            allAnnotations.append(pinAnnotation)
+                            
+                            
+                          //  self.cluster.append(pinAnnotation)
+                           /// allAnnotations!.append(pinAnnotation)
                             
                         }
                         
                        
                         
                     }
-                    self.clusteringManager.setAnnotations(self.cluster)
-                    self.clusteringManager.displayAnnotations(allAnnotations, onMapView:self.mapView)
+             //       self.clusteringManager?.setAnnotations(self.cluster)
+               //     self.clusteringManager?.displayAnnotations(allAnnotations!, onMapView:self.mapView)
                     
                     
                     if(SingletonData.staticInstance.overrideLocation != nil){
@@ -770,7 +812,7 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
     }
     
     func loadBadgeNumber(){
-        let currentUser = Auth.auth().currentUser
+        let currentUser = FIRAuth.auth()?.currentUser
         var count = 0
         DispatchQueue.main.async {
             self.badgesRef.child(currentUser!.uid).child("picks").queryOrdered(byChild: "show").queryEqual(toValue: "true").observeSingleEvent(of: .value) { (snapshot: FIRDataSnapshot) in
@@ -791,6 +833,9 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
 
     }
     
+    
+   
+    
     func loadVideosByCategory(category: String?, categoryLevel : String, loc: CLLocation?) {
      
         for item in self.cardView.subviews {
@@ -802,10 +847,10 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
         self.loadClosestVideos(loc: loc)
         
         
-        HUD.show(.progress)
+       // HUD.show(.progress)
         print(self.videos)
           //  self.whatsHappeningLabel.isHidden = false
-            self.bg.isHidden = false
+         //   self.bg.isHidden = false
             self.cardView.isHidden = false
         
             self.noMoreTitle.isHidden = true
@@ -881,9 +926,9 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
             self.noMoreTitle.isHidden = false
             self.expandRadius.isHidden = false
             self.refreshBtn.isHidden = false
-            HUD.hide()
+           // HUD.hide()
         } else {
-            self.videos.removeAll()
+           // self.videos.removeAll()
             
             for item in filteredData {
                 
@@ -907,10 +952,10 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
             self.cardView.reloadData()
         }
 
-        HUD.hide()
+    //    HUD.hide()
   
         self.catCollectionView.isHidden = false
-        self.filterViewBg.isHidden = true
+        //self.filterViewBg.isHidden = true
     
         
     }
@@ -921,9 +966,9 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
         
          self.keysSwiped = []
             
-                let currentUser = Auth.auth().currentUser
+                let currentUser = FIRAuth.auth()?.currentUser
                 
-                self.ref = Database.database().reference()
+                self.ref = FIRDatabase.database().reference()
                 
                 self.ref?.child("profiles").child(currentUser!.uid).child("swiped").observe(.value, with: { snapshot in
                     
@@ -942,23 +987,21 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
     
     
     func loadClosestVideos(loc: CLLocation?) {
-   SingletonData.staticInstance.closestVideo.removeAll()
-    self.videos.removeAll()
         
-        let results2 = try! realm
-       //     .objects(RealmObject.self)
-         .findNearby(type: RealmObject.self, origin: loc!.coordinate, radius: 50000, sortAscending: true)
-        .removeDuplicates()
-    
-        for item in results2 {
-           
-             SingletonData.staticInstance.appendObject(item)
-            self.videos.append(item)
-        }
-//
-
-   
-   
+            SingletonData.staticInstance.closestVideo.removeAll()
+        
+            self.videos.removeAll()
+            
+            let results2 = try! self.realm
+                .findNearby(type: RealmObject.self, origin: loc!.coordinate, radius: 50000, sortAscending: true)
+                .removeDuplicates()
+        
+       
+            for item in results2 {
+                
+                SingletonData.staticInstance.appendObject(item)
+                self.videos.append(item)
+            }
     }
 
     
@@ -971,16 +1014,28 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
 
  override func viewWillAppear(_ animated: Bool) {
     
- 
-    realm = try! Realm()
- self.navigationController?.navigationBar.isTranslucent = true
+     UIApplication.shared.isStatusBarHidden = false
+    // Hide the navigation bar on the this view controller
+   // self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    // Transparent navigation bar
+    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+    self.navigationController?.navigationBar.shadowImage = UIImage()
+    self.navigationController?.navigationBar.isTranslucent = true
+    self.navigationController?.navigationBar.tintColor = UIColor.black
+    
+    UIApplication.shared.statusBarStyle = .default
+    
+    DispatchQueue.main.async {
+        var loc : CLLocation?
+        
+        
+    self.realm = try! Realm()
+        
     
     self.yourPicksBtn.badgeString = String(0)
-    loadBadgeNumber()
+    self.loadBadgeNumber()
     
-    
-    let loc : CLLocation?
-    
+   
     if(SingletonData.staticInstance.overrideLocation != nil){
         loc = SingletonData.staticInstance.overrideLocation
     } else {
@@ -1009,14 +1064,17 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
         let region:MKCoordinateRegion = MKCoordinateRegionMake(location, span)
         
         if(SingletonData.staticInstance.initLoad == true){
-            mapView.setRegion(region, animated: false)
-            initLoad = false
+            
+        
+         //   self.mapView.setRegion(region, animated: false)
+            self.initLoad = false
             SingletonData.staticInstance.setInitLoad(input: false)
             
 
            // SingletonData.staticInstance.setOverrideLocation(nil)
         }
-    }
+        }
+    
 
     
     if(SingletonData.staticInstance.title != nil){
@@ -1025,36 +1083,37 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
         self.place.text = SingletonData.staticInstance.title! + "?"
          self.place.textAlignment = .center
     } else {
-        let geoCoder = CLGeocoder()
-        let location = CLLocation(latitude: loc!.coordinate.latitude, longitude: loc!.coordinate.longitude)
-        
-        geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
-            
-            // Place details
-            var placeMark: CLPlacemark!
-            placeMark = placemarks?[0]
-            
-            if placeMark != nil {
-            // City
-            if let city = placeMark.addressDictionary!["City"] as? NSString {
-                
-                if(city != ""){
-               //     self.title = (city as String)
-                   //self.whatsHappeningLabel.text = "What's happening around"
-                 //   self.place.text = (city as String) + "?"
-                  //   self.place.textAlignment = .center
-                } else {
-                    
-                }
-                
-            }
-            }
-        })
+//        let geoCoder = CLGeocoder()
+//        let location = CLLocation(latitude: loc!.coordinate.latitude, longitude: loc!.coordinate.longitude)
+//        
+//        geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
+//            
+//            // Place details
+//            var placeMark: CLPlacemark!
+//            placeMark = placemarks?[0]
+//            
+//            if placeMark != nil {
+//            // City
+//            if let city = placeMark.addressDictionary!["City"] as? NSString {
+//                
+//                if(city != ""){
+//               //     self.title = (city as String)
+//                   //self.whatsHappeningLabel.text = "What's happening around"
+//                 //   self.place.text = (city as String) + "?"
+//                  //   self.place.textAlignment = .center
+//                } else {
+//                    
+//                }
+//                
+//            }
+//            }
+//        })
     }
+        }
 }
     
     override func viewWillDisappear(_ animated: Bool) {
-        UIApplication.shared.isStatusBarHidden = false
+      //  UIApplication.shared.isStatusBarHidden = false
       //  self.closestVideos.removeAll()
         //SingletonData.staticInstance.overrideCloseObject()
 //        for item in self.cardView.subviews{
@@ -1063,54 +1122,61 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
       //  self.videoNode.recursivelyClearContents()
       //  self.videoNode.removeFromSupernode()
         
-        SingletonData.staticInstance.setTitle(nil)
-    
+    //    SingletonData.staticInstance.setTitle(nil)
+//        self.catCollectionView.delegate = nil
+//        self.catCollectionView.dataSource = nil
+//        self.cardView.dataSource = nil
+//        self.cardView.delegate = nil
     }
     
 
     @IBAction func toggleMap(_ sender: AnyObject) {
-        
-        if self.cardView.isHidden == true
-        {
-        
-            if(SingletonData.staticInstance.overrideLocation != nil){
-                loadContent(loc: SingletonData.staticInstance.overrideLocation)
-                self.loadClosestVideos(loc: SingletonData.staticInstance.overrideLocation)
-                self.loadNextCard()
-            } else {
-                  loadContent(loc: SingletonData.staticInstance.location)
-                            self.loadClosestVideos(loc: SingletonData.staticInstance.location)
-                self.loadNextCard()
-            }
-//
-           // self.whatsHappeningLabel.isHidden = false
-               // self.place.isHidden = false
-                self.bg.isHidden = false
-                self.cardView.isHidden = false
-                 self.catCollectionView.isHidden = false
-        } else {
-            
-          //  self.videoNode.pause()
-         //   self.videoNode.removeFromSupernode()
-            
-            self.noMoreTitle.isHidden = true
-            self.expandRadius.isHidden = true
-            self.refreshBtn.isHidden = true
-            
-          //  self.closestVideos.removeAll()
-           // SingletonData.staticInstance.overrideCloseObject()
-//            for item in self.cardView.subviews{
-//                item.removeFromSuperview()
+//        
+//        if self.cardView.isHidden == true
+//        {
+//        
+//            if(SingletonData.staticInstance.overrideLocation != nil){
+//                loadContent(loc: SingletonData.staticInstance.overrideLocation)
+//                self.loadClosestVideos(loc: SingletonData.staticInstance.overrideLocation)
+//                self.loadNextCard()
+//            } else {
+//                  loadContent(loc: SingletonData.staticInstance.location)
+//                            self.loadClosestVideos(loc: SingletonData.staticInstance.location)
+//                self.loadNextCard()
 //            }
-
-            
-            self.bg.isHidden = true
-         //   self.place.isHidden = true
-        //    self.whatsHappeningLabel.isHidden = true
-            self.cardView.isHidden = true
-            self.catCollectionView.isHidden = true
-            self.loadNextCard()
-        }
+////
+//           // self.whatsHappeningLabel.isHidden = false
+//               // self.place.isHidden = false
+//              //  self.bg.isHidden = false
+//                self.cardView.isHidden = false
+//                 self.catCollectionView.isHidden = false
+//
+//        //    self.mapView.removeFromSuperview()
+//           // self.filterViewBg.isUserInteractionEnabled = true
+//        } else {
+//            
+//        
+//          //  self.videoNode.pause()
+//         //   self.videoNode.removeFromSupernode()
+//            
+//            self.noMoreTitle.isHidden = true
+//            self.expandRadius.isHidden = true
+//            self.refreshBtn.isHidden = true
+//            
+//          //  self.closestVideos.removeAll()
+//           // SingletonData.staticInstance.overrideCloseObject()
+////            for item in self.cardView.subviews{
+////                item.removeFromSuperview()
+////            }
+//
+//           // self.filterViewBg.isUserInteractionEnabled = false
+//            //self.bg.isHidden = true
+//         //   self.place.isHidden = true
+//        //    self.whatsHappeningLabel.isHidden = true
+//            self.cardView.isHidden = true
+//            self.catCollectionView.isHidden = true
+//            self.loadNextCard()
+//        }
     }
     
     
@@ -1130,197 +1196,249 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
     }
     
    
-    func addRadiusCircle(location: CLLocation){
-       
-            let circle = MKCircle(center: location.coordinate, radius: 10 as CLLocationDistance)
-            self.mapView.add(circle)
-        
-    }
+//    func addRadiusCircle(location: CLLocation){
+//
+//            let circle = MKCircle(center: location.coordinate, radius: 10 as CLLocationDistance)
+//          //  self.mapView.add(circle)
+//
+//    }
+//
+//    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+//
+//        if (overlay is MKPolygon) {
+//            let pr = MKPolygonRenderer(overlay: overlay);
+//            pr.strokeColor = UIColor.blue.withAlphaComponent(0.5);
+//            pr.lineWidth = 5;
+//            return pr;
+//        } else if (overlay is MKPolyline) {
+//            var pr = MKPolylineRenderer(overlay: overlay);
+//            pr.strokeColor = UIColor.blue.withAlphaComponent(0.5);
+//            pr.lineWidth = 5;
+//            return pr;
+//        }
+//
+//        if overlay is MKCircle {
+//            let circle = MKCircleRenderer(overlay: overlay)
+//            circle.strokeColor = UIColor.red
+//            circle.fillColor = UIColor(red: 255, green: 0, blue: 0, alpha: 0.1)
+//            circle.lineWidth = 1
+//            return circle
+//        } else {
+//            return MKPolylineRenderer()
+//        }
+//    }
+//
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//
+//
+//        var reuseId = ""
+//        if annotation.isKind(of: FBAnnotationCluster.self) {
+//            reuseId = "Cluster"
+//            var clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId)
+//            clusterView = FBAnnotationClusterView(annotation: annotation, reuseIdentifier: reuseId, options: nil)
+//
+//
+//            return clusterView
+//        } else {
+//
+//            reuseId = "Pin"
+//            if annotation is PinAnnotation {
+//
+//                var ann = annotation as! PinAnnotation
+//                var pinAnnotationView = MKAnnotationView(annotation: ann, reuseIdentifier: reuseId)
+//
+//                pinAnnotationView.isDraggable = false
+//                pinAnnotationView.canShowCallout = true
+//                pinAnnotationView.calloutOffset = CGPoint(x: 0, y: 10)
+//                    DispatchQueue.main.async {
+//                var imageView : UIImageView! = UIImageView()
+//
+//
+//
+//                if imageView.image == nil {
+//
+//                    imageView.image = UIImage.size(width: 20, height: 20)
+//                        .color(UIColor.red)
+//                        .border(color: UIColor.white)
+//                        .border(width: 2)
+//                        .corner(radius: 10)
+//                        .image
+//                }
+//
+//
+//
+//                    var size = CGSize(width: 50, height: 50)
+//                var resizedAndMaskedImage = self.imageResize(imageView.image!, sizeChange: size)
+//                pinAnnotationView.image = resizedAndMaskedImage
+//
+//                }
+//
+//                 let button = UIButton(type: UIButtonType.detailDisclosure)
+//                 button.addTarget(self, action: #selector(ViewController.buttonClicked), for: UIControlEvents.touchUpInside)
+//                 pinAnnotationView.rightCalloutAccessoryView = button
+//
+//
+//              return pinAnnotationView
+//
+//
+//            }
+//        }
+//
+//
+//
+//        return nil
+//    }
     
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-       
-        if (overlay is MKPolygon) {
-            let pr = MKPolygonRenderer(overlay: overlay);
-            pr.strokeColor = UIColor.blue.withAlphaComponent(0.5);
-            pr.lineWidth = 5;
-            return pr;
-        } else if (overlay is MKPolyline) {
-            var pr = MKPolylineRenderer(overlay: overlay);
-            pr.strokeColor = UIColor.blue.withAlphaComponent(0.5);
-            pr.lineWidth = 5;
-            return pr;
-        }
-        
-        if overlay is MKCircle {
-            let circle = MKCircleRenderer(overlay: overlay)
-            circle.strokeColor = UIColor.red
-            circle.fillColor = UIColor(red: 255, green: 0, blue: 0, alpha: 0.1)
-            circle.lineWidth = 1
-            return circle
-        } else {
-            return MKPolylineRenderer()
-        }
-    }
     
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-      
-        var reuseId = ""
-        if annotation.isKind(of: FBAnnotationCluster.self) {
-            reuseId = "Cluster"
-            var clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId)
-            clusterView = FBAnnotationClusterView(annotation: annotation, reuseIdentifier: reuseId, options: nil)
-        
-
-            return clusterView
-        } else {
-            reuseId = "Pin"
-            if annotation is PinAnnotation {
-                let ann = annotation as! PinAnnotation
-                let pinAnnotationView = MKAnnotationView(annotation: ann, reuseIdentifier: reuseId)
-                
-                pinAnnotationView.isDraggable = false
-                pinAnnotationView.canShowCallout = true
-                pinAnnotationView.calloutOffset = CGPoint(x: 0, y: 10)
-                
-                let imageView : UIImageView! = UIImageView()
-                
-                DispatchQueue.main.async {
-                    
-                if imageView.image == nil {
-                    
-                    imageView.image = UIImage.size(width: 100, height: 100)
-                        .color(UIColor.purple)
-                        .border(color: UIColor.white)
-                        .border(width: 10)
-                        .corner(radius: 20)
-                        .image
-                }
-                
-                
-             
-                    let size = CGSize(width: 50, height: 50)
-                let resizedAndMaskedImage = self.imageResize(imageView.image!, sizeChange: size)
-                pinAnnotationView.image = resizedAndMaskedImage
-             
-                }
-               
-                 let button = UIButton(type: UIButtonType.detailDisclosure)
-                 button.addTarget(self, action: #selector(ViewController.buttonClicked), for: UIControlEvents.touchUpInside)
-                 pinAnnotationView.rightCalloutAccessoryView = button
-                
-              
-              return pinAnnotationView
-                
-               
-            }
-        }
-        
-        
-        
-        return nil
-    }
+//
+//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+//
+//       // self.addRadiusCircle(location: SingletonData.staticInstance.location!)
+//
+//        if(view.annotation is MKUserLocation)
+//        {
+//
+//
+//        } else {
+//
+//            if view.annotation!.isKind(of: FBAnnotationCluster.self) {
+//
+//                for item in self.cluster {
+//                    print(item)
+//                }
+//
+//                 self.clusteringManager?.displayAnnotations(self.cluster, onMapView:self.mapView)
+//
+//            } else
+//            {
+//                let ann = view.annotation as! PinAnnotation
+//                SingletonData.staticInstance.setVideoPlayed(nil)
+//                SingletonData.staticInstance.setSelectedVideoItem(nil)
+//                SingletonData.staticInstance.setSelectedObject(nil)
+//                SingletonData.staticInstance.setSelectedAnnotation(nil)
+//                SingletonData.staticInstance.setSelectedAnnotation(ann)
+//
+//                let imageURL = URL(string: ann.imagePath!)
+//                SingletonData.staticInstance.setVideoImage(imageURL)
+//             //   SingletonData.staticInstance.setSelectedVideoItem("https://1096606134.rsc.cdn77.org/" + ann.videoPath!)
+//                SingletonData.staticInstance.setSelectedVideoItem("https://project-316688844667019748.appspot.com.storage.googleapis.com/" + ann.videoPath!)
+//
+//            }
+//        }
+//    }
     
-    
-    
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
-       // self.addRadiusCircle(location: SingletonData.staticInstance.location!)
-        
-        if(view.annotation is MKUserLocation)
-        {
-            
-            
-        } else {
-            
-            if view.annotation!.isKind(of: FBAnnotationCluster.self) {
-                
-                for item in self.cluster {
-                    print(item)
-                }
-               
-                 self.clusteringManager.displayAnnotations(self.cluster, onMapView:self.mapView)
-                
-            } else
-            {
-                let ann = view.annotation as! PinAnnotation
-                SingletonData.staticInstance.setVideoPlayed(nil)
-                SingletonData.staticInstance.setSelectedVideoItem(nil)
-                SingletonData.staticInstance.setSelectedObject(nil)
-                SingletonData.staticInstance.setSelectedAnnotation(nil)
-                SingletonData.staticInstance.setSelectedAnnotation(ann)
-                
-                let imageURL = URL(string: ann.imagePath!)
-                SingletonData.staticInstance.setVideoImage(imageURL)
-             //   SingletonData.staticInstance.setSelectedVideoItem("https://1096606134.rsc.cdn77.org/" + ann.videoPath!)
-                SingletonData.staticInstance.setSelectedVideoItem("https://project-316688844667019748.appspot.com.storage.googleapis.com/videos/" + ann.videoPath!)
-
-            }
-        }
-    }
-    
-    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-   
-        
-    
-    reachability = Reachability()!
-       
-    reachability!.whenReachable = { reachability in
-            // this is called on a background thread, but UI updates must
-            // be on the main thread, like this:
-            DispatchQueue.main.async {
-                if reachability.isReachableViaWiFi {
-                    print("Reachable via WiFi")
-                    OperationQueue().addOperation({
-                        let mapBoundsWidth = Double(self.mapView.bounds.size.width)
-                        let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
-                        let scale:Double = mapBoundsWidth / mapRectWidth
-                        
-                        var annotationArray : [MKAnnotation]? = nil
-                        
-                        
-                        annotationArray = self.clusteringManager.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
-                        
-                        
-                        self.clusteringManager.displayAnnotations(annotationArray!, onMapView:self.mapView)
-                    })
-                } else {
-                    print("Reachable via Cellular")
-                    OperationQueue().addOperation({
-                        let mapBoundsWidth = Double(self.mapView.bounds.size.width)
-                        let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
-                        let scale:Double = mapBoundsWidth / mapRectWidth
-                        
-                        var annotationArray : [MKAnnotation]? = nil
-                        
-                        
-                        annotationArray = self.clusteringManager.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
-                        
-                        
-                        self.clusteringManager.displayAnnotations(annotationArray!, onMapView:self.mapView)
-                    })
-                }
-            }
-        }
-        reachability!.whenUnreachable = { reachability in
-            // this is called on a background thread, but UI updates must
-            // be on the main thread, like this:
-            DispatchQueue.main.async {
-                print("Not reachable")
-                if self.cluster.count > 0 {
-                    self.cluster.removeAll()
-                    self.mapView.removeAnnotations(self.cluster)
-                    print(self.cluster)
-                    self.clusteringManager.displayAnnotations(self.cluster, onMapView: self.mapView)
-                }
-            }
-        }
-        
-        do {
-            try reachability!.startNotifier()
-        } catch {
-            print("Unable to start notifier")
-        }
-        
+//    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+//
+//
+//        DispatchQueue.global(qos: .background).async {
+//
+//                let mapBoundsWidth = Double(self.mapView.bounds.size.width)
+//                let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
+//                let scale:Double = mapBoundsWidth / mapRectWidth
+//
+//                var annotationArray : [MKAnnotation]? = nil
+//
+//
+//                annotationArray = self.clusteringManager?.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
+//
+//
+//                self.clusteringManager?.displayAnnotations(annotationArray!, onMapView:self.mapView)
+//
+//        }
+//
+//
+//        }
+//
+    func removeNastyMapMemory() {
+//        print (" ********* MapVC \(#function) ********** ")
+//
+//        if self.mapView != nil {
+//            switch mapView.mapType {
+//            case .hybrid :
+//                print (" mapType = MKMapType.standard")
+//                self.mapView.mapType = MKMapType.standard
+//            case .standard:
+//                print (" mapType = MKMapType.hybrid")
+//                self.mapView.mapType = MKMapType.hybrid
+//            default:
+//                print (" mapType = ???")
+//                break
+//            }
+//
+//            print (" showsUserLocation = false")
+//            self.mapView.showsUserLocation = false
+//
+//            if self.mapView.delegate != nil {
+//                print (" mapView.delegate = nil")
+//                self.mapView.delegate = nil
+//            }
+//
+//            print (" mapView = nil")
+//            self.mapView.removeFromSuperview()
+//            self.mapView = nil
+//        }
+//        DispatchQueue.main.async {
+//
+//
+//    self.reachability = Reachability()!
+//
+//    self.reachability!.whenReachable = { reachability in
+//            // this is called on a background thread, but UI updates must
+//            // be on the main thread, like this:
+//            DispatchQueue.main.async {
+//                if reachability.isReachableViaWiFi {
+//                    print("Reachable via WiFi")
+//                    OperationQueue().addOperation({
+//                        let mapBoundsWidth = Double(self.mapView.bounds.size.width)
+//                        let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
+//                        let scale:Double = mapBoundsWidth / mapRectWidth
+//                        
+//                        var annotationArray : [MKAnnotation]? = nil
+//                        
+//                        
+//                        annotationArray = self.clusteringManager.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
+//                        
+//                        
+//                        self.clusteringManager.displayAnnotations(annotationArray!, onMapView:self.mapView)
+//                    })
+//                } else {
+//                    print("Reachable via Cellular")
+//                    OperationQueue().addOperation({
+//                        let mapBoundsWidth = Double(self.mapView.bounds.size.width)
+//                        let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
+//                        let scale:Double = mapBoundsWidth / mapRectWidth
+//                        
+//                        var annotationArray : [MKAnnotation]? = nil
+//                        
+//                        
+//                        annotationArray = self.clusteringManager.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
+//                        
+//                        
+//                        self.clusteringManager.displayAnnotations(annotationArray!, onMapView:self.mapView)
+//                    })
+//                }
+//            }
+//        }
+//        self.reachability!.whenUnreachable = { reachability in
+//            // this is called on a background thread, but UI updates must
+//            // be on the main thread, like this:
+//            DispatchQueue.main.async {
+//                print("Not reachable")
+//                if self.cluster.count > 0 {
+//                    self.cluster.removeAll()
+//                    self.mapView.removeAnnotations(self.cluster)
+//                    print(self.cluster)
+//                    self.clusteringManager.displayAnnotations(self.cluster, onMapView: self.mapView)
+//                }
+//            }
+//        }
+//        
+//        do {
+//            try self.reachability!.startNotifier()
+//        } catch {
+//            print("Unable to start notifier")
+//        }
+//         }
     }
     
     func ResizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage {
@@ -1369,10 +1487,10 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
     @IBAction func loadFilterModal(_ sender: Any) {
         if(self.catCollectionView.isHidden == false){
             self.catCollectionView.isHidden = true
-            self.filterViewBg.isHidden = true
+            //self.filterViewBg.isHidden = true
         } else {
             self.catCollectionView.isHidden = false
-            self.filterViewBg.isHidden = false
+           // self.filterViewBg.isHidden = false
         }
     }
         
@@ -1380,13 +1498,13 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
        
     @IBAction func shareVideo(_ sender: AnyObject) {
       //   SingletonData.staticInstance.setIsPostVideo(true)
-        SingletonData.staticInstance.setMapRegion(input: self.mapView.region)
+      //  SingletonData.staticInstance.setMapRegion(input: self.mapView.region)
         
-        let popup : ModalController = self.storyboard?.instantiateViewController(withIdentifier: "ModalController") as! ModalController
-        let navigationController = UINavigationController(rootViewController: popup)
+      //  let popup : ModalController = self.storyboard?.instantiateViewController(withIdentifier: "ModalController") as! ModalController
+       // let navigationController = UINavigationController(rootViewController: popup)
     
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        self.present(navigationController, animated: false, completion: nil)
+     //   popup.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+     //   self.present(popup, animated: false, completion: nil)
         
 //        self.closestVideos.removeAll()
 //        SingletonData.staticInstance.overrideCloseObject()
@@ -1470,7 +1588,7 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
         
         catCollectionView.reloadData()
         self.catCollectionView.isHidden = false
-        let userId = Auth.auth.currentUser?.uid
+        let userId = FIRAuth.auth()?.currentUser?.uid
         self.ref?.child("profiles").child(userId!).child("swiped").removeValue()
         self.cardView.resetCurrentCardIndex()
         
@@ -1516,8 +1634,11 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+      
+    
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath as IndexPath) as! FilterCollectionView
-        cell.backgroundColor = UIColor.groupTableViewBackground
+        
+     //   cell.backgroundColor = UIColor.groupTableViewBackground
         cell.textLbl.text = self.categories[indexPath.row]
     
          cell.textLbl.textColor = UIColor.black
@@ -1525,20 +1646,21 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
  
        // cell.imgView.image = self.images[indexPath.row]
         return cell
-
+            
+      
     }
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         do {
             var cell =  collectionView.cellForItem(at: indexPath)
         
-        cell?.backgroundColor = UIColor.groupTableViewBackground
+     //   cell?.backgroundColor = UIColor.groupTableViewBackground
         }
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     
      var cell = collectionView.cellForItem(at: indexPath) as! FilterCollectionView
         
-        cell.backgroundColor = UIColor.lightGray
+   //     cell.backgroundColor = UIColor.lightGray
 
         
         self.cardView.resetCurrentCardIndex()
@@ -1720,7 +1842,7 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
             
             collectionView.reloadData()
             self.catCollectionView.isHidden = false
-            let userId = Auth.auth().currentUser?.uid
+            let userId = FIRAuth.auth()?.currentUser?.uid
             self.ref?.child("profiles").child(userId!).child("swiped").removeValue()
             self.cardView.resetCurrentCardIndex()
             
@@ -1749,22 +1871,11 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
     func videoNode(_ videoNode: ASVideoNode, willChange state: ASVideoNodePlayerState, to toState: ASVideoNodePlayerState) {
         
         
-        if(toState == ASVideoNodePlayerState.unknown){
-            HUD.show(.progress)
-        }
-        if(toState == ASVideoNodePlayerState.initialLoading){
-            HUD.show(.progress)
-        }
-        if(toState == ASVideoNodePlayerState.loading){
-            HUD.show(.progress)
-        }
-        
+      
         if(toState == ASVideoNodePlayerState.readyToPlay){
-            HUD.hide()
-            DispatchQueue.main.async {
-        videoNode.play()
             
-            }
+              videoNode.play()
+            
         }
         
         
@@ -1773,7 +1884,7 @@ class ViewController: UIViewController, MKMapViewDelegate, DatabaseReferenceable
     
  
     deinit{
-
+print("deinit")
     }
     
 
@@ -1809,13 +1920,16 @@ extension ViewController: KolodaViewDelegate {
     func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection)
     {
         
+        self.swiping = false
+        
         if direction == .left {
            
             
             DispatchQueue.main.async {
-                self.ref = Database.database().reference()
+                self.ref = FIRDatabase.database().reference()
                 
-                
+                print(self.videos.count)
+                if self.videos.count > 0 {
                 let card = self.videos[index]
                 
                 let video = ["ActivityCategories": card.ActivityCategories,
@@ -1829,7 +1943,7 @@ extension ViewController: KolodaViewDelegate {
                              "createdAt": card.createdAt,
                              "show": "false"]
                 
-                let userId = Auth.auth().currentUser?.uid
+                let userId = FIRAuth.auth()?.currentUser?.uid
                 let key = card.key //self.ref?.child("profiles").child(userId!).child("picks").childByAutoId().key
                 
                 
@@ -1841,44 +1955,47 @@ extension ViewController: KolodaViewDelegate {
                 self.loadBadgeNumber()
                 
                 
-//                DispatchQueue.global(qos: .background).async {
-//                    self.videosRef.child(card.key).observeSingleEvent(of: .value, with: { (snapshot) in
-//                        
-//                        var snap = FIRItem(snapshot: snapshot)
-//                        
-//                        
-//                        if self.count == 0 {
-//                            self.videosRef.child(card.key).updateChildValues(["voteDown": snap.voteDown + 1])
-//                            let videoCount : Float = Float(self.mostPopularVideos.count)
-//                            
-//                            let votes : Float = Float(snap.voteUp - snap.voteDown)
-//                            
-//                            self.videosRef.child(card.key).updateChildValues(["averageVote": votes])
-//                            
-//                            
-//                            self.count = 1
-//                        }
-//                        
-//                        
-//                        
-//                        
-//                        
-//                    }) { (error) in
-//                        print(error.localizedDescription)
-//                    }
-                
-               // }
-                
+                    self.videosRef.child(card.key).observeSingleEvent(of: .value, with: { (snapshot) in
+                        
+                        var snap = FIRItem(snapshot: snapshot)
+                        
+                        
+                        if self.count == 0 {
+                            self.videosRef.child(card.key).updateChildValues(["swipedLeft": snap.voteDown + 1])
+                            let videoCount : Float = Float(self.mostPopularVideos.count)
+                            
+                            print(videoCount)
+                            
+                            let votes : Float = Float(snap.voteUp - snap.voteDown)
+                            
+                            print(votes)
+                            
+                            
+                            self.videosRef.child(card.key).updateChildValues(["averageVote": votes])
+                            
+                            
+                            self.count = 1
+                        }
+                        
+                        
+                        self.loadNextCard()
+                        
+                        
+                        
+                        
+                    }) { (error) in
+                        print(error.localizedDescription)
+                    }
+                    
                  self.loadNextCard()
             }
-       
-            
         }
+       }
         if direction == .right {
             
             DispatchQueue.main.async {
                 
-                self.ref = Database.database().reference()
+                self.ref = FIRDatabase.database().reference()
                 
                 let card = self.videos[index]
                 
@@ -1893,7 +2010,7 @@ extension ViewController: KolodaViewDelegate {
                              "createdAt": card.createdAt,
                              "show": "true"]
                 
-                let userId = Auth.auth().currentUser?.uid
+                let userId = FIRAuth.auth()?.currentUser?.uid
                 let key = card.key //self.ref?.child("profiles").child(userId!).child("picks").childByAutoId().key
                 
                
@@ -1903,37 +2020,37 @@ extension ViewController: KolodaViewDelegate {
          
                  self.loadBadgeNumber()
                 
-//                self.videosRef.child(card.key).observeSingleEvent(of: .value, with: { (snapshot) in
-//                    
-//                    var snap = FIRItem(snapshot: snapshot)
-//                    
-//                    
-//                    if self.count == 0 {
-//                        self.videosRef.child(card.key).updateChildValues(["voteUp": snap.voteUp + 1])
-//                        let videoCount : Float = Float(self.mostPopularVideos.count)
-//                        
-//                        print(videoCount)
-//                        
-//                        let votes : Float = Float(snap.voteUp - snap.voteDown)
-//                        
-//                        print(votes)
-//                        
-//                        
-//                        self.videosRef.child(card.key).updateChildValues(["averageVote": votes])
-//                        
-//                        
-//                        self.count = 1
-//                    }
-//                    
-//                    
-//                     self.loadNextCard()
-//                    
-//                    
-//                
-//                    
-//                }) { (error) in
-//                    print(error.localizedDescription)
-//                }
+                self.videosRef.child(card.key).observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    var snap = FIRItem(snapshot: snapshot)
+                    
+                    
+                    if self.count == 0 {
+                        self.videosRef.child(card.key).updateChildValues(["swipedRight": snap.voteUp + 1])
+                        let videoCount : Float = Float(self.mostPopularVideos.count)
+                        
+                        print(videoCount)
+                        
+                        let votes : Float = Float(snap.voteUp - snap.voteDown)
+                        
+                        print(votes)
+                        
+                        
+                        self.videosRef.child(card.key).updateChildValues(["averageVote": votes])
+                        
+                        
+                        self.count = 1
+                    }
+                    
+                    
+                     self.loadNextCard()
+                    
+                    
+                    
+                    
+                }) { (error) in
+                    print(error.localizedDescription)
+                }
                 
                 self.loadNextCard()
             }
@@ -1953,7 +2070,9 @@ extension ViewController: KolodaViewDelegate {
         return false
     }
     func koloda(_ koloda: KolodaView, draggedCardWithPercentage finishPercentage: CGFloat, in direction: SwipeResultDirection) {
-     
+        
+        self.swiping = true
+        
         print(finishPercentage)
         if (finishPercentage > 50 && direction == .left) {
             self.yesLabel?.isHidden = true
@@ -1998,6 +2117,7 @@ extension ViewController: KolodaViewDataSource {
     
   
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
+    
         
         self.noLabel?.isHidden = true
         self.yesLabel?.isHidden = true
@@ -2011,19 +2131,14 @@ extension ViewController: KolodaViewDataSource {
             setView.backgroundColor = UIColor.black
             let dateFormatter = DateFormatter()
             let overlayView = UIView(frame: CGRect(x: 0, y: 0, width: setView.frame.width, height: setView.frame.height))
-            overlayView.backgroundColor = UIColor(white: 0, alpha: 0.3)
-            // self.profileImage = UIImageView(frame: CGRect(x: 10, y: 10, width: 40, height: 40))
+            overlayView.backgroundColor = UIColor(white: 0, alpha: 0.2)
+        
             let DisplayTitle = UILabel(frame: CGRect(x: 10, y: 20, width: setView.frame.width, height: 40))
             let DisplayAddress = UILabel(frame: CGRect(x: 10, y: 50, width: setView.frame.width, height: 40))
             let timeLabel = UILabel(frame: CGRect(x: 10, y: setView.frame.height - 40, width: setView.frame.width, height: 40))
-            //            self.priceLabel = UILabel(frame: CGRect(x: 20, y: self.frame.height - 80, width: self.frame.width, height: 30))
+        
             let distanceLabel = UILabel(frame: CGRect(x: 10, y: setView.frame.height - 60, width: setView.frame.width, height: 40))
-            let poweredBy = UIImageView(image: UIImage(named: "powered_by_google_on_non_white"))
-            poweredBy.frame = CGRect(x: setView.bounds.width - poweredBy.bounds.width, y: setView.bounds.height - poweredBy.bounds.height, width: poweredBy.bounds.width, height: poweredBy.bounds.height)
-            // self.profileLabel = UILabel(frame: CGRect(x: 60, y: 0, width: 100, height: 40))
-            
-            
-            //    let TapLabel = UILabel(frame: CGRectMake(80, self.frame.height - 40, self.frame.width, 40))
+        
             self.yesLabel = UILabel(frame: CGRect(x: (UIScreen.main.bounds.width / 2 - 150) / 2, y: setView.frame.height / 2, width: 150, height: 40))
             self.noLabel = UILabel(frame: CGRect(x: (UIScreen.main.bounds.width / 2 - 150) / 2, y: setView.frame.height / 2, width: 150, height: 40))
             
@@ -2032,43 +2147,33 @@ extension ViewController: KolodaViewDataSource {
             self.yesLabel!.font = UIFont(name: "HelveticaNeue", size: 40)
             self.yesLabel!.textAlignment = NSTextAlignment.right
             self.yesLabel!.text = "YES!"
-            // yesLabel.backgroundColor = setView.UIColorFromRGB(0x74d300)
-            
+        
             self.noLabel!.textColor = UIColor.white// self.UIColorFromRGB(0xFFFFFF)
             self.noLabel!.font = UIFont(name: "HelveticaNeue", size: 40)
             self.noLabel!.textAlignment = NSTextAlignment.right
             self.noLabel!.text = "NOPE!"
-            //  noLabel.backgroundColor = self.UIColorFromRGB(0xdb0202)
-            
-            //self.profileLabel?.textColor = UIColor.white
-            // self.profileLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
-            //   self.profileLabel?.textAlignment = NSTextAlignment.right
-            
-            
+        
             timeLabel.textColor = UIColor.white
-            timeLabel.font = UIFont(name: "HelveticaNeue", size: 14)
-            
-            //            self.priceLabel?.textColor = UIColor.white
-            //            self.priceLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
-            
+            timeLabel.font = UIFont(name: "System", size: 14)
+        
             DisplayTitle.textColor = UIColor.white
-            DisplayTitle.font = UIFont(name: "HelveticaNeue", size: 16)
-            DisplayTitle.numberOfLines = 5
+            DisplayTitle.font = UIFont.systemFont(ofSize: 26.0)
+            DisplayTitle.numberOfLines = 0
+        
             
             DisplayAddress.textColor = UIColor.white
-            DisplayAddress.font = UIFont(name: "HelveticaNeue", size: 15)
+            DisplayAddress.font = UIFont(name: "System", size: 15)
             DisplayAddress.numberOfLines = 5
             
-            distanceLabel.textColor = UIColor.white
-            distanceLabel.font = UIFont(name: "HelveticaNeue", size: 19)
-            distanceLabel.numberOfLines = 5
+            distanceLabel.textColor = hexStringToUIColor(hex: "FFFFFF")
+            distanceLabel.font =  UIFont.boldSystemFont(ofSize: 16.0)
+            distanceLabel.numberOfLines = 0
             
             let height = setView.frame.size.height
             let width = setView.frame.size.width
             
             
             SingletonData.staticInstance.setSelectedObject(nil)
-            //SingletonData.staticInstance.setSelectedObject(video)
             SingletonData.staticInstance.setVideoFrameWidth(width)
             SingletonData.staticInstance.setVideoFrameHeight(height)
             
@@ -2076,26 +2181,25 @@ extension ViewController: KolodaViewDataSource {
             let origin = CGPoint.zero
             let size = CGSize(width: SingletonData.staticInstance.videoFrameWidth!, height: SingletonData.staticInstance.videoFrameHeight!)
         
-        
-    
-            self.videoNode.shouldAutorepeat = false
+            self.videoNode = ASVideoNode()
+            self.videoNode.delegate = self
+            self.videoNode.shouldAutorepeat = true
         
             self.videoNode.muted = false
             self.videoNode.frame = CGRect(origin: origin, size: size)
             self.videoNode.gravity = AVLayerVideoGravityResizeAspectFill
             self.videoNode.zPosition = 0
-            self.videoNode.shouldAutoplay = true
+            self.videoNode.shouldAutoplay = false
             self.videoNode.layer.shouldRasterize = true
         
             self.videoNode.layer.borderColor = UIColor.clear.cgColor
-            self.videoNode.assetURL = URL(string: "https://1490263195.rsc.cdn77.org/videos/" + video.videoPath)
-            //  self.videoNode.displaysAsynchronously = true
-           self.videoNode.url = URL(string: video.imagePath.replacingOccurrences(of: "https://project-316688844667019748.appspot.com.storage.googleapis.com", with: "https://1490263195.rsc.cdn77.org"))!
-            
         
-   
-                if video != nil {
-                    
+                    self.videoNode.assetURL = URL(string: "https://storage.googleapis.com/project-316688844667019748.appspot.com/" + video.videoPath)
+          //  self.videoNode.displaysAsynchronously = true
+        
+                    if(video.imagePath != ""){
+                       self.videoNode.url = URL(string: video.imagePath)
+                    }
                     SingletonData.staticInstance.setKey(video.key)
                     
                     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ssZZZ"
@@ -2104,88 +2208,118 @@ extension ViewController: KolodaViewDataSource {
                     if(date != nil){
                         timeLabel.text = SingletonData.staticInstance.timeAgoSinceDate(date!, numericDates: true)
                     }
-                    //                  profileLabel.text = video?.displayName
-                    let divisor = pow(10.0, Double(2))
-                    
+                 
                     let coordinate₀ = SingletonData.staticInstance.location
                     let coordinate₁ = CLLocation(latitude: CLLocationDegrees(video.lat), longitude: CLLocationDegrees(video.lng))
                     
                     let distanceInMeters = coordinate₁.distance(from: coordinate₀!)
-                       let distance : String = String(describing: round(Double((distanceInMeters) / 1000) / 1.6))
-                       distanceLabel.text = distance + "mi"
+                    let distance : String = String(describing: round(Double((distanceInMeters) / 1000) / 1.6))
+                    distanceLabel.text = distance + "mi"
                     DisplayTitle.text = video.displayTitle
                     DisplayAddress.text = video.address
-                    // self.priceLabel?.text = "Cheap"
-                    //                _ = URL(string: video!.userPhoto)
-                    //
-                    //   self.profileImage?.asCircle()
-                    
-                    // let processor = ResizingImageProcessor(targetSize: CGSize(width: 40, height: 40))
-                    //   let imgPlaceholder = UIImageView(frame: CGRect(x: 10, y: 10, width: 40, height: 40))
-                    // imgPlaceholder.image = UIImage(named: "placeholder-person")!
-                    // imgPlaceholder.asCircle()
-                    //   self.profileImage?.kf.setImage(with: url, placeholder: imgPlaceholder.image, options: [.processor(processor)], progressBlock: nil, completionHandler: nil)
-                    
-                    
-                }
-                
-     
         
-                
-                if(video.createdAt != nil){
-                        setView.addSubnode(self.videoNode)
-          
-                    if(video.createdAt == ""){
-                        setView.addSubview(poweredBy)
-                    }
-                    
+                    setView.addSubnode(self.videoNode)
                     setView.addSubview(overlayView)
-                    // self.addSubview(self.timeLabel!)
-                    // self.addSubview(self.priceLabel!)
-                    // self.addSubview(self.profileLabel!)
+                    let layer = CAGradientLayer()
+                    layer.frame = CGRect(x: 0, y: 0, width: setView.frame.width, height: setView.frame.height)
+                    layer.colors = [hexStringToUIColor(hex: "000000").cgColor, UIColor.clear.cgColor, UIColor.clear.cgColor, hexStringToUIColor(hex: "000000").cgColor]
+                    layer.locations = [0.0, 0.5, 0.5, 1.0]
+                    
+                    layer.opacity = 0.5
+                   
+                    setView.layer.addSublayer(layer)
+                  
                     setView.addSubview(distanceLabel)
                     setView.addSubview(DisplayTitle)
-                    // self.addSubview(self.DisplayAddress!)
-                    //  self.addSubview(self.profileImage!)
-                    //  self.addSubview(TapLabel)
                     
-                    
-                    //                setView.profileImage.translatesAutoresizingMaskIntoConstraints = false
-                    //                profileImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
-                    //                self.profileImage?.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-                    
-                    //                 self.profileLabel?.translatesAutoresizingMaskIntoConstraints = false
-                    //                 self.profileLabel?.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
-                    //                 self.profileLabel?.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 65).isActive = true
-                    //
                     DisplayTitle.translatesAutoresizingMaskIntoConstraints = false
-                    DisplayTitle.topAnchor.constraint(equalTo: setView.topAnchor, constant: 30).isActive = true
+                    DisplayTitle.topAnchor.constraint(equalTo: setView.topAnchor, constant: 10).isActive = true
                     DisplayTitle.leadingAnchor.constraint(equalTo: setView.leadingAnchor, constant: 10).isActive = true
+                    
+                    distanceLabel.translatesAutoresizingMaskIntoConstraints = false
+                    distanceLabel.bottomAnchor.constraint(equalTo: setView.bottomAnchor, constant: -15).isActive = true
+                    distanceLabel.leadingAnchor.constraint(equalTo: setView.leadingAnchor, constant: 10).isActive = true
+                    
                     
                     setView.addSubview(self.yesLabel!)
                     setView.addSubview(self.noLabel!)
                     
+                    
+                    setView.layer.cornerRadius = 10
+                    setView.layer.masksToBounds = true
+        
                     self.yesLabel!.isHidden = true
                     self.noLabel!.isHidden = true
-                    
-                    HUD.hide()
-                }
-                
-                
-            
         
+                    setView.layer.shadowColor = UIColor.black.cgColor
+                    setView.layer.shadowOpacity = 1
+                    setView.layer.shadowOffset = CGSize.zero
+                    setView.layer.shadowRadius = 10
+                    setView.layer.shadowPath = UIBezierPath(rect: setView.bounds).cgPath
+                    setView.layer.shouldRasterize = true
         
-        
-        
-        
-
-        
-        return setView
+                    return setView
         }
-      
-        
-
+    
+func hexStringToUIColor (hex:String) -> UIColor {
+    var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+    
+    if (cString.hasPrefix("#")) {
+        cString.remove(at: cString.startIndex)
     }
+    
+    if ((cString.characters.count) != 6) {
+        return UIColor.gray
+    }
+    
+    var rgbValue:UInt32 = 0
+    Scanner(string: cString).scanHexInt32(&rgbValue)
+    
+    return UIColor(
+        red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+        green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+        blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+        alpha: CGFloat(1.0)
+    )
+}
+}
+extension ViewController: GMSAutocompleteViewControllerDelegate {
+    
+    // Handle the user's selection.
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+    
+        let location = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
+        //self.videos.removeAll()
+        
+        SingletonData.staticInstance.setMapLocation(location)
+        // TODO: Add code to get address components from the selected place.
+      // self.loadClosestVideos(loc: location)
+        // Close the autocomplete widget.
+        
+        self.dismiss(animated: true, completion: nil)
+        self.performSegue(withIdentifier: "mapStoryboardSegue", sender: self)
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        // TODO: handle the error.
+        print("Error: ", error.localizedDescription)
+    }
+    
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    // Show the network activity indicator.
+    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+    
+    // Hide the network activity indicator.
+    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+    
+}
 
 
 

@@ -8,6 +8,9 @@
 
 import UIKit
 import Firebase
+import UserNotifications
+import FirebaseInstanceID
+import FirebaseMessaging
 //import SwiftHTTP
 //import JSONJoy
 import UberRides
@@ -18,26 +21,60 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import FBSDKShareKit
 import SlideMenuControllerSwift
-
+import GoogleMaps
+import GooglePlaces
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate, FIRMessagingDelegate {
     
     var window: UIWindow?
     let locationManager = CLLocationManager()
     var reachability: Reachability? = nil
     
+   
+    // The callback to handle data message received via FCM for devices running iOS 10 or above.
+    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+        print(remoteMessage.appData)
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-      //  Database.database().persistenceEnabled = true
+        
+        GMSServices.provideAPIKey("AIzaSyB1CfDdCqRr4Xx6lBVNCcXigG1lWA1MJiI")
+        GMSPlacesClient.provideAPIKey("AIzaSyDx-_HkMZEHQEoZLt66laEsTfeGx2I4irc")
+        
+        
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+            // For iOS 10 data message (sent via FCM
+            FIRMessaging.messaging().remoteMessageDelegate = self
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        
+        application.registerForRemoteNotifications()
+        
+        FIRApp.configure()
+      //  FIRDatabase.database().persistenceEnabled = true
        
       //  UIApplication.shared.isStatusBarHidden = true
         //UIApplication.shared.statusBarStyle = UIStatusBarStyle.
-       UINavigationBar.appearance().tintColor = UIColor.white
         
-        UINavigationBar.appearance().barTintColor = uicolorFromHex(0x028ddd)
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue : UIColor.white]
+        UINavigationBar.appearance().tintColor = UIColor.black
         
+        //UINavigationBar.appearance().barTintColor = uicolorFromHex(0xFFFFFF)
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.black]
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            print("TEST")
+           
+        }
         
 //        var colors = [UIColor]()
 //     
@@ -109,8 +146,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
     }
 
-  
-    
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        var readableToken: String = ""
+        for i in 0..<deviceToken.count {
+            readableToken += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
+        }
+        print("Received an APNs device token: \(readableToken)")
+    }
     
     func uicolorFromHex(_ rgbValue:UInt32)->UIColor{
         let red = CGFloat((rgbValue & 0xFF0000) >> 16)/256.0
@@ -202,8 +245,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     override init(){
-    
-        FirebaseApp.configure()
+        
     }
 }
 

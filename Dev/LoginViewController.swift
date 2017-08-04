@@ -16,7 +16,9 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import FBSDKShareKit
 import Photos
-import PKHUD
+//import PKHUD
+import AsyncDisplayKit
+
 class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginButtonDelegate, CLLocationManagerDelegate {
 
 
@@ -38,7 +40,7 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
     var photosChecked : Bool = false
     var microphoneChecked : Bool = false
     var locationChecked : Bool = false
-    
+    var videoNode : ASVideoNode?
     
     /*!
      @abstract Sent to the delegate when the button was used to login.
@@ -51,20 +53,22 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
     @IBOutlet weak var password: UITextField!
     
     @IBAction func login(_ sender: Any) {
-        HUD.show(.progress)
+      //  HUD.show(.progress)
         
-        Auth.auth().signIn(withEmail: emailAddress.text!, password: password.text!) { (user, error) in
+        FIRAuth.auth()?.signIn(withEmail: emailAddress.text!, password: password.text!) { (user, error) in
             if user != nil {
-                HUD.hide()
+           //    HUD.hide()
                 self.goToHomeView()
             }
             
             if error != nil {
-                HUD.show(.error)
-                HUD.hide()
+              // HUD.show(.error)
+               // HUD.hide()
             }
         }
     }
+    
+    
     
     @IBAction func forgotPassword(_ sender: Any) {
         DispatchQueue.main.async{
@@ -80,16 +84,16 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
     public func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
      
                 if error != nil {
-                      HUD.show(.error)
-                      HUD.hide()
+                //      HUD.show(.error)
+                 //     HUD.hide()
                 }
                 else {
         
             if let accessToken = FBSDKAccessToken.current(){
-                let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+                let credential = FIRFacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
         
-                Auth.auth().signIn(with: credential) { (user, error) in
-                     HUD.show(.progress)
+                FIRAuth.auth()?.signIn(with: credential) { (user, error) in
+                   //  HUD.show(.progress)
         
                        }
                     }
@@ -98,8 +102,8 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
                 if ((error) != nil)
                 {
                     // Process error
-                    HUD.show(.error)
-                    HUD.hide()
+                  //  HUD.show(.error)
+                  //  HUD.hide()
                 }
                 else if result.isCancelled {
                     // Handle cancellations
@@ -132,9 +136,9 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
 //        else {
 //            
 //    if let accessToken = FBSDKAccessToken.current(){
-//        let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+//        let credential = FIRFacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
 //        
-//        Auth.auth()?.signIn(with: credential) { (user, error) in
+//        FIRAuth.auth()?.signIn(with: credential) { (user, error) in
 //             HUD.show(.progress)
 //            
 //               }
@@ -211,17 +215,17 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
         
         
   
-        Auth.auth().addStateDidChangeListener({ (auth: Auth, user: User?) in
+        FIRAuth.auth()?.addStateDidChangeListener({ (auth: FIRAuth, user: FIRUser?) in
             
             user?.reload(completion: { (error) in
              
                 if(error != nil){
-                       HUD.show(.error)
-                       HUD.hide()
+                  //     HUD.show(.error)
+                   //    HUD.hide()
                 } else {
                     if let accessToken = FBSDKAccessToken.current(){
                         print(accessToken)
-                        HUD.hide()
+                     //   HUD.hide()
                               if(self.cameraChecked && self.photosChecked && self.microphoneChecked){
                         
                         self.goToHomeView()
@@ -238,6 +242,62 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        FIRAuth.auth()!.addStateDidChangeListener() { auth, user in
+            // 2
+            if user != nil {
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "Now")
+                
+                self.present(vc, animated: true, completion: {
+                    
+                })
+            }
+        }
+        let view = UIView(frame: self.view.frame)
+        
+        
+//        self.videoNode = ASVideoNode()
+//        self.videoNode?.shouldAutorepeat = true
+//        
+//        self.videoNode?.muted = false
+//        self.videoNode?.frame = self.view.frame
+//        self.videoNode?.gravity = AVLayerVideoGravityResizeAspectFill
+//        self.videoNode?.zPosition = 0
+//        self.videoNode?.shouldAutoplay = true
+//        self.videoNode?.layer.shouldRasterize = true
+//        
+//        self.videoNode?.layer.borderColor = UIColor.clear.cgColor
+//        self.videoNode?.assetURL = URL(string: "https://1490263195.rsc.cdn77.org/videos/-KnGm4lMSQh2h_2XZjZn.mp4")
+//        //  self.videoNode.displaysAsynchronously = true
+//        self.videoNode?.url = URL(string: "https://1490263195.rsc.cdn77.org/videos/-KnGm4lMSQh2h_2XZjZn.jpg")
+        
+        UIApplication.shared.statusBarStyle = .lightContent
+        
+        //only apply the blur if the user hasn't disabled transparency effects
+        if !UIAccessibilityIsReduceTransparencyEnabled() {
+            view.backgroundColor = UIColor.clear
+            
+            let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            //always fill the view
+            blurEffectView.frame = self.view.bounds
+            blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            
+           // view.addSubview(self.videoNode!.view)
+            view.addSubview(blurEffectView) //if you have more UIViews, use an insertSubview API to place it where needed
+        } else {
+            view.backgroundColor = UIColor.black
+        }
+        
+  
+        
+        self.view.addSubview(view)
+        view.layer.zPosition = -1
+       
+        
+        view.isUserInteractionEnabled = false
+        
         self.myLoginButton.delegate = self
         self.myLoginButton.readPermissions = ["public_profile", "email", "user_friends"]
         
@@ -262,7 +322,7 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
 
     }
     func checkMicrophonePermission(){
-        let microPhoneStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.audio)
+        let microPhoneStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeAudio)
         
         switch microPhoneStatus {
         case .authorized:
@@ -280,7 +340,7 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
         // Microphone disabled in settings
         case .notDetermined:
              self.microphoneChecked = true
-             AVCaptureDevice.requestAccess(for: AVMediaType.audio, completionHandler: { (granted: Bool) in
+             AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeAudio, completionHandler: { (granted: Bool) in
                 if granted == true
                 {
                     // User granted
@@ -340,7 +400,7 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
     }
     
     func checkCameraPermissions() {
-        if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) ==  AVAuthorizationStatus.authorized
+        if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) ==  AVAuthorizationStatus.authorized
         {
             // Already Authorized
             self.cameraChecked = true
@@ -351,7 +411,7 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
         }
         else
         {
-            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted :Bool) -> Void in
+            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { (granted :Bool) -> Void in
                 if granted == true
                 {
                     // User granted
@@ -378,7 +438,7 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
         }
     }
 
-    @objc func dismissKeyboard(){
+    func dismissKeyboard(){
         view.endEditing(true)
     }
        override func didReceiveMemoryWarning() {

@@ -20,13 +20,13 @@
 //    var CARD_HEIGHT = CGFloat()
 //    var CARD_WIDTH = CGFloat()
 //    var delegateBg : DraggableViewBgDelegate?
-//     var ref: DatabaseReference?
+//     var ref: FIRDatabaseReference?
 //
 //    let menuButton = UIButton()
 //    let messageButton = UIButton()
 //    let checkButton = UIButton()
 //    let xButton = UIButton()
-//    var videos = [Item]()
+//    var videos = [FIRItem]()
 //    var loadedCards = NSMutableArray()
 //    var allCards =  NSMutableArray()
 //    var cardsLoadedIndex = 0
@@ -111,7 +111,7 @@
 //        
 //        
 //        DispatchQueue.main.async {
-//            self.ref = Database.database().reference()
+//            self.ref = FIRDatabase.database().reference()
 //            
 //            
 //            let video = ["uid": card.videoItem.uid,
@@ -128,7 +128,7 @@
 //                         "createdAt": card.videoItem.createdAt,
 //                         "show": "false"]
 //            
-//            let userId = Auth.auth()?.currentUser?.uid
+//            let userId = FIRAuth.auth()?.currentUser?.uid
 //            let key = card.videoItem.key //self.ref?.child("profiles").child(userId!).child("picks").childByAutoId().key
 //            
 //            
@@ -142,7 +142,7 @@
 //        
 //        
 //         DispatchQueue.main.async {
-//        self.ref = Database.database().reference()
+//        self.ref = FIRDatabase.database().reference()
 //        
 //        
 //        let video = ["uid": card.videoItem.uid,
@@ -159,7 +159,7 @@
 //                     "createdAt": card.videoItem.createdAt,
 //                     "show": "true"]
 //        
-//        let userId = Auth.auth()?.currentUser?.uid
+//        let userId = FIRAuth.auth()?.currentUser?.uid
 //        let key = card.videoItem.key //self.ref?.child("profiles").child(userId!).child("picks").childByAutoId().key
 //        
 //

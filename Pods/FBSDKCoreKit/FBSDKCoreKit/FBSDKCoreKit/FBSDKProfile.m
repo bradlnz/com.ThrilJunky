@@ -27,7 +27,7 @@ static NSString *const FBSDKProfileUserDefaultsKey = @"com.facebook.sdk.FBSDKPro
 static FBSDKProfile *g_currentProfile;
 
 #define FBSDKPROFILE_USERID_KEY @"userID"
-#define FBSDKPROFILE_STNAME_KEY @"firstName"
+#define FBSDKPROFILE_FIRSTNAME_KEY @"firstName"
 #define FBSDKPROFILE_MIDDLENAME_KEY @"middleName"
 #define FBSDKPROFILE_LASTNAME_KEY @"lastName"
 #define FBSDKPROFILE_NAME_KEY @"name"
@@ -182,7 +182,7 @@ static FBSDKProfile *g_currentProfile;
 - (id)initWithCoder:(NSCoder *)decoder
 {
   NSString *userID = [decoder decodeObjectOfClass:[NSString class] forKey:FBSDKPROFILE_USERID_KEY];
-  NSString *firstName = [decoder decodeObjectOfClass:[NSString class] forKey:FBSDKPROFILE_STNAME_KEY];
+  NSString *firstName = [decoder decodeObjectOfClass:[NSString class] forKey:FBSDKPROFILE_FIRSTNAME_KEY];
   NSString *middleName = [decoder decodeObjectOfClass:[NSString class] forKey:FBSDKPROFILE_MIDDLENAME_KEY];
   NSString *lastName = [decoder decodeObjectOfClass:[NSString class] forKey:FBSDKPROFILE_LASTNAME_KEY];
   NSString *name = [decoder decodeObjectOfClass:[NSString class] forKey:FBSDKPROFILE_NAME_KEY];
@@ -200,7 +200,7 @@ static FBSDKProfile *g_currentProfile;
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
   [encoder encodeObject:self.userID forKey:FBSDKPROFILE_USERID_KEY];
-  [encoder encodeObject:self.firstName forKey:FBSDKPROFILE_STNAME_KEY];
+  [encoder encodeObject:self.firstName forKey:FBSDKPROFILE_FIRSTNAME_KEY];
   [encoder encodeObject:self.middleName forKey:FBSDKPROFILE_MIDDLENAME_KEY];
   [encoder encodeObject:self.lastName forKey:FBSDKPROFILE_LASTNAME_KEY];
   [encoder encodeObject:self.name forKey:FBSDKPROFILE_NAME_KEY];

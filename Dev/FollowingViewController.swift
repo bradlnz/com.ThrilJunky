@@ -22,23 +22,23 @@
 ////import Player
 //import AsyncDisplayKit
 //
-//class FollowingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, DatabaseReferenceable{
+//class FollowingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FIRDatabaseReferenceable{
 //
 //    
 //    let geocoder = CLGeocoder()
 //    var asyncVideoViewController = AsyncVideoViewController()
-//    var ref: DatabaseReference?
-//    let videosRef = Database.database().reference(withPath: "videos")
-//    let locationsRef = Database.database().reference(withPath: "locations")
-//    let storage = Storage.storage()
-//    let geofireRef = Database.database().reference()
-//    let user = Auth.auth()?.currentUser
-//    var videos: Array<Item> = []
-//    var mostRecentVideos : Array<Item> = []
+//    var ref: FIRDatabaseReference?
+//    let videosRef = FIRDatabase.database().reference(withPath: "videos")
+//    let locationsRef = FIRDatabase.database().reference(withPath: "locations")
+//    let storage = FIRStorage.storage()
+//    let geofireRef = FIRDatabase.database().reference()
+//    let user = FIRAuth.auth()?.currentUser
+//    var videos: Array<FIRItem> = []
+//    var mostRecentVideos : Array<FIRItem> = []
 //    var keys : Array<String> = []
-//    var mostPopularVideos : [Item] = []
-//    var followingVideosList : [Item] = []
-//    var refHandle: DatabaseHandle?
+//    var mostPopularVideos : [FIRItem] = []
+//    var followingVideosList : [FIRItem] = []
+//    var refHandle: FIRDatabaseHandle?
 //    let dateFormatter = DateFormatter()
 //   
 //    
@@ -86,7 +86,7 @@
 //                            
 //                            for (i, child) in snapshot.children.enumerated() {
 //                                print(i)
-//                                self.followingVideosList.append(Item(child as! DataSnapshot))
+//                                self.followingVideosList.append(FIRItem(child as! FIRDataSnapshot))
 //                                self.followingVideosList.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending })
 //                                
 //                                

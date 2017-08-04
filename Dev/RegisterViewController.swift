@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-import PKHUD
+//import PKHUD
 //import SCLAlertView
 
 
@@ -25,28 +25,28 @@ class RegisterViewController: UIViewController {
          // SwiftSpinner.show("")
         if firstName.text != "" && lastName.text != "" && passwordField.text != "" && emailAddress.text != ""
         {
-                HUD.show(.progress)
+              //  HUD.show(.progress)
             
-            Auth.auth().createUser(withEmail: emailAddress.text!, password: passwordField.text!, completion: { (user: User?, error: Error?) in
+            FIRAuth.auth()?.createUser(withEmail: emailAddress.text!, password: passwordField.text!, completion: { (user: FIRUser?, error: Error?) in
                 if let user = user {
-                    let changeRequest = user.createProfileChangeRequest()
+                    let changeRequest = user.profileChangeRequest()
                     
                     changeRequest.displayName = self.firstName.text! + " " + self.lastName.text!
                     
                     changeRequest.commitChanges { error in
                         if let error = error {
                             print(error)
-                            HUD.show(.error)
-                            HUD.hide()
+                         //   HUD.show(.error)
+                         //   HUD.hide()
                         } else {
             
-                            HUD.hide()
+                          //  HUD.hide()
                             self.goToHomeView()
                         }
                     }
                 } else {
-                    HUD.show(.error)
-                    HUD.hide()
+                   // HUD.show(.error)
+                   // HUD.hide()
                 }
  
             })

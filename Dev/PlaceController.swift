@@ -22,7 +22,7 @@
 //let distance_W_LabelHeader:CGFloat = 35.0 // The distance between the bottom of the Header and the top of the White Label
 //
 //
-//class PlaceController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UITableViewDelegate, UITableViewDataSource, DatabaseReferenceable  {
+//class PlaceController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UITableViewDelegate, UITableViewDataSource, FIRDatabaseReferenceable  {
 //
 //    
 //    
@@ -38,11 +38,11 @@
 //    
 //    var asyncVideoViewController = AsyncVideoViewController()
 //
-//    var ref : DatabaseReference?
-//    let videosRef = Database.database().reference(withPath: "videos")
-//    let locationsRef = Database.database().reference(withPath: "locations")
-//    let storage = Storage.storage()
-//    let geofireRef = Database.database().reference()
+//    var ref : FIRDatabaseReference?
+//    let videosRef = FIRDatabase.database().reference(withPath: "videos")
+//    let locationsRef = FIRDatabase.database().reference(withPath: "locations")
+//    let storage = FIRStorage.storage()
+//    let geofireRef = FIRDatabase.database().reference()
 //    var videos : Array<RealmObject> = []
 //    let dateFormatter = DateFormatter()
 //    let geocoder = CLGeocoder()
@@ -50,13 +50,13 @@
 //    var player = AVPlayer()
 //    var playerItem : AVPlayerItem?
 //    var cluster:[FBAnnotation] = []
-//    var user = Auth.auth()?.currentUser
+//    var user = FIRAuth.auth()?.currentUser
 // 
-//    var mostRecentVideos : Array<Item> = []
+//    var mostRecentVideos : Array<FIRItem> = []
 //    var keys : Array<String> = []
 //    var mostPopularVideos : [RealmObject] = []
 //    var items : [RealmObject] = []
-//    var refHandle: DatabaseHandle?
+//    var refHandle: FIRDatabaseHandle?
 //
 //    override func viewWillAppear(_ animated: Bool) {
 //        self.follow.isHidden = true
@@ -78,7 +78,7 @@
 //        DispatchQueue.main.async {
 //
 //           
-//          self.ref = Database.database().reference()
+//          self.ref = FIRDatabase.database().reference()
 //        
 //        if SingletonData.staticInstance.selectedMapItem != nil {
 //            
@@ -248,12 +248,12 @@
 //                self.videosRef.queryOrdered(byChild: "taggedLocation").queryEqual(toValue: SingletonData.staticInstance.selectedMapItem?.name).observe(.value, with: { (snapshot) in
 //    
 //                    for (i, item) in snapshot.children.enumerated() {
-//                    self.videos.append(RealmObject(value: item as! DataSnapshot))
+//                    self.videos.append(RealmObject(value: item as! FIRDataSnapshot))
 //                    self.videos.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedDescending })
 //                  
 //                        
 //                        if(i == 0){
-//                            let itemData = Item(snapshot: item as! DataSnapshot)
+//                            let itemData = FIRItem(snapshot: item as! FIRDataSnapshot)
 //                            let imgData = try? Data(contentsOf: URL(string: itemData.imagePath)!)
 //                            if imgData != nil {
 //                                let img = UIImage(data: imgData!)
@@ -294,7 +294,7 @@
 ////            
 ////            self.videosRef.child(key).child("taggedLocation").queryEqualToValue(name).observeEventType(.Value, withBlock: { (snapshot) in
 ////                
-////                self.videos.append(Item(snapshot))
+////                self.videos.append(FIRItem(snapshot))
 ////                self.videos.sortInPlace({ $0.createdAt.compare($1.createdAt) == .OrderedDescending })
 ////                
 ////                
@@ -365,10 +365,10 @@
 //         self.dismiss(animated: true, completion: nil)
 //    }
 //    
-//    func removeDuplicates(_ array: [Item]) -> [Item] {
+//    func removeDuplicates(_ array: [FIRItem]) -> [FIRItem] {
 //        var encountered = Set<String>()
 //        
-//        var result: [Item] = []
+//        var result: [FIRItem] = []
 //        for value in array {
 //            
 //            if encountered.contains(value.key) {

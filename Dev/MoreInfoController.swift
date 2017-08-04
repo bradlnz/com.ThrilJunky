@@ -13,45 +13,60 @@ import UberRides
 import Firebase
 import FBSDKShareKit
 import FBSDKMessengerShareKit
-import PKHUD
+//import PKHUD
 
-class MoreInfoController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UITableViewDataSource, UITableViewDelegate, ASVideoNodeDelegate {
+class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDelegate, ASVideoNodeDelegate {
 
 
     var videoNode : ASVideoNode? = nil
     
-    let videosRef = Database.database().reference(withPath: "videos")
-    let locationsRef = Database.database().reference(withPath: "locations")
-    let profilesRef = Database.database().reference(withPath: "profiles")
-    
-    let storage = Storage.storage()
-    let geofireRef = Database.database().reference()
-    let user = Auth.auth().currentUser
-    let videos: Array<Item> = []
-    let mostRecentVideos : Array<Item> = []
+    let videosRef = FIRDatabase.database().reference(withPath: "videos")
+    let locationsRef = FIRDatabase.database().reference(withPath: "locations")
+    let profilesRef = FIRDatabase.database().reference(withPath: "profiles")
+    let ref = FIRDatabase.database().reference()
+    let storage = FIRStorage.storage()
+    let geofireRef = FIRDatabase.database().reference()
+    let user = FIRAuth.auth()?.currentUser
+    let videos: Array<FIRItem> = []
+    let mostRecentVideos : Array<FIRItem> = []
     let keys : Array<String> = []
-    let mostPopularVideos : [Item] = []
-    let followingVideosList : [Item] = []
-    let refHandle: DatabaseHandle? = nil
+    let mostPopularVideos : [FIRItem] = []
+    let followingVideosList : [FIRItem] = []
+    let refHandle: FIRDatabaseHandle? = nil
     
-   var count = 0
-    let videoRootPath = "https://1490263195.rsc.cdn77.org/videos/"
+    
+    var uid : String = ""
+    var displayTitle : String = ""
+    var displayName : String = ""
+    var taggedLocation : String = ""
+    var userGenerated : String = ""
+    var address : String = ""
+    var videoPath : String = ""
+    var imagePath : String = ""
+    var latitude : String = ""
+    var longitude : String = ""
+    var update : String = ""
+    
+    let videoRootPath = "https://storage.googleapis.com/project-316688844667019748.appspot.com/"
     let isFinishedPlaying : Bool = false
     let dateFormatter = DateFormatter()
 
+    @IBOutlet weak var updateView: UIView!
     
+    @IBOutlet weak var updateLbl: UILabel!
     @IBOutlet weak var imageAddress: UILabel!
     @IBOutlet weak var imageName: UILabel!
-   
+    @IBOutlet weak var website: UILabel!
+    @IBOutlet weak var phone: UILabel!
+    
     @IBOutlet weak var moreInfoVideo: UIView!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var collectionView: UICollectionView!
-    
-    var items = ["Share", "Get Directions", "Ride With Uber"]
+   
+    var items = ["Contribute", "Share", "Get Directions", "Ride With Uber"]
     let button = RideRequestButton()
     let asyncVideoController = AsyncVideoViewController()
-    var ref: DatabaseReference?
-    var userGenerated = [Item]()
+    
+    var userGenerateds = [FIRItem]()
     
     @IBAction func thumbsUpAction(_ sender: Any) {
         
@@ -62,18 +77,38 @@ class MoreInfoController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     
+    @IBAction func dismissMoreInfo(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
-    videoNode = nil
+        videoNode?.delegate = nil
+       videoNode = nil
+     
+        self.tableView.delegate = nil
+        self.tableView.dataSource = nil
+        
+        for var i in self.moreInfoVideo.subviews {
+            i.removeFromSuperview()
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
-     
-    HUD.show(.progress)
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+              UIApplication.shared.statusBarStyle = .lightContent
+//        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
+//        navigationItem.leftBarButtonItem = backButton
+        
         title = ""
-        if(SingletonData.staticInstance.selectedObject == nil){
-            title = SingletonData.staticInstance.selectedAnnotation!.displayTitle
-        } else {
-            title = SingletonData.staticInstance.selectedObject!.displayTitle
-        }
+//        if(SingletonData.staticInstance.selectedObject == nil){
+//            title = SingletonData.staticInstance.selectedAnnotation!.displayTitle
+//        } else {
+//            title = SingletonData.staticInstance.selectedObject!.displayTitle
+//        }
+        
     }
     
     
@@ -85,7 +120,7 @@ class MoreInfoController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     @IBAction func voteUp(_ sender: Any) {
         
-        let currentUser = Auth.auth().currentUser
+        let currentUser = FIRAuth.auth()?.currentUser
 
         var key: String?
         
@@ -98,7 +133,7 @@ class MoreInfoController: UIViewController, UICollectionViewDelegate, UICollecti
         }
         
         
-        Database.database().reference(withPath: "profiles/" + currentUser!.uid + "/voted/" + key!).observeSingleEvent(of: .value, with: { (snapshot1) in
+        FIRDatabase.database().reference(withPath: "profiles/" + currentUser!.uid + "/voted/" + key!).observeSingleEvent(of: .value, with: { (snapshot1) in
             
             
             if(!snapshot1.exists()){
@@ -106,10 +141,10 @@ class MoreInfoController: UIViewController, UICollectionViewDelegate, UICollecti
                 
                 self.videosRef.child(key!).observe(.value, with: { (snapshot) in
                     
-                    var snap = Item(snapshot: snapshot)
+                    var snap = FIRItem(snapshot: snapshot)
                     
                     
-                    if self.count == 0 {
+                    if count == 0 {
                         
                         self.videosRef.child(key!).updateChildValues(["voteUp": snap.voteUp + 1])
                         let videoCount : Float = Float(self.mostPopularVideos.count)
@@ -123,10 +158,10 @@ class MoreInfoController: UIViewController, UICollectionViewDelegate, UICollecti
                         
                         self.videosRef.child(key!).updateChildValues(["averageVote": votes])
                         
-                        let userId = Auth.auth().currentUser?.uid
+                        let userId = FIRAuth.auth()?.currentUser?.uid
                         
                         
-                        self.ref?.child("profiles").child(userId!).child("voted").updateChildValues([key! : "true"])
+                        self.ref.child("profiles").child(userId!).child("voted").updateChildValues([key! : "true"])
                         
                         let alertController = UIAlertController(title: "Thank you for contributing", message: "Thank you for contributing it really helps the community find fun activities to do.", preferredStyle: .alert)
                         
@@ -142,7 +177,7 @@ class MoreInfoController: UIViewController, UICollectionViewDelegate, UICollecti
                         self.present(alertController, animated: true, completion: nil)
                         
                         
-                        self.count = 1
+                        count = 1
                     }
                     
                     
@@ -169,7 +204,7 @@ class MoreInfoController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     @IBAction func voteDown(_ sender: Any) {
-        let currentUser = Auth.auth().currentUser
+        let currentUser = FIRAuth.auth()?.currentUser
         
         var key: String?
         
@@ -181,7 +216,7 @@ class MoreInfoController: UIViewController, UICollectionViewDelegate, UICollecti
             key = SingletonData.staticInstance.selectedAnnotation?.key
         }
         
-        Database.database().reference(withPath: "profiles/" + currentUser!.uid + "/voted/" + key!).observeSingleEvent(of: .value, with: { (snapshot1) in
+        FIRDatabase.database().reference(withPath: "profiles/" + currentUser!.uid + "/voted/" + key!).observeSingleEvent(of: .value, with: { (snapshot1) in
             
             
             
@@ -190,10 +225,10 @@ class MoreInfoController: UIViewController, UICollectionViewDelegate, UICollecti
                 
                 self.videosRef.child(key!).observe(.value, with: { (snapshot) in
                     
-                    var snap = Item(snapshot: snapshot)
+                    var snap = FIRItem(snapshot: snapshot)
                     
                     
-                    if self.count == 0 {
+                    if count == 0 {
                         
                         self.videosRef.child(key!).updateChildValues(["voteDown": snap.voteDown + 1])
                         let videoCount : Float = Float(self.mostPopularVideos.count)
@@ -207,10 +242,10 @@ class MoreInfoController: UIViewController, UICollectionViewDelegate, UICollecti
                         
                         self.videosRef.child(key!).updateChildValues(["averageVote": votes])
                         
-                        let userId = Auth.auth().currentUser?.uid
+                        let userId = FIRAuth.auth()?.currentUser?.uid
                         
                         
-                        self.ref?.child("profiles").child(userId!).child("voted").updateChildValues([key! : "true"])
+                        self.ref.child("profiles").child(userId!).child("voted").updateChildValues([key! : "true"])
                         
                         let alertController = UIAlertController(title: "Thank you for contributing", message: "Thank you for contributing it really helps the community find fun activities to do.", preferredStyle: .alert)
                         
@@ -226,7 +261,7 @@ class MoreInfoController: UIViewController, UICollectionViewDelegate, UICollecti
                         self.present(alertController, animated: true, completion: nil)
                         
                         
-                        self.count = 1
+                        count = 1
                     }
                     
                     
@@ -252,103 +287,263 @@ class MoreInfoController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
 override func viewDidLoad() {
+    var key: String?
     
-    videoNode = ASVideoNode()
+    self.videoNode?.delegate = self
+       self.videoNode = ASVideoNode()
     
-   
-    if(SingletonData.staticInstance.selectedObject == nil){
+    if(SingletonData.staticInstance.selectedObject != nil)
+    {
+        key = SingletonData.staticInstance.selectedObject?.key
+    }
+    if(SingletonData.staticInstance.selectedAnnotation != nil){
+        key = SingletonData.staticInstance.selectedAnnotation?.key
+    }
+    
+  videosRef.queryOrdered(byChild: "uid").queryEqual(toValue: key!).observe(.value, with: { (snapshot) in
+    
+    for var item in snapshot.children {
+        let video = VideoModel(snapshot: item as! FIRDataSnapshot)
         
+        self.update = video.update
         
-        if(SingletonData.staticInstance.selectedAnnotation!.website != ""){
-            items.append("Visit Website")
+        self.updateLbl.text = self.update
+        
+        if(self.update == ""){
+            self.updateView.isHidden = true
         }
         
-        videoNode?.delegate = self
-        
-        
-        DispatchQueue.main.async {
-        
-        
-        let url = URL(string: self.videoRootPath + SingletonData.staticInstance.selectedAnnotation!.videoPath!)
-        let asset = AVAsset(url: url!)
-        
-        let origin = CGPoint.zero
-        let size = CGSize(width: self.moreInfoVideo.frame.width, height: self.moreInfoVideo.frame.height)
-        
-        self.videoNode?.asset = asset
-        self.videoNode?.shouldAutoplay = true
-        self.videoNode?.shouldAutorepeat = true
-        self.videoNode?.muted = true
-        self.videoNode?.gravity = AVLayerVideoGravity.resizeAspectFill.rawValue
-        self.videoNode?.zPosition = 0
-        self.videoNode?.frame = CGRect(origin: origin, size: size)
-        self.videoNode?.url = url
-        
-        self.moreInfoVideo.addSubnode(self.videoNode!)
-        
-        }
-        
-        imageName.text = SingletonData.staticInstance.selectedAnnotation?.title
-        imageAddress.text = SingletonData.staticInstance.selectedAnnotation?.address
-        
-        loadUserGenerated(taggedLocation: SingletonData.staticInstance.selectedAnnotation?.address)
-        
-    } else {
-        if(SingletonData.staticInstance.selectedObject!.website != ""){
-            items.append("Visit Website")
-        }
-        
-        
-        self.videoNode?.delegate = self
-        let url = URL(string:  self.videoRootPath + SingletonData.staticInstance.selectedObject!.videoPath)
-        let asset = AVAsset(url: url!)
-        
-        let origin = CGPoint.zero
-        let size = CGSize(width: moreInfoVideo.frame.width, height: moreInfoVideo.frame.height)
-        
-        self.videoNode?.asset = asset
-        self.videoNode?.shouldAutoplay = true
-        self.videoNode?.shouldAutorepeat = true
-        self.videoNode?.muted = true
-        self.videoNode?.gravity = AVLayerVideoGravity.resizeAspectFill.rawValue
-        self.videoNode?.zPosition = 0
-        self.videoNode?.frame = CGRect(origin: origin, size: size)
-        self.videoNode?.url = url
-        
-        
-        moreInfoVideo.addSubnode(videoNode!)
-        
-        
-        imageName.text = SingletonData.staticInstance.selectedObject?.displayTitle
-        imageAddress.text = SingletonData.staticInstance.selectedObject?.address
-        
-        loadUserGenerated(taggedLocation: SingletonData.staticInstance.selectedObject?.address)
         
     }
-
-   self.collectionView.delegate = self
-   self.collectionView.dataSource = self
-   self.tableView.delegate = self
-   self.tableView.dataSource = self
+        
+      }) { (error) in
+        print(error.localizedDescription)
+     }
     
     
-}
-    
-    func videoNode(_ videoNode: ASVideoNode, willChange state: ASVideoNodePlayerState, to toState: ASVideoNodePlayerState) {
+    videosRef.queryOrdered(byChild: "uid").queryEqual(toValue: key!).observeSingleEvent(of: .value, with: { (snapshot) in
+        // Get user value
         
         
-        if(toState == ASVideoNodePlayerState.playing){
-            HUD.hide()
+        for var item in snapshot.children {
+            let video = VideoModel(snapshot: item as! FIRDataSnapshot)
+            
+            self.ref.child("videos").child(key!).updateChildValues(["views": video.views + 1])
+            
+            
+              self.ref.child("businesses").queryOrdered(byChild: "uid").queryEqual(toValue: video.uid).observe(.value, with: { (snap) in
+                
+                for var b in snap.children {
+                    let business = BusinessModel(snapshot: b as! FIRDataSnapshot)
+                    self.displayName = business.businessName
+                    self.displayTitle = business.businessName
+                    self.address = business.address
+                    self.latitude = business.latitude
+                    self.longitude = business.longitude
+                }
+                
+                self.imageName.text = self.displayTitle
+                self.imageAddress.text = self.address
+                
+                self.loadUserGenerated(taggedLocation: self.address)
+              })
+            self.uid = video.uid
+                
+            self.taggedLocation = video.taggedLocation
+            self.userGenerated = video.userGenerated
+                
+            self.videoPath = video.videoPath
+            self.imagePath = video.imagePath
+                
+            self.update = video.update
+            
+            
+            DispatchQueue.main.async {
+                
+                
+                    
+                if video.videoPath.range(of: self.videoPath) != nil {
+                    let url = URL(string: self.videoRootPath + self.videoPath)
+                    let asset = AVAsset(url: url!)
+                    
+                    let origin = CGPoint.zero
+                    let size = CGSize(width: self.moreInfoVideo.frame.width, height: self.moreInfoVideo.frame.height)
+                    
+                    
+                    self.videoNode?.asset = asset
+                    self.videoNode?.shouldAutoplay = true
+                    self.videoNode?.shouldAutorepeat = true
+                    self.videoNode?.muted = true
+                    self.videoNode?.gravity = AVLayerVideoGravityResizeAspectFill
+                    self.videoNode?.zPosition = 0
+                    self.videoNode?.frame = CGRect(origin: origin, size: size)
+                    self.videoNode?.url = url
+                    
+                    
+                    self.moreInfoVideo.addSubnode(self.videoNode!)
+                    
+                }
+                
+                
+                    
+//                } else {
+//                    if(SingletonData.staticInstance.selectedObject!.website != ""){
+//                        self.items.append("Visit Website")
+//                    }
+//
+//                    let url = URL(string:  self.videoRootPath + self.videoPath)
+//                    let asset = AVAsset(url: url!)
+//
+//                    let origin = CGPoint.zero
+//                    let size = CGSize(width: self.moreInfoVideo.frame.width, height: self.moreInfoVideo.frame.height)
+//                    self.videoNode = ASVideoNode()
+//
+//                    self.videoNode?.delegate = self
+//
+//                    self.videoNode?.asset = asset
+//                    self.videoNode?.shouldAutoplay = true
+//                    self.videoNode?.shouldAutorepeat = true
+//                    self.videoNode?.muted = true
+//                    self.videoNode?.gravity = AVLayerVideoGravityResizeAspectFill
+//                    self.videoNode?.zPosition = 0
+//                    self.videoNode?.frame = CGRect(origin: origin, size: size)
+//                    self.videoNode?.assetURL = URL(string: "https://storage.googleapis.com/project-316688844667019748.appspot.com/" + self.videoPath)
+//                    self.videoNode?.url = url
+//
+//                    for var i in self.moreInfoVideo.subviews {
+//                        i.removeFromSuperview()
+//                    }
+//
+//                    self.moreInfoVideo.addSubnode(self.videoNode!)
+//
+//
+//
+//                    self.imageName.text = SingletonData.staticInstance.selectedObject?.displayTitle
+//                    self.imageAddress.text = SingletonData.staticInstance.selectedObject?.address
+//
+//                    self.loadUserGenerated(taggedLocation: SingletonData.staticInstance.selectedObject?.address)
+//
+//                }
+                    
+//                self.collectionView.delegate = self
+//                self.collectionView.dataSource = self
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                
+//                let visibleItems: NSArray = self.collectionView.indexPathsForVisibleItems as NSArray
+//
+//                if(visibleItems.count > 0){
+//                    let currentItem: IndexPath = visibleItems.object(at: 0) as! IndexPath
+//                    let nextItem: IndexPath = IndexPath(item: currentItem.item + 1, section: 0)
+//                    self.collectionView.scrollToItem(at: nextItem, at: .right, animated: true)
+//
+//                }
+                
+            }
             
         }
         
         
+        self.updateLbl.text = self.update
+        
+        if(self.update == ""){
+            self.updateView.isHidden = true
+        }
+    
+//    let video = ["uid": self.uid,
+//                 "update": self.update,
+//                 "displayTitle": self.displayTitle,
+//                 "displayName": self.displayName,
+//                 // "displayHint": displayHint,
+//        "taggedLocation": self.taggedLocation,
+//        "userGenerated": self.userGenerated,
+//        "address": self.address,
+//        "videoPath" : self.videoPath,
+//        "imagePath": self.imagePath,
+//        "latitude": self.latitude,
+//        "longitude": self.longitude] as [String : Any]
+//
+//
+//
+        
+        
+    }) { (error) in
+        print(error.localizedDescription)
     }
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.items.count
     }
     
+    
+    @IBAction func contribute(_ sender: Any) {
+     
+    }
+    
+    @IBAction func share(_ sender: Any) {
+        if(SingletonData.staticInstance.selectedAnnotation != nil){
+           
+            let someText:String = "Check out \(SingletonData.staticInstance.selectedAnnotation?.displayName) on ThrilJunky"
+            let objectsToShare:URL = URL(string: "https://thriljunky.com/video/\(SingletonData.staticInstance.selectedAnnotation?.key)")!
+            let sharedObjects:[AnyObject] = [objectsToShare as AnyObject,someText as AnyObject]
+            let activityViewController = UIActivityViewController(activityItems : sharedObjects, applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            
+            activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.mail]
+            
+            self.present(activityViewController, animated: true, completion: nil)
+            
+        } else {
+           
+            let someText:String = "Check out \(SingletonData.staticInstance.selectedObject!.displayName) on ThrilJunky"
+            let objectsToShare:URL = URL(string: "https://thriljunky.com/video/\(SingletonData.staticInstance.selectedObject!.key)")!
+            let sharedObjects:[AnyObject] = [objectsToShare as AnyObject,someText as AnyObject]
+            let activityViewController = UIActivityViewController(activityItems : sharedObjects, applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            
+            activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.mail]
+            
+            self.present(activityViewController, animated: true, completion: nil)
+        }
+        
+    }
+    
+    @IBAction func GetDirections(_ sender: Any) {
+   
+        var lng : Float = SingletonData.staticInstance.selectedObject!.lat
+        var lat : Float = SingletonData.staticInstance.selectedObject!.lng
+        
+        if(SingletonData.staticInstance.selectedAnnotation != nil){
+            lng = Float(SingletonData.staticInstance.selectedAnnotation!.coord.latitude)
+            lat = Float(SingletonData.staticInstance.selectedAnnotation!.coord.latitude)
+        }
+        
+        let loc =  SingletonData.staticInstance.location
+        
+        let url = URL(string: "http://maps.apple.com/?saddr=\(loc!.coordinate.latitude),\(loc!.coordinate.longitude)&daddr=\(lng),\(lat)")
+        UIApplication.shared.openURL(url!)
+        
+    }
+    
+    
+    @IBAction func rideWithUber(_ sender: Any) {
+        let lng : Float = SingletonData.staticInstance.selectedObject!.lat
+        let lat : Float = SingletonData.staticInstance.selectedObject!.lng
+        
+        let loc =  SingletonData.staticInstance.location
+        
+        let pickupLocation = CLLocation(latitude: loc!.coordinate.latitude, longitude: loc!.coordinate.longitude)
+        let dropoffLocation = CLLocation(latitude: CLLocationDegrees(lng), longitude: CLLocationDegrees(lat))
+        let dropoffNickname = SingletonData.staticInstance.selectedObject?.displayTitle
+        
+        print(dropoffLocation)
+        
+        let builder = RideParametersBuilder().setPickupLocation(pickupLocation).setDropoffLocation(dropoffLocation, nickname: dropoffNickname)
+        let rideParameters = builder.build()
+        self.button.requestBehavior.requestRide(rideParameters)
+    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = self.items[indexPath.row]
@@ -359,6 +554,13 @@ override func viewDidLoad() {
             
             let loc =  SingletonData.staticInstance.location
             
+            if(item == "Contribute"){
+//                let storyBoard : UIStoryboard = UIStoryboard(name: "Post", bundle:nil)
+//                let camera : CameraViewController = storyBoard.instantiateViewController(withIdentifier: "Share") as! CameraViewController
+//                // let navigationController = UINavigationController(rootViewController: popup)
+//                
+//                self.present(camera, animated: false, completion: nil)
+            }
             
             if item == "Visit Website" && SingletonData.staticInstance.selectedObject!.website != "" {
                 let url = URL(string: SingletonData.staticInstance.selectedObject!.website)
@@ -549,51 +751,57 @@ override func viewDidLoad() {
     }
 
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MoreInfoCollectionCell
-        //
-        let item = self.items[(indexPath as NSIndexPath).row]
-        
-        cell.title.text = item
-        
-        if(item == "Get Directions"){
-        cell.displayImg.image =  UIImage(named: "compass-direction")
-        }
-        
-        if(item == "Ride With Uber"){
-            cell.displayImg.contentMode = .scaleAspectFit
-            cell.displayImg.image = UIImage(named: "uber")
-        }
-        
-        if(item == "Share"){
-            cell.displayImg.contentMode = .scaleAspectFit
-            cell.displayImg.image = UIImage(named: "share1")
-        }
-        
-        if(item == "Visit Website"){
-            cell.displayImg.contentMode = .scaleAspectFit
-            cell.displayImg.image = UIImage(named: "website")
-        }
-       // cell.backgroundColor = getRandomColor()
-        //        let url = URL(string: item.imagePath)
-        //
-        //        cell.pickImage.kf.setImage(with: url)
-        //        cell.pickImage.asCircle()
-        //
-        //        cell.pickTitle.text = item.displayTitle
-        //        cell.pickLocation.text = item.taggedLocation
-        //        
-        return cell
-    }
-    
-    
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MoreInfoCollectionCell
+//        //
+//        let item = self.items[(indexPath as NSIndexPath).row]
+//
+//        cell.title.text = item
+//
+//        if(item == "Contribute"){
+//
+//            cell.displayImg.image = UIImage(named: "photography-camera")
+//
+//        }
+//
+//        if(item == "Get Directions"){
+//        cell.displayImg.image =  UIImage(named: "compass-direction")
+//        }
+//
+//        if(item == "Ride With Uber"){
+//            cell.displayImg.contentMode = .scaleAspectFit
+//            cell.displayImg.image = UIImage(named: "uber")
+//        }
+//
+//        if(item == "Share"){
+//            cell.displayImg.contentMode = .scaleAspectFit
+//            cell.displayImg.image = UIImage(named: "share1")
+//        }
+//
+//        if(item == "Visit Website"){
+//            cell.displayImg.contentMode = .scaleAspectFit
+//            cell.displayImg.image = UIImage(named: "website")
+//        }
+//       // cell.backgroundColor = getRandomColor()
+//        //        let url = URL(string: item.imagePath)
+//        //
+//        //        cell.pickImage.kf.setImage(with: url)
+//        //        cell.pickImage.asCircle()
+//        //
+//        //        cell.pickTitle.text = item.displayTitle
+//        //        cell.pickLocation.text = item.taggedLocation
+//        //
+//        return cell
+//    }
+//
+//
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell") as! MoreInfoCell
         
  
-        let item = self.userGenerated[(indexPath as NSIndexPath).row]
+        let item = self.userGenerateds[(indexPath as NSIndexPath).row]
         
         var dateFormatter = DateFormatter()
         
@@ -622,10 +830,10 @@ override func viewDidLoad() {
        
             var numOfRows: Int = 0
         
-            if self.userGenerated.count > 0
+            if self.userGenerateds.count > 0
             {
                 tableView.separatorStyle = .singleLine
-                numOfRows = self.userGenerated.count
+                numOfRows = self.userGenerateds.count
             
                 tableView.backgroundView = nil
             }
@@ -640,7 +848,7 @@ override func viewDidLoad() {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var obj = userGenerated[indexPath.row]
+        var obj = userGenerateds[indexPath.row]
         
         let imageURL = URL(string: obj.imagePath)
         
@@ -673,28 +881,27 @@ override func viewDidLoad() {
         DispatchQueue.main.async {
 
             DispatchQueue.main.async {
-                self.ref = Database.database().reference()
                 
-                self.ref?.child("videos").queryOrdered(byChild: "address").queryEqual(toValue: taggedLocation).observe(.value, with: { snapshot in
+                self.ref.child("videos").queryOrdered(byChild: "address").queryEqual(toValue: taggedLocation).observe(.value, with: { snapshot in
                    
-                    self.userGenerated.removeAll()
+                    self.userGenerateds.removeAll()
                     
                         if snapshot.hasChildren(){
                             
                            for group in snapshot.children {
-                               let item = Item(snapshot: group as! DataSnapshot)
+                               let item = FIRItem(snapshot: group as! FIRDataSnapshot)
                             
                             var object = SingletonData.staticInstance.selectedObject
                             
                             if(object == nil){
                                 if(SingletonData.staticInstance.selectedAnnotation?.key != item.key){
-                                    self.userGenerated.append(item)
+                                    self.userGenerateds.append(item)
                                   
                                 }
                                 
                             } else {
                                 if(object?.key != item.key){
-                                    self.userGenerated.append(item)
+                                    self.userGenerateds.append(item)
                                     
                                 }
 

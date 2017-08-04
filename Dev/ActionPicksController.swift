@@ -54,7 +54,7 @@ class ActionPicksController: UIViewController, UITableViewDelegate, UITableViewD
         
             let imageURL = URL(string: object!.imagePath)
             SingletonData.staticInstance.setVideoImage(imageURL)
-            SingletonData.staticInstance.setSelectedVideoItem("https://project-316688844667019748.appspot.com.storage.googleapis.com/videos/" + object!.videoPath)
+            SingletonData.staticInstance.setSelectedVideoItem("https://project-316688844667019748.appspot.com.storage.googleapis.com/" + object!.videoPath)
             
             self.present(asyncVideoController, animated: true, completion: nil)
         }

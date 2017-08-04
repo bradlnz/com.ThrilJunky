@@ -18,14 +18,18 @@ class YourPicksController: UIViewController, UITableViewDelegate, UITableViewDat
 
     var videosPicked : [RealmObject] = []
 
- let videosRef = Database.database().reference(withPath: "profiles")
+ let videosRef = FIRDatabase.database().reference(withPath: "profiles")
     
     
     @IBOutlet weak var pickTable: UITableView!
     
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.tintColor = UIColor.black
+        UIApplication.shared.statusBarStyle = .default
     }
     
     override func viewDidLoad() {
@@ -33,16 +37,16 @@ class YourPicksController: UIViewController, UITableViewDelegate, UITableViewDat
         self.pickTable.dataSource = self
         self.pickTable.delegate = self
         
-        let currentUser = Auth.auth().currentUser
+        let currentUser = FIRAuth.auth()?.currentUser
         
         DispatchQueue.main.async {
-            self.videosRef.child(currentUser!.uid).child("picks").queryOrdered(byChild: "show").queryEqual(toValue: "true").observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
+            self.videosRef.child(currentUser!.uid).child("picks").queryOrdered(byChild: "show").queryEqual(toValue: "true").observeSingleEvent(of: .value) { (snapshot: FIRDataSnapshot) in
                 print(snapshot)
                 if snapshot.hasChildren(){
 
                     for snap in snapshot.children.reversed(){
                         
-                        let item = Item(snapshot: snap as! DataSnapshot)
+                        let item = FIRItem(snapshot: snap as! FIRDataSnapshot)
 
                         let numberFormatter = NumberFormatter()
                         let lat = numberFormatter.number(from: item.latitude)
@@ -60,8 +64,8 @@ class YourPicksController: UIViewController, UITableViewDelegate, UITableViewDat
                         obj.displayTitle = item.displayTitle
                         obj.imagePath = item.imagePath
                         obj.key = item.key
-                        obj.lat = lat as! Float
-                        obj.lng = lng as! Float
+                        obj.lat = Float(lat!)
+                        obj.lng = Float(lng!)
                         obj.videoPath = item.videoPath
                         obj.website = item.website
                       
@@ -92,7 +96,7 @@ class YourPicksController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.delete) {
-            let currentUser = Auth.auth().currentUser
+            let currentUser = FIRAuth.auth()?.currentUser
             var item = self.videosPicked[indexPath.row]
             self.videosRef.child(item.key).removeValue()
             self.videosRef.child(currentUser!.uid).child("picks").child(item.key).removeValue()

@@ -1,5 +1,5 @@
 //
-//  Item.swift
+//  FIRItem.swift
 //  ThrilJunky
 //
 //  Created by Lietz on 3/08/2016.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Item: DataObject {
+class FIRItem: FIRDataObject {
 
     
     var ActivityCategories : String = ""

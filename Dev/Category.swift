@@ -9,6 +9,6 @@
 import UIKit
 
 class Category: NSObject {
-    @objc dynamic var name = ""
-    @objc dynamic var picture: Data? = nil
+    dynamic var name = ""
+    dynamic var picture: Data? = nil
 }
