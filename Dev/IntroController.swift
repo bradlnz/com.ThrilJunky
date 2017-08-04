@@ -12,7 +12,7 @@ import Foundation
 class IntroController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var modalBackground: UIView!
     
-    func handleTap(gestureRecognizer: UIGestureRecognizer) {
+    @objc func handleTap(gestureRecognizer: UIGestureRecognizer) {
         self.dismiss(animated: false, completion:  nil)
     }
     

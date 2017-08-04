@@ -59,12 +59,12 @@ class IntroScreenController: UIViewController, UITableViewDelegate, UITableViewD
         return cell
     }
     
-    func Find_Clicked(_ sender:UIButton)
+    @objc func Find_Clicked(_ sender:UIButton)
     {
         let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Now")
         self.present(viewController, animated: true, completion: nil)
     }
-    func Share_Clicked(_ sender:UIButton)
+    @objc func Share_Clicked(_ sender:UIButton)
     {
         let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Share")
         viewController.modalPresentationStyle = .overCurrentContext

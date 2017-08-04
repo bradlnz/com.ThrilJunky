@@ -240,7 +240,7 @@ class AsyncVideoViewController: UIViewController, ASVideoNodeDelegate {
 //        }
 //    }
     
-    func voteDown(_ sender: UIButton!){
+    @objc func voteDown(_ sender: UIButton!){
 //        self.closeBtn.isEnabled = false
 //        var count = 0
 //        

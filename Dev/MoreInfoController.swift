@@ -365,7 +365,7 @@ override func viewDidLoad() {
                     self.videoNode?.shouldAutoplay = true
                     self.videoNode?.shouldAutorepeat = true
                     self.videoNode?.muted = true
-                    self.videoNode?.gravity = AVLayerVideoGravityResizeAspectFill
+                    self.videoNode?.gravity = AVLayerVideoGravity.resizeAspectFill.rawValue
                     self.videoNode?.zPosition = 0
                     self.videoNode?.frame = CGRect(origin: origin, size: size)
                     self.videoNode?.url = url

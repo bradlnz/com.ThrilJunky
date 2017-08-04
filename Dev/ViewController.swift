@@ -509,10 +509,10 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
 //        }
     }
     
-    func thumbsDownButtonPressed(){
+    @objc func thumbsDownButtonPressed(){
         self.cardView!.swipe(.left)
     }
-    func thumbsUpButtonPressed(){
+    @objc func thumbsUpButtonPressed(){
         self.cardView!.swipe(.right)
     }
     override func viewDidLoad() {
@@ -2184,7 +2184,7 @@ extension ViewController: KolodaViewDataSource {
         
             self.videoNode.muted = false
             self.videoNode.frame = CGRect(origin: origin, size: size)
-            self.videoNode.gravity = AVLayerVideoGravityResizeAspectFill
+            self.videoNode.gravity = AVLayerVideoGravity.resizeAspectFill.rawValue
             self.videoNode.zPosition = 0
             self.videoNode.shouldAutoplay = false
             self.videoNode.layer.shouldRasterize = true
