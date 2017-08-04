@@ -19,7 +19,6 @@ target 'ThrilJunky' do
     pod 'OAuthSwift', '~> 1.1'
     pod 'UberRides', :git => 'https://github.com/long/rides-ios-sdk.git', :branch => 'swift-3-dev’
     pod 'ReachabilitySwift', '~> 3'
-    pod 'AlamofireImage'
     pod 'Koloda', '~> 4.0'
     #pod 'KASlideShow'
     pod 'FBAnnotationClusteringSwift'
