@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1C00700E0CDCA7295C24388CF9369F5C"
+               BlueprintIdentifier = "F05031CA16A1495370A90AC8B9D23F75"
                BuildableName = "GeoQueries.framework"
                BlueprintName = "RealmGeoQueries"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -47,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1C00700E0CDCA7295C24388CF9369F5C"
+            BlueprintIdentifier = "F05031CA16A1495370A90AC8B9D23F75"
             BuildableName = "GeoQueries.framework"
             BlueprintName = "RealmGeoQueries"
             ReferencedContainer = "container:Pods.xcodeproj">
