@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>666545765407-l812rp8g65k3dmsslr5gg9u7l1krhtbh.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.666545765407-l812rp8g65k3dmsslr5gg9u7l1krhtbh</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC67yd5YuSpldw6LMUoZyIW7v92BAUKhDA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>666545765407</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ThrilJunky.App</string>
+	<key>PROJECT_ID</key>
+	<string>project-316688844667019748</string>
+	<key>STORAGE_BUCKET</key>
+	<string>project-316688844667019748.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:666545765407:ios:5d96759426dee4bb</string>
+	<key>DATABASE_URL</key>
+	<string>https://project-316688844667019748.firebaseio.com</string>
+</dict>
+</plist>
