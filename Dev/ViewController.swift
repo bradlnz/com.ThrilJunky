@@ -13,7 +13,6 @@ import AVFoundation
 import UberRides
 import Firebase
 import ReachabilitySwift
-import FBAnnotationClusteringSwift
 import SwiftyImage
 import AsyncDisplayKit
 import MIBadgeButton_Swift
@@ -26,7 +25,6 @@ import GooglePlaces
 class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     let geocoder = CLGeocoder()
-    var clusteringManager : FBClusteringManager? = nil
     var asyncVideoController = AsyncVideoViewController()
     var playerViewController = PlayerViewController()
     let overlayHintController = OverlayHintController()
@@ -38,7 +36,6 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
     var player = AVPlayer()
     var playerItem : AVPlayerItem?
     var ref: FIRDatabaseReference?
-    var cluster:[FBAnnotation] = []
     var videoNode : ASVideoNode! = nil
     var networkImage = ASNetworkImageNode()
     var displayNode = ASDisplayNode()
@@ -570,7 +567,7 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
 //        visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 //        self.navigationController?.navigationBar.addSubview(visualEffectView)
 //        
-        self.clusteringManager = FBClusteringManager()
+      
         //let logo = UIImage(named: "textNavBar")
         //let imageView = UIImageView(image:logo)
        // self.navigationItem.titleView = imageView
@@ -711,7 +708,7 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
         
         if loc != nil {
             
-            if videos.count <= 0 && cluster.count <= 0{
+            if videos.count <= 0 {
                 
                 
                 

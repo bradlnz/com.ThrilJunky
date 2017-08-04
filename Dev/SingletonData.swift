@@ -29,7 +29,7 @@ class SingletonData{
     var mergedClip : URL?
     var selectedItemUser : String?
     var selectedObjectId : String?
-    var selectedAnnotation: PinAnnotation?
+  
     var selectedObject: RealmObject?
     var selectedObjects: [FIRItem]?
     var selectedItemHasUserVoted : Bool?
@@ -193,11 +193,7 @@ class SingletonData{
         selectedVideoItem = input
     }
     
-    func setSelectedAnnotation(_ input : PinAnnotation?)
-    {
-        selectedAnnotation = input
-    }
-    
+
     func setSelectedObject(_ input : RealmObject?){
         selectedObject = input
     }

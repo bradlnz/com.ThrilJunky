@@ -93,40 +93,13 @@ class AsyncVideoViewController: UIViewController, ASVideoNodeDelegate {
         DispatchQueue.main.async {
             
             
-            let annotation = SingletonData.staticInstance.selectedAnnotation
+            //let annotation = SingletonData.staticInstance.selectedAnnotation
             let selectedObj = SingletonData.staticInstance.selectedObject
             
             
             
             
-            if annotation != nil {
-                
-                SingletonData.staticInstance.setKey(annotation?.key)
-                
-                if annotation?.createdAt != nil {
-                    self.dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ssZZZ"
-                    self.dateFormatter.timeZone = TimeZone.autoupdatingCurrent
-                  //  let date = self.dateFormatter.date(from: annotation!.createdAt!)
-                    
-                  //  self.timeLabel.text = SingletonData.staticInstance.timeAgoSinceDate(date!, numericDates: true)
-                    
-                }
-                
-                if annotation?.displayHint != nil {
-                    self.userHintText.text = annotation?.displayHint
-                }
-                if annotation?.displayName != nil {
-                    self.profileLabel.text = annotation?.displayName
-                }
-                if annotation?.displayMsg != nil {
-                    self.Desc.text = annotation?.displayMsg
-                }
-                if annotation?.displayTitle != nil {
-                    self.DisplayTitle.text = annotation?.title
-                }
-                
-            }
-            
+       
             if selectedObj != nil {
                 
                 SingletonData.staticInstance.setKey(selectedObj!.key)
@@ -341,24 +314,11 @@ class AsyncVideoViewController: UIViewController, ASVideoNodeDelegate {
 //                self.rideWithUberbutton.setPickupLocation(latitude: loc!.coordinate.latitude, longitude: loc!.coordinate.longitude, nickname: "Pickup")
 //            }
             
-            let object = SingletonData.staticInstance.selectedAnnotation
+            let object = SingletonData.staticInstance.selectedObject
             
             self.callButton.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: 320)
             
             
-            let locDrop = object?.coordinate
-            if locDrop != nil
-            {
-//                let lat = locDrop?.latitude
-//                let lng = locDrop?.longitude
-                
-//                if lat != nil && lng != nil
-//                {
-                //                 //var rideWithUberbutton = RequestButton()
-                //                self.rideWithUberbutton.setPickupLocation(latitude: loc!.coordinate.latitude, longitude: loc!.coordinate.longitude, nickname: "Pickup")
-//                    self.rideWithUberbutton.setDropoffLocation(latitude: lat!, longitude: lng!, nickname: "Dropoff")
-//                }
-            }
             self.view.backgroundColor = UIColor.clear
             
             self.dismiss(animated: true, completion: {
@@ -500,32 +460,32 @@ class AsyncVideoViewController: UIViewController, ASVideoNodeDelegate {
             
         }
     }
-    func routeToVideo(_ sender: AnyObject) {
-        
-        let object = SingletonData.staticInstance.selectedAnnotation
-        let loc = object?.coordinate
-        
-        if loc != nil
-        {
-            let lat = loc?.latitude
-            let lng = loc?.longitude
-            
-            if lat != nil && lng != nil
-            {
-                let geocoder = CLGeocoder()
-                let location = CLLocation(latitude: lat!, longitude: lng!)
-                
-                geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
-                    if let placemarks = placemarks {
-                        let placemark = placemarks[0]
-                        let mapItem = MKMapItem(placemark: MKPlacemark(placemark: placemark))
-                        mapItem.openInMaps(launchOptions: nil)
-                    }
-                })
-            }
-        }
-        
-    }
+//    func routeToVideo(_ sender: AnyObject) {
+//
+//        let object = SingletonData.staticInstance!.selectedObject
+//        let loc = object?.coordinate
+//
+//        if loc != nil
+//        {
+//            let lat = loc?.latitude
+//            let lng = loc?.longitude
+//
+//            if lat != nil && lng != nil
+//            {
+//                let geocoder = CLGeocoder()
+//                let location = CLLocation(latitude: lat!, longitude: lng!)
+//
+//                geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
+//                    if let placemarks = placemarks {
+//                        let placemark = placemarks[0]
+//                        let mapItem = MKMapItem(placemark: MKPlacemark(placemark: placemark))
+//                        mapItem.openInMaps(launchOptions: nil)
+//                    }
+//                })
+//            }
+//        }
+//
+//    }
     
     deinit{
         videoNode.asset = nil
