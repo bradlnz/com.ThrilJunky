@@ -235,6 +235,39 @@
 		82E4A65C1F1B4B1700F6D636 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		82E4A65E1F1B4B3900F6D636 /* SwiftyRecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyRecordButton.swift; sourceTree = "<group>"; };
 		82E4A6601F1B4B8C00F6D636 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		82E8AAB71F37BC66008E512B /* GeoQueries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoQueries.swift; sourceTree = "<group>"; };
+		82E8AAB81F37BC66008E512B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = "Dev/Target Support Files/RealmGeoQueries/Info.plist"; sourceTree = "<group>"; };
+		82E8AAB91F37BC66008E512B /* RealmGeoQueries.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = RealmGeoQueries.modulemap; path = "Dev/Target Support Files/RealmGeoQueries/RealmGeoQueries.modulemap"; sourceTree = "<group>"; };
+		82E8AABA1F37BC66008E512B /* RealmGeoQueries.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = RealmGeoQueries.xcconfig; path = "Dev/Target Support Files/RealmGeoQueries/RealmGeoQueries.xcconfig"; sourceTree = "<group>"; };
+		82E8AABB1F37BC66008E512B /* RealmGeoQueries-dummy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "RealmGeoQueries-dummy.m"; path = "Dev/Target Support Files/RealmGeoQueries/RealmGeoQueries-dummy.m"; sourceTree = "<group>"; };
+		82E8AABC1F37BC66008E512B /* RealmGeoQueries-prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RealmGeoQueries-prefix.pch"; path = "Dev/Target Support Files/RealmGeoQueries/RealmGeoQueries-prefix.pch"; sourceTree = "<group>"; };
+		82E8AABD1F37BC66008E512B /* RealmGeoQueries-umbrella.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RealmGeoQueries-umbrella.h"; path = "Dev/Target Support Files/RealmGeoQueries/RealmGeoQueries-umbrella.h"; sourceTree = "<group>"; };
+		82E8AAC01F37BC67008E512B /* Aliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Aliases.swift; path = RealmSwift/Aliases.swift; sourceTree = "<group>"; };
+		82E8AAC11F37BC67008E512B /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Error.swift; path = RealmSwift/Error.swift; sourceTree = "<group>"; };
+		82E8AAC21F37BC67008E512B /* LinkingObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LinkingObjects.swift; path = RealmSwift/LinkingObjects.swift; sourceTree = "<group>"; };
+		82E8AAC31F37BC67008E512B /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = List.swift; path = RealmSwift/List.swift; sourceTree = "<group>"; };
+		82E8AAC41F37BC67008E512B /* Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Migration.swift; path = RealmSwift/Migration.swift; sourceTree = "<group>"; };
+		82E8AAC51F37BC67008E512B /* Object.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Object.swift; path = RealmSwift/Object.swift; sourceTree = "<group>"; };
+		82E8AAC61F37BC67008E512B /* ObjectiveCSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ObjectiveCSupport.swift; path = RealmSwift/ObjectiveCSupport.swift; sourceTree = "<group>"; };
+		82E8AAC71F37BC67008E512B /* ObjectSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ObjectSchema.swift; path = RealmSwift/ObjectSchema.swift; sourceTree = "<group>"; };
+		82E8AAC81F37BC67008E512B /* Optional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Optional.swift; path = RealmSwift/Optional.swift; sourceTree = "<group>"; };
+		82E8AAC91F37BC67008E512B /* Property.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Property.swift; path = RealmSwift/Property.swift; sourceTree = "<group>"; };
+		82E8AACA1F37BC67008E512B /* Realm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Realm.swift; path = RealmSwift/Realm.swift; sourceTree = "<group>"; };
+		82E8AACB1F37BC67008E512B /* RealmCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RealmCollection.swift; path = RealmSwift/RealmCollection.swift; sourceTree = "<group>"; };
+		82E8AACC1F37BC67008E512B /* RealmConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RealmConfiguration.swift; path = RealmSwift/RealmConfiguration.swift; sourceTree = "<group>"; };
+		82E8AACD1F37BC67008E512B /* Results.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Results.swift; path = RealmSwift/Results.swift; sourceTree = "<group>"; };
+		82E8AACE1F37BC67008E512B /* Schema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Schema.swift; path = RealmSwift/Schema.swift; sourceTree = "<group>"; };
+		82E8AACF1F37BC67008E512B /* SortDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SortDescriptor.swift; path = RealmSwift/SortDescriptor.swift; sourceTree = "<group>"; };
+		82E8AAD01F37BC67008E512B /* SwiftVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwiftVersion.swift; path = RealmSwift/SwiftVersion.swift; sourceTree = "<group>"; };
+		82E8AAD11F37BC67008E512B /* Sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Sync.swift; path = RealmSwift/Sync.swift; sourceTree = "<group>"; };
+		82E8AAD21F37BC67008E512B /* ThreadSafeReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ThreadSafeReference.swift; path = RealmSwift/ThreadSafeReference.swift; sourceTree = "<group>"; };
+		82E8AAD31F37BC67008E512B /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Util.swift; path = RealmSwift/Util.swift; sourceTree = "<group>"; };
+		82E8AAD41F37BC67008E512B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = "Dev/Target Support Files/RealmSwift/Info.plist"; sourceTree = "<group>"; };
+		82E8AAD51F37BC67008E512B /* RealmSwift.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = RealmSwift.modulemap; path = "Dev/Target Support Files/RealmSwift/RealmSwift.modulemap"; sourceTree = "<group>"; };
+		82E8AAD61F37BC67008E512B /* RealmSwift.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = RealmSwift.xcconfig; path = "Dev/Target Support Files/RealmSwift/RealmSwift.xcconfig"; sourceTree = "<group>"; };
+		82E8AAD71F37BC67008E512B /* RealmSwift-dummy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "RealmSwift-dummy.m"; path = "Dev/Target Support Files/RealmSwift/RealmSwift-dummy.m"; sourceTree = "<group>"; };
+		82E8AAD81F37BC67008E512B /* RealmSwift-prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RealmSwift-prefix.pch"; path = "Dev/Target Support Files/RealmSwift/RealmSwift-prefix.pch"; sourceTree = "<group>"; };
+		82E8AAD91F37BC67008E512B /* RealmSwift-umbrella.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RealmSwift-umbrella.h"; path = "Dev/Target Support Files/RealmSwift/RealmSwift-umbrella.h"; sourceTree = "<group>"; };
 		82F40FB81E9758CA00E82ABB /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		82F40FBA1E9758D600E82ABB /* libc.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libc.tbd; path = usr/lib/libc.tbd; sourceTree = SDKROOT; };
 		82F4F4AF1DF164FF00C2338A /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -389,6 +422,71 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		82E8AABE1F37BC66008E512B /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				82E8AAB81F37BC66008E512B /* Info.plist */,
+				82E8AAB91F37BC66008E512B /* RealmGeoQueries.modulemap */,
+				82E8AABA1F37BC66008E512B /* RealmGeoQueries.xcconfig */,
+				82E8AABB1F37BC66008E512B /* RealmGeoQueries-dummy.m */,
+				82E8AABC1F37BC66008E512B /* RealmGeoQueries-prefix.pch */,
+				82E8AABD1F37BC66008E512B /* RealmGeoQueries-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/RealmGeoQueries";
+			sourceTree = "<group>";
+		};
+		82E8AABF1F37BC66008E512B /* RealmGeoQueries */ = {
+			isa = PBXGroup;
+			children = (
+				82E8AAB71F37BC66008E512B /* GeoQueries.swift */,
+				82E8AABE1F37BC66008E512B /* Support Files */,
+			);
+			path = RealmGeoQueries;
+			sourceTree = "<group>";
+		};
+		82E8AADA1F37BC67008E512B /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				82E8AAD41F37BC67008E512B /* Info.plist */,
+				82E8AAD51F37BC67008E512B /* RealmSwift.modulemap */,
+				82E8AAD61F37BC67008E512B /* RealmSwift.xcconfig */,
+				82E8AAD71F37BC67008E512B /* RealmSwift-dummy.m */,
+				82E8AAD81F37BC67008E512B /* RealmSwift-prefix.pch */,
+				82E8AAD91F37BC67008E512B /* RealmSwift-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/RealmSwift";
+			sourceTree = "<group>";
+		};
+		82E8AADB1F37BC67008E512B /* RealmSwift */ = {
+			isa = PBXGroup;
+			children = (
+				82E8AAC01F37BC67008E512B /* Aliases.swift */,
+				82E8AAC11F37BC67008E512B /* Error.swift */,
+				82E8AAC21F37BC67008E512B /* LinkingObjects.swift */,
+				82E8AAC31F37BC67008E512B /* List.swift */,
+				82E8AAC41F37BC67008E512B /* Migration.swift */,
+				82E8AAC51F37BC67008E512B /* Object.swift */,
+				82E8AAC61F37BC67008E512B /* ObjectiveCSupport.swift */,
+				82E8AAC71F37BC67008E512B /* ObjectSchema.swift */,
+				82E8AAC81F37BC67008E512B /* Optional.swift */,
+				82E8AAC91F37BC67008E512B /* Property.swift */,
+				82E8AACA1F37BC67008E512B /* Realm.swift */,
+				82E8AACB1F37BC67008E512B /* RealmCollection.swift */,
+				82E8AACC1F37BC67008E512B /* RealmConfiguration.swift */,
+				82E8AACD1F37BC67008E512B /* Results.swift */,
+				82E8AACE1F37BC67008E512B /* Schema.swift */,
+				82E8AACF1F37BC67008E512B /* SortDescriptor.swift */,
+				82E8AAD01F37BC67008E512B /* SwiftVersion.swift */,
+				82E8AAD11F37BC67008E512B /* Sync.swift */,
+				82E8AAD21F37BC67008E512B /* ThreadSafeReference.swift */,
+				82E8AAD31F37BC67008E512B /* Util.swift */,
+				82E8AADA1F37BC67008E512B /* Support Files */,
+			);
+			path = RealmSwift;
+			sourceTree = "<group>";
+		};
 		A2133A271C420675008ACA2D = {
 			isa = PBXGroup;
 			children = (
@@ -411,6 +509,8 @@
 		A2133A321C420675008ACA2D /* Dev */ = {
 			isa = PBXGroup;
 			children = (
+				82E8AABF1F37BC66008E512B /* RealmGeoQueries */,
+				82E8AADB1F37BC67008E512B /* RealmSwift */,
 				825207671F1C8F61000BA503 /* AnnotationView.swift */,
 				825207661F1C8F61000BA503 /* Place.swift */,
 				825207681F1C8F61000BA503 /* PlaceAnnotation.swift */,

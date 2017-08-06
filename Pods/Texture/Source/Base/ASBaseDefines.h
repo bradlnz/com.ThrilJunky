@@ -1,11 +1,18 @@
 //
 //  ASBaseDefines.h
-//  AsyncDisplayKit
+//  Texture
 //
 //  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
 //  This source code is licensed under the BSD-style license found in the
-//  LICENSE file in the root directory of this source tree. An additional grant
-//  of patent rights can be found in the PATENTS file in the same directory.
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #pragma once
@@ -208,6 +215,24 @@
 #define AS_SUBCLASSING_RESTRICTED
 #endif
 
+#define ASPthreadStaticKey(dtor) ({ \
+  static dispatch_once_t onceToken; \
+  static pthread_key_t key; \
+  dispatch_once(&onceToken, ^{ \
+    pthread_key_create(&key, dtor); \
+  }); \
+  key; \
+})
+
+#define ASCreateOnce(expr) ({ \
+  static dispatch_once_t onceToken; \
+  static __typeof__(expr) staticVar; \
+  dispatch_once(&onceToken, ^{ \
+    staticVar = expr; \
+  }); \
+  staticVar; \
+})
+
 /// Ensure that class is of certain kind
 #define ASDynamicCast(x, c) ({ \
   id __val = x;\
@@ -226,6 +251,20 @@
     } \
   } \
   s; \
+})
+
+/**
+ * Create a new ObjectPointerPersonality NSHashTable by mapping `collection` over `work`, ignoring nil.
+ */
+#define ASPointerTableByFlatMapping(collection, decl, work) ({ \
+  NSHashTable *t = [NSHashTable hashTableWithOptions:NSHashTableObjectPointerPersonality]; \
+  for (decl in collection) {\
+    id result = work; \
+    if (result != nil) { \
+      [t addObject:result]; \
+    } \
+  } \
+  t; \
 })
 
 /**

@@ -4,24 +4,57 @@
 //
 //  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
 //  This source code is licensed under the BSD-style license found in the
-//  LICENSE file in the root directory of this source tree. An additional grant
-//  of patent rights can be found in the PATENTS file in the same directory.
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
 //  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
 //  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
 //  You may obtain a copy of the License at
-//  
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
 //
-//  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS,
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  See the License for the specific language governing permissions and
-//  limitations under the License.
-//
 
-#pragma once
+#import <AsyncDisplayKit/ASAvailability.h>
+#import <Foundation/Foundation.h>
 
+/// The signposts we use. Signposts are grouped by color. The SystemTrace.tracetemplate file
+/// should be kept up-to-date with these values.
+typedef NS_ENUM(uint32_t, ASSignpostName) {
+  // Collection/Table (Blue)
+  ASSignpostDataControllerBatch = 300,		// Alloc/layout nodes before collection update.
+  ASSignpostRangeControllerUpdate,				// Ranges update pass.
+  ASSignpostCollectionUpdate,							// Entire update process, from -endUpdates to [super perform…]
+
+  // Rendering (Green)
+  ASSignpostLayerDisplay = 325,						// Client display callout.
+  ASSignpostRunLoopQueueBatch,						// One batch of ASRunLoopQueue.
+
+  // Layout (Purple)
+  ASSignpostCalculateLayout = 350,				// Start of calculateLayoutThatFits to end. Max 1 per thread.
+
+  // Misc (Orange)
+  ASSignpostDeallocQueueDrain = 375,			// One chunk of dealloc queue work. arg0 is count.
+  ASSignpostCATransactionLayout,					// The CA transaction commit layout phase.
+  ASSignpostCATransactionCommit						// The CA transaction commit post-layout phase.
+};
+
+typedef NS_ENUM(uintptr_t, ASSignpostColor) {
+  ASSignpostColorBlue,
+  ASSignpostColorGreen,
+  ASSignpostColorPurple,
+  ASSignpostColorOrange,
+  ASSignpostColorRed,
+  ASSignpostColorDefault
+};
+
+static inline ASSignpostColor ASSignpostGetColor(ASSignpostName name, ASSignpostColor colorPref) {
+  if (colorPref == ASSignpostColorDefault) {
+    return (ASSignpostColor)((name / 25) % 4);
+  } else {
+    return colorPref;
+  }
+}
 
 #define ASMultiplexImageNodeLogDebug(...)
 #define ASMultiplexImageNodeCLogDebug(...)
@@ -29,8 +62,9 @@
 #define ASMultiplexImageNodeLogError(...)
 #define ASMultiplexImageNodeCLogError(...)
 
-// Note: `<sys/kdebug_signpost.h>` only exists in Xcode 8 and later.
-#if defined(PROFILE) && __has_include(<sys/kdebug_signpost.h>)
+#define AS_KDEBUG_ENABLE defined(PROFILE) && __has_include(<sys/kdebug_signpost.h>)
+
+#if AS_KDEBUG_ENABLE
 
 #import <sys/kdebug_signpost.h>
 
@@ -39,6 +73,7 @@
 // It's valuable to support trace signposts on iOS 9, because A5 devices don't support iOS 10.
 #ifndef DBG_MACH_CHUD
 #define DBG_MACH_CHUD 0x0A
+#define DBG_FUNC_NONE 0
 #define DBG_FUNC_START 1
 #define DBG_FUNC_END 2
 #define DBG_APPS 33
@@ -47,21 +82,27 @@
 #define APPSDBG_CODE(SubClass,code) KDBG_CODE(DBG_APPS, SubClass, code)
 #endif
 
-#define ASProfilingSignpost(x) \
-  AS_AT_LEAST_IOS10 ? kdebug_signpost(x, 0, 0, 0, (uint32_t)(x % 4)) \
-                    : syscall(SYS_kdebug_trace, APPSDBG_CODE(DBG_MACH_CHUD, x) | DBG_FUNC_NONE, 0, 0, 0, (uint32_t)(x % 4));
+// Currently we'll reserve arg3.
+#define ASSignpost(name, identifier, arg2, color) \
+  AS_AT_LEAST_IOS10 ? kdebug_signpost(name, (uintptr_t)identifier, (uintptr_t)arg2, 0, ASSignpostGetColor(name, color)) \
+                    : syscall(SYS_kdebug_trace, APPSDBG_CODE(DBG_MACH_CHUD, name) | DBG_FUNC_NONE, (uintptr_t)identifier, (uintptr_t)arg2, 0, ASSignpostGetColor(name, color));
 
-#define ASProfilingSignpostStart(x, y) \
-  AS_AT_LEAST_IOS10 ? kdebug_signpost_start((uint32_t)x, (uintptr_t)y, 0, 0, (uint32_t)(x % 4)) \
-                    : syscall(SYS_kdebug_trace, APPSDBG_CODE(DBG_MACH_CHUD, x) | DBG_FUNC_START, (uintptr_t)y, 0, 0, (uint32_t)(x % 4));
+#define ASSignpostStartCustom(name, identifier, arg2) \
+  AS_AT_LEAST_IOS10 ? kdebug_signpost_start(name, (uintptr_t)identifier, (uintptr_t)arg2, 0, 0) \
+                    : syscall(SYS_kdebug_trace, APPSDBG_CODE(DBG_MACH_CHUD, name) | DBG_FUNC_START, (uintptr_t)identifier, (uintptr_t)arg2, 0, 0);
+#define ASSignpostStart(name) ASSignpostStartCustom(name, self, 0)
 
-#define ASProfilingSignpostEnd(x, y) \
-  AS_AT_LEAST_IOS10 ? kdebug_signpost_end((uint32_t)x, (uintptr_t)y, 0, 0, (uint32_t)(x % 4)) \
-                    : syscall(SYS_kdebug_trace, APPSDBG_CODE(DBG_MACH_CHUD, x) | DBG_FUNC_END, (uintptr_t)y, 0, 0, (uint32_t)(x % 4));
+#define ASSignpostEndCustom(name, identifier, arg2, color) \
+  AS_AT_LEAST_IOS10 ? kdebug_signpost_end(name, (uintptr_t)identifier, (uintptr_t)arg2, 0, ASSignpostGetColor(name, color)) \
+                    : syscall(SYS_kdebug_trace, APPSDBG_CODE(DBG_MACH_CHUD, name) | DBG_FUNC_END, (uintptr_t)identifier, (uintptr_t)arg2, 0, ASSignpostGetColor(name, color));
+#define ASSignpostEnd(name) ASSignpostEndCustom(name, self, 0, ASSignpostColorDefault)
+
 #else
 
-#define ASProfilingSignpost(x)
-#define ASProfilingSignpostStart(x, y)
-#define ASProfilingSignpostEnd(x, y)
+#define ASSignpost(name, identifier, arg2, color)
+#define ASSignpostStartCustom(name, identifier, arg2)
+#define ASSignpostStart(name)
+#define ASSignpostEndCustom(name, identifier, arg2, color)
+#define ASSignpostEnd(name)
 
 #endif

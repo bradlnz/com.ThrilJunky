@@ -1,9 +1,18 @@
 //
 //  ASCollectionLayout.mm
-//  AsyncDisplayKit
+//  Texture
 //
-//  Created by Huy Nguyen on 28/2/17.
-//  Copyright © 2017 Facebook. All rights reserved.
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <AsyncDisplayKit/ASCollectionLayout.h>
@@ -24,12 +33,10 @@
   ASDN::Mutex __instanceLock__; // Non-recursive mutex, ftw!
   
   // Main thread only.
-  ASCollectionLayoutState *_state;
+  ASCollectionLayoutState *_layout;
   
   // The pending state calculated ahead of time, if any.
-  ASCollectionLayoutState *_pendingState;
-  // The context used to calculate _pendingState
-  ASCollectionLayoutContext *_layoutContextForPendingState;
+  ASCollectionLayoutState *_pendingLayout;
   
   BOOL _layoutDelegateImplementsAdditionalInfoForLayoutWithElements;
 }
@@ -54,20 +61,20 @@
 - (id)layoutContextWithElements:(ASElementMap *)elements
 {
   ASDisplayNodeAssertMainThread();
+  CGSize viewportSize = [self viewportSize];
   id additionalInfo = nil;
   if (_layoutDelegateImplementsAdditionalInfoForLayoutWithElements) {
     additionalInfo = [_layoutDelegate additionalInfoForLayoutWithElements:elements];
   }
-  return [[ASCollectionLayoutContext alloc] initWithViewportSize:[self viewportSize] elements:elements additionalInfo:additionalInfo];
+  return [[ASCollectionLayoutContext alloc] initWithViewportSize:viewportSize elements:elements additionalInfo:additionalInfo];
 }
 
 - (void)prepareLayoutWithContext:(id)context
 {
-  ASCollectionLayoutState *state = [_layoutDelegate calculateLayoutWithContext:context];
+  ASCollectionLayoutState *layout = [_layoutDelegate calculateLayoutWithContext:context];
   
   ASDN::MutexLocker l(__instanceLock__);
-  _pendingState = state;
-  _layoutContextForPendingState = context;
+  _pendingLayout = layout;
 }
 
 #pragma mark - UICollectionViewLayout overrides
@@ -78,68 +85,70 @@
   [super prepareLayout];
   ASCollectionLayoutContext *context = [self layoutContextWithElements:_collectionNode.visibleElements];
   
-  ASCollectionLayoutState *state = nil;
+  ASCollectionLayoutState *layout = nil;
   {
     ASDN::MutexLocker l(__instanceLock__);
-    if (_pendingState != nil && ASObjectIsEqual(_layoutContextForPendingState, context)) {
-      // Looks like we can use the pending state. Great!
-      state = _pendingState;
-      _pendingState = nil;
-      _layoutContextForPendingState = nil;
+    if (_pendingLayout != nil && ASObjectIsEqual(_pendingLayout.context, context)) {
+      // Looks like we can use the pending layout. Great!
+      layout = _pendingLayout;
+      _pendingLayout = nil;
     }
   }
   
-  if (state == nil) {
-    state = [_layoutDelegate calculateLayoutWithContext:context];
+  if (layout == nil) {
+    layout = [_layoutDelegate calculateLayoutWithContext:context];
   }
   
-  _state = state;
+  _layout = layout;
 }
 
 - (void)invalidateLayout
 {
   ASDisplayNodeAssertMainThread();
   [super invalidateLayout];
-  _state = nil;
+  _layout = nil;
 }
 
 - (CGSize)collectionViewContentSize
 {
   ASDisplayNodeAssertMainThread();
-  ASDisplayNodeAssertNotNil(_state, @"Collection layout state should not be nil at this point");
-  return _state.contentSize;
+  ASDisplayNodeAssertNotNil(_layout, @"Collection layout state should not be nil at this point");
+  return _layout.contentSize;
 }
 
 - (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect
 {
-  NSMutableArray *attributesInRect = [NSMutableArray array];
-  NSMapTable *attrsMap = _state.elementToLayoutArrtibutesMap;
-  for (ASCollectionElement *element in attrsMap) {
-    UICollectionViewLayoutAttributes *attrs = [attrsMap objectForKey:element];
-    if (CGRectIntersectsRect(rect, attrs.frame)) {
-      [ASCollectionLayout setSize:attrs.frame.size toElement:element];
-      [attributesInRect addObject:attrs];
-    }
+  ASDisplayNodeAssertMainThread();
+  NSArray<UICollectionViewLayoutAttributes *> *result = [_layout layoutAttributesForElementsInRect:rect];
+  
+  ASElementMap *elements = _layout.context.elements;
+  for (UICollectionViewLayoutAttributes *attrs in result) {
+    ASCollectionElement *element = [elements elementForLayoutAttributes:attrs];
+    [ASCollectionLayout setSize:attrs.frame.size toElement:element];
   }
-  return attributesInRect;
+  
+  return result;
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  ASCollectionLayoutState *state = _state;
-  ASCollectionElement *element = [state.elements elementForItemAtIndexPath:indexPath];
-  UICollectionViewLayoutAttributes *attrs = [state.elementToLayoutArrtibutesMap objectForKey:element];
+  ASCollectionElement *element = [_layout.context.elements elementForItemAtIndexPath:indexPath];
+  UICollectionViewLayoutAttributes *attrs = [_layout layoutAttributesForElement:element];
   [ASCollectionLayout setSize:attrs.frame.size toElement:element];
   return attrs;
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath
 {
-  ASCollectionLayoutState *state = _state;
-  ASCollectionElement *element = [state.elements supplementaryElementOfKind:elementKind atIndexPath:indexPath];
-  UICollectionViewLayoutAttributes *attrs = [state.elementToLayoutArrtibutesMap objectForKey:element];
+  ASCollectionElement *element = [_layout.context.elements supplementaryElementOfKind:elementKind atIndexPath:indexPath];
+  UICollectionViewLayoutAttributes *attrs = [_layout layoutAttributesForElement:element];
   [ASCollectionLayout setSize:attrs.frame.size toElement:element];
   return attrs;
+}
+
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+{
+  return (! CGSizeEqualToSize([self viewportSize], newBounds.size));
 }
 
 #pragma mark - Private methods

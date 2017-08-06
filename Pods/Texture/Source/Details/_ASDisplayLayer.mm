@@ -1,11 +1,18 @@
 //
 //  _ASDisplayLayer.mm
-//  AsyncDisplayKit
+//  Texture
 //
 //  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
 //  This source code is licensed under the BSD-style license found in the
-//  LICENSE file in the root directory of this source tree. An additional grant
-//  of patent rights can be found in the PATENTS file in the same directory.
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <AsyncDisplayKit/_ASDisplayLayer.h>
@@ -21,41 +28,16 @@
 
 @implementation _ASDisplayLayer
 {
-  ASDN::Mutex _asyncDelegateLock;
-  // We can take this lock when we're setting displaySuspended and in setNeedsDisplay, so to not deadlock, this is recursive
-  ASDN::RecursiveMutex _displaySuspendedLock;
-  BOOL _displaySuspended;
   BOOL _attemptedDisplayWhileZeroSized;
 
   struct {
     BOOL delegateDidChangeBounds:1;
   } _delegateFlags;
-
-  id<_ASDisplayLayerDelegate> __weak _asyncDelegate;
 }
 
 @dynamic displaysAsynchronously;
 
-#pragma mark -
-#pragma mark Lifecycle
-
-- (instancetype)init
-{
-  if ((self = [super init])) {
-
-    self.opaque = YES;
-  }
-  return self;
-}
-
-#pragma mark -
-#pragma mark Properties
-
-- (id<_ASDisplayLayerDelegate>)asyncDelegate
-{
-  ASDN::MutexLocker l(_asyncDelegateLock);
-  return _asyncDelegate;
-}
+#pragma mark - Properties
 
 - (void)setDelegate:(id)delegate
 {
@@ -63,22 +45,9 @@
   _delegateFlags.delegateDidChangeBounds = [delegate respondsToSelector:@selector(layer:didChangeBoundsWithOldValue:newValue:)];
 }
 
-- (void)setAsyncDelegate:(id<_ASDisplayLayerDelegate>)asyncDelegate
-{
-  ASDisplayNodeAssert(!asyncDelegate || [asyncDelegate isKindOfClass:[ASDisplayNode class]], @"_ASDisplayLayer is inherently coupled to ASDisplayNode and cannot be used with another asyncDelegate.  Please rethink what you are trying to do.");
-  ASDN::MutexLocker l(_asyncDelegateLock);
-  _asyncDelegate = asyncDelegate;
-}
-
-- (BOOL)isDisplaySuspended
-{
-  ASDN::MutexLocker l(_displaySuspendedLock);
-  return _displaySuspended;
-}
-
 - (void)setDisplaySuspended:(BOOL)displaySuspended
 {
-  ASDN::MutexLocker l(_displaySuspendedLock);
+  ASDisplayNodeAssertMainThread();
   if (_displaySuspended != displaySuspended) {
     _displaySuspended = displaySuspended;
     if (!displaySuspended) {
@@ -93,6 +62,10 @@
 
 - (void)setBounds:(CGRect)bounds
 {
+  BOOL valid = ASDisplayNodeAssertNonFatal(ASIsCGRectValidForLayout(bounds), @"Caught attempt to set invalid bounds %@ on %@.", NSStringFromCGRect(bounds), self);
+  if (!valid) {
+    return;
+  }
   if (_delegateFlags.delegateDidChangeBounds) {
     CGRect oldBounds = self.bounds;
     [super setBounds:bounds];
@@ -135,8 +108,6 @@
 - (void)setNeedsDisplay
 {
   ASDisplayNodeAssertMainThread();
-
-  _displaySuspendedLock.lock();
   
   // FIXME: Reconsider whether we should cancel a display in progress.
   // We should definitely cancel a display that is scheduled, but unstarted display.
@@ -146,7 +117,6 @@
   if (!_displaySuspended) {
     [super setNeedsDisplay];
   }
-  _displaySuspendedLock.unlock();
 }
 
 #pragma mark -
@@ -168,13 +138,14 @@
 {
   if ([key isEqualToString:@"displaysAsynchronously"]) {
     return @YES;
+  } else if ([key isEqualToString:@"opaque"]) {
+    return @YES;
   } else {
     return [super defaultValueForKey:key];
   }
 }
 
-#pragma mark -
-#pragma mark Display
+#pragma mark - Display
 
 - (void)displayImmediately
 {
@@ -198,7 +169,7 @@
   ASDisplayNodeAssertMainThread();
   [self _hackResetNeedsDisplay];
 
-  if (self.isDisplaySuspended) {
+  if (self.displaySuspended) {
     return;
   }
 
@@ -210,29 +181,15 @@
   if (CGRectIsEmpty(self.bounds)) {
     _attemptedDisplayWhileZeroSized = YES;
   }
-
-  id<_ASDisplayLayerDelegate> NS_VALID_UNTIL_END_OF_SCOPE strongAsyncDelegate;
-  {
-    _asyncDelegateLock.lock();
-    strongAsyncDelegate = _asyncDelegate;
-    _asyncDelegateLock.unlock();
-  }
   
-  [strongAsyncDelegate displayAsyncLayer:self asynchronously:asynchronously];
+  [self.asyncDelegate displayAsyncLayer:self asynchronously:asynchronously];
 }
 
 - (void)cancelAsyncDisplay
 {
   ASDisplayNodeAssertMainThread();
 
-  id<_ASDisplayLayerDelegate> NS_VALID_UNTIL_END_OF_SCOPE strongAsyncDelegate;
-  {
-    _asyncDelegateLock.lock();
-    strongAsyncDelegate = _asyncDelegate;
-    _asyncDelegateLock.unlock();
-  }
-
-  [strongAsyncDelegate cancelDisplayAsyncLayer:self];
+  [self.asyncDelegate cancelDisplayAsyncLayer:self];
 }
 
 // e.g. <MYTextNodeLayer: 0xFFFFFF; node = <MYTextNode: 0xFFFFFFE; name = "Username node for user 179">>

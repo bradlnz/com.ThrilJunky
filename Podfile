@@ -35,7 +35,8 @@ pod 'Kingfisher'
 pod 'SlideMenuControllerSwift'
 #pod 'AwaitKit'
 pod 'Texture'
-pod 'RealmSwift'
+pod 'Realm', git: 'https://github.com/realm/realm-cocoa.git', branch: 'master', submodules: true
+pod 'RealmSwift', git: 'https://github.com/realm/realm-cocoa.git', branch: 'master', submodules: true
 pod 'RealmGeoQueries'
 pod 'GooglePlaces'
 pod 'GoogleMaps'

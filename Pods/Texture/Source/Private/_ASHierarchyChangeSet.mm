@@ -1,13 +1,18 @@
 //
-//  _ASHierarchyChangeSet.m
-//  AsyncDisplayKit
-//
-//  Created by Adlai Holler on 9/29/15.
+//  _ASHierarchyChangeSet.mm
+//  Texture
 //
 //  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
 //  This source code is licensed under the BSD-style license found in the
-//  LICENSE file in the root directory of this source tree. An additional grant
-//  of patent rights can be found in the PATENTS file in the same directory.
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <AsyncDisplayKit/_ASHierarchyChangeSet.h>
@@ -249,6 +254,45 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
   NSUInteger newIndex = oldSection - [_deletedSections countOfIndexesInRange:NSMakeRange(0, oldSection)];
   newIndex += [_insertedSections as_indexChangeByInsertingItemsBelowIndex:newIndex];
   return newIndex;
+}
+
+- (NSUInteger)oldSectionForNewSection:(NSUInteger)newSection
+{
+  [self _ensureCompleted];
+  if ([_insertedSections containsIndex:newSection]) {
+    return NSNotFound;
+  }
+  
+  NSInteger oldIndex = newSection - [_insertedSections as_indexChangeByInsertingItemsBelowIndex:newSection];
+  oldIndex += [_deletedSections countOfIndexesInRange:NSMakeRange(0, oldIndex)];
+  return oldIndex;
+}
+
+- (NSIndexPath *)oldIndexPathForNewIndexPath:(NSIndexPath *)indexPath
+{
+  [self _ensureCompleted];
+  // Inserted sections return nil.
+  NSInteger newSection = indexPath.section;
+  NSInteger newItem = indexPath.item;
+  NSInteger oldSection = [self oldSectionForNewSection:newSection];
+  if (oldSection == NSNotFound) {
+    return nil;
+  }
+  
+  // Inserted items return nil.
+  for (_ASHierarchyItemChange *change in _originalInsertItemChanges) {
+    if ([change.indexPaths containsObject:indexPath]) {
+      return nil;
+    }
+  }
+  
+  // TODO: This is a pretty inefficient way to do this.
+  NSIndexSet *insertsInSection = [_ASHierarchyItemChange sectionToIndexSetMapFromChanges:_insertItemChanges][@(newSection)];
+  NSIndexSet *deletesInSection = [_ASHierarchyItemChange sectionToIndexSetMapFromChanges:_deleteItemChanges][@(oldSection)];
+  
+  NSInteger oldIndex = newItem - [insertsInSection as_indexChangeByInsertingItemsBelowIndex:newItem];
+  oldIndex += [deletesInSection countOfIndexesInRange:NSMakeRange(0, oldIndex)];
+  return [NSIndexPath indexPathForItem:oldIndex inSection:oldSection];
 }
 
 - (void)reloadData

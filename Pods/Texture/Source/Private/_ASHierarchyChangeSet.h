@@ -1,13 +1,18 @@
 //
 //  _ASHierarchyChangeSet.h
-//  AsyncDisplayKit
-//
-//  Created by Adlai Holler on 9/29/15.
+//  Texture
 //
 //  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
 //  This source code is licensed under the BSD-style license found in the
-//  LICENSE file in the root directory of this source tree. An additional grant
-//  of patent rights can be found in the PATENTS file in the same directory.
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <Foundation/Foundation.h>
@@ -141,6 +146,14 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType);
  * @return The new section index, or NSNotFound if the given section was deleted.
  */
 - (NSUInteger)newSectionForOldSection:(NSUInteger)oldSection;
+
+/**
+ * Get the old item index path for the given new index path.
+ *
+ * @precondition The change set must be completed.
+ * @return The old index path, or nil if the given item was inserted.
+ */
+- (nullable NSIndexPath *)oldIndexPathForNewIndexPath:(NSIndexPath *)indexPath;
 
 /// Call this once the change set has been constructed to prevent future modifications to the changeset. Calling this more than once is a programmer error.
 /// NOTE: Calling this method will cause the changeset to convert all reloads into delete/insert pairs.

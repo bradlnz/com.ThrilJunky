@@ -1,11 +1,18 @@
 //
 //  ASDisplayNodeExtras.h
-//  AsyncDisplayKit
+//  Texture
 //
 //  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
 //  This source code is licensed under the BSD-style license found in the
-//  LICENSE file in the root directory of this source tree. An additional grant
-//  of patent rights can be found in the PATENTS file in the same directory.
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <QuartzCore/QuartzCore.h>
@@ -91,7 +98,7 @@ extern ASDisplayNode * _Nullable ASLayerToDisplayNode(CALayer * _Nullable layer)
 extern ASDisplayNode * _Nullable ASViewToDisplayNode(UIView * _Nullable view) AS_WARN_UNUSED_RESULT;
 
 /**
- Given a node, returns the root of the node heirarchy (where supernode == nil)
+ Given a node, returns the root of the node hierarchy (where supernode == nil)
  */
 extern ASDisplayNode *ASDisplayNodeUltimateParentOfNode(ASDisplayNode *node) AS_WARN_UNUSED_RESULT;
 
@@ -118,12 +125,12 @@ extern void ASDisplayNodePerformBlockOnEverySubnode(ASDisplayNode *node, BOOL tr
 /**
  Given a display node, traverses up the layer tree hierarchy, returning the first display node that passes block.
  */
-extern ASDisplayNode * _Nullable ASDisplayNodeFindFirstSupernode(ASDisplayNode * _Nullable node, BOOL (^block)(ASDisplayNode *node)) AS_WARN_UNUSED_RESULT;
+extern ASDisplayNode * _Nullable ASDisplayNodeFindFirstSupernode(ASDisplayNode * _Nullable node, BOOL (^block)(ASDisplayNode *node)) AS_WARN_UNUSED_RESULT ASDISPLAYNODE_DEPRECATED_MSG("Use the `supernodes` property instead.");
 
 /**
  Given a display node, traverses up the layer tree hierarchy, returning the first display node of kind class.
  */
-extern __kindof ASDisplayNode * _Nullable ASDisplayNodeFindFirstSupernodeOfClass(ASDisplayNode *start, Class c) AS_WARN_UNUSED_RESULT;
+extern __kindof ASDisplayNode * _Nullable ASDisplayNodeFindFirstSupernodeOfClass(ASDisplayNode *start, Class c) AS_WARN_UNUSED_RESULT  ASDISPLAYNODE_DEPRECATED_MSG("Use the `supernodeOfClass:includingSelf:` method instead.");
 
 /**
  * Given a layer, find the window it lives in, if any.

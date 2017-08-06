@@ -1,11 +1,18 @@
 //
 //  ASLayoutElement.h
-//  AsyncDisplayKit
+//  Texture
 //
 //  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
 //  This source code is licensed under the BSD-style license found in the
-//  LICENSE file in the root directory of this source tree. An additional grant
-//  of patent rights can be found in the PATENTS file in the same directory.
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <AsyncDisplayKit/ASLayoutElementPrivate.h>
@@ -35,16 +42,6 @@ typedef NS_ENUM(NSUInteger, ASLayoutElementType) {
   ASLayoutElementTypeDisplayNode
 };
 
-ASDISPLAYNODE_EXTERN_C_BEGIN
-
-/**
- This function will walk the layout element hierarchy. It does run the block on the node provided
- directly to the function call.
- */
-extern void ASLayoutElementPerformBlockOnEveryElement(id<ASLayoutElement> root, void(^block)(id<ASLayoutElement> element));
-
-ASDISPLAYNODE_EXTERN_C_END
-
 #pragma mark - ASLayoutElement
 
 /**
@@ -63,7 +60,7 @@ ASDISPLAYNODE_EXTERN_C_END
  * access to the options via convenience properties. If you are creating custom layout spec, then you can
  * extend the backing layout options class to accommodate any new layout options.
  */
-@protocol ASLayoutElement <ASLayoutElementExtensibility, ASLayoutElementFinalLayoutElement, ASTraitEnvironment>
+@protocol ASLayoutElement <ASLayoutElementExtensibility, ASTraitEnvironment>
 
 #pragma mark - Getter
 
@@ -75,7 +72,7 @@ ASDISPLAYNODE_EXTERN_C_END
 /**
  * @abstract A size constraint that should apply to this ASLayoutElement.
  */
-@property (nonatomic, assign, readonly) ASLayoutElementStyle *style;
+@property (nonatomic, strong, readonly) ASLayoutElementStyle *style;
 
 /**
  * @abstract Returns all children of an object which class conforms to the ASLayoutElement protocol
@@ -147,6 +144,7 @@ ASDISPLAYNODE_EXTERN_C_END
                      restrictedToSize:(ASLayoutElementSize)size
                  relativeToParentSize:(CGSize)parentSize;
 
+- (BOOL)implementsLayoutMethod;
 
 #pragma mark - Deprecated
 

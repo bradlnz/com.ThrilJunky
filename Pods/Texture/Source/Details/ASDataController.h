@@ -1,11 +1,18 @@
 //
 //  ASDataController.h
-//  AsyncDisplayKit
+//  Texture
 //
 //  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
 //  This source code is licensed under the BSD-style license found in the
-//  LICENSE file in the root directory of this source tree. An additional grant
-//  of patent rights can be found in the PATENTS file in the same directory.
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #pragma once
@@ -32,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class ASElementMap;
 @class ASLayout;
 @class _ASHierarchyChangeSet;
+@protocol ASRangeManagingNode;
 @protocol ASTraitEnvironment;
 @protocol ASSectionContext;
 
@@ -63,9 +71,12 @@ extern NSString * const ASCollectionInvalidUpdateException;
 - (NSUInteger)numberOfSectionsInDataController:(ASDataController *)dataController;
 
 /**
- Returns if the collection element size matches a given size
+ Returns if the collection element size matches a given size.
+ @precondition The element is present in the data controller's visible map.
  */
 - (BOOL)dataController:(ASDataController *)dataController presentedSizeForElement:(ASCollectionElement *)element matchesSize:(CGSize)size;
+
+- (nullable id)dataController:(ASDataController *)dataController viewModelForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 @optional
 
@@ -86,12 +97,6 @@ extern NSString * const ASCollectionInvalidUpdateException;
 - (ASSizeRange)dataController:(ASDataController *)dataController constrainedSizeForSupplementaryNodeOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath;
 
 - (nullable id<ASSectionContext>)dataController:(ASDataController *)dataController contextForSection:(NSInteger)section;
-
-@end
-
-@protocol ASDataControllerEnvironmentDelegate
-
-- (nullable id<ASTraitEnvironment>)dataControllerEnvironment;
 
 @end
 
@@ -153,17 +158,30 @@ extern NSString * const ASCollectionInvalidUpdateException;
  */
 @interface ASDataController : NSObject
 
-- (instancetype)initWithDataSource:(id<ASDataControllerSource>)dataSource eventLog:(nullable ASEventLog *)eventLog NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDataSource:(id<ASDataControllerSource>)dataSource node:(nullable id<ASRangeManagingNode>)node eventLog:(nullable ASEventLog *)eventLog NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
+ * The node that owns this data controller, if any.
+ *
+ * NOTE: Soon we will drop support for using ASTableView/ASCollectionView without the node, so this will be non-null.
+ */
+@property (nonatomic, nullable, weak, readonly) id<ASRangeManagingNode> node;
 
 /**
  * The map that is currently displayed. The "UIKit index space."
+ *
+ * This property will only be changed on the main thread.
  */
-@property (nonatomic, strong, readonly) ASElementMap *visibleMap;
+@property (atomic, copy, readonly) ASElementMap *visibleMap;
 
 /**
  * The latest map fetched from the data source. May be more recent than @c visibleMap.
+ *
+ * This property will only be changed on the main thread.
  */
-@property (nonatomic, strong, readonly) ASElementMap *pendingMap;
+@property (atomic, copy, readonly) ASElementMap *pendingMap;
 
 /**
  Data source for fetching data info.
@@ -179,11 +197,6 @@ extern NSString * const ASCollectionInvalidUpdateException;
  Delegate to notify when data is updated.
  */
 @property (nonatomic, weak) id<ASDataControllerDelegate> delegate;
-
-/**
- *
- */
-@property (nonatomic, weak) id<ASDataControllerEnvironmentDelegate> environmentDelegate;
 
 /**
  * Delegate for preparing layouts. Main thead only.
@@ -215,6 +228,11 @@ extern NSString * const ASCollectionInvalidUpdateException;
  */
 @property (nonatomic, strong, readonly) ASEventLog *eventLog;
 #endif
+
+/**
+ * @see ASCollectionNode+Beta.h for full documentation.
+ */
+@property (nonatomic, assign) BOOL usesSynchronousDataLoading;
 
 /** @name Data Updating */
 
