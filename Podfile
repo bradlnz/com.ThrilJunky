@@ -1,6 +1,6 @@
-#source "https://github.com/CocoaPods/Specs.git"
+source "https://github.com/CocoaPods/Specs.git"
 # Uncomment this line to define a global platform for your project
-#platform :ios, '10.0'
+platform :ios, '10.0'
 # Uncomment this line if you're using Swift
 use_frameworks!
 target 'ThrilJunky' do
@@ -23,6 +23,7 @@ pod 'ReachabilitySwift', '~> 3'
 pod 'AlamofireImage'
 pod 'Koloda', '~> 4.0'
 #pod 'KASlideShow'
+#pod 'FBAnnotationClusteringSwift'
 pod 'FBSDKCoreKit'
 pod 'FBSDKLoginKit'
 pod 'FBSDKShareKit'

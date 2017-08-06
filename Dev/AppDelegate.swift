@@ -67,14 +67,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
       //  UIApplication.shared.isStatusBarHidden = true
         //UIApplication.shared.statusBarStyle = UIStatusBarStyle.
         
-//        UIAppearance.appearance().tintColor = UIColor.black
-//
-//        //UINavigationBar.appearance().barTintColor = uicolorFromHex(0xFFFFFF)
-//        UIAppearance.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.black]
-//        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-//            print("TEST")
-//
-//        }
+        UINavigationBar.appearance().tintColor = UIColor.black
+        
+        //UINavigationBar.appearance().barTintColor = uicolorFromHex(0xFFFFFF)
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.black]
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            print("TEST")
+           
+        }
         
 //        var colors = [UIColor]()
 //     

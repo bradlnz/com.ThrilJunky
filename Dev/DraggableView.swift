@@ -96,7 +96,7 @@ import AsyncDisplayKit
         }
         
         
-        @objc func tapAction(_ gestureRecognizer: UITapGestureRecognizer){
+        func tapAction(_ gestureRecognizer: UITapGestureRecognizer){
 //            let darkBlur = UIBlurEffect(style: UIBlurEffectStyle.light)
 //            let blurView = UIVisualEffectView(effect: darkBlur)
 //            blurView.frame =  self.bounds
@@ -109,7 +109,7 @@ import AsyncDisplayKit
             delegate?.cardTapped(self)
         }
         
-        @objc func beingDragged(_ gestureRecognizer: UIPanGestureRecognizer) {
+        func beingDragged(_ gestureRecognizer: UIPanGestureRecognizer) {
             xFromCenter = gestureRecognizer.translation(in: self).x;
             yFromCenter = gestureRecognizer.translation(in: self).y;
             
@@ -339,7 +339,7 @@ import AsyncDisplayKit
             self.videoNode.shouldAutorepeat = true
             self.videoNode.muted = false
             self.videoNode.frame = CGRect(origin: origin, size: size)
-            self.videoNode.gravity = AVLayerVideoGravity.resizeAspectFill.rawValue
+            self.videoNode.gravity = AVLayerVideoGravityResizeAspectFill
             self.videoNode.zPosition = 0
             self.videoNode.shouldAutoplay = true
         

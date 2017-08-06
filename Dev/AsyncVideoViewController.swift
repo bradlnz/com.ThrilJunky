@@ -93,13 +93,10 @@ class AsyncVideoViewController: UIViewController, ASVideoNodeDelegate {
         DispatchQueue.main.async {
             
             
-            //let annotation = SingletonData.staticInstance.selectedAnnotation
+           // let annotation = SingletonData.staticInstance.selectedAnnotation
             let selectedObj = SingletonData.staticInstance.selectedObject
+     
             
-            
-            
-            
-       
             if selectedObj != nil {
                 
                 SingletonData.staticInstance.setKey(selectedObj!.key)
@@ -240,7 +237,7 @@ class AsyncVideoViewController: UIViewController, ASVideoNodeDelegate {
 //        }
 //    }
     
-    @objc func voteDown(_ sender: UIButton!){
+    func voteDown(_ sender: UIButton!){
 //        self.closeBtn.isEnabled = false
 //        var count = 0
 //        
@@ -314,11 +311,24 @@ class AsyncVideoViewController: UIViewController, ASVideoNodeDelegate {
 //                self.rideWithUberbutton.setPickupLocation(latitude: loc!.coordinate.latitude, longitude: loc!.coordinate.longitude, nickname: "Pickup")
 //            }
             
-            let object = SingletonData.staticInstance.selectedObject
+          //  let object = SingletonData.staticInstance.selectedAnnotation
             
             self.callButton.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: 320)
             
             
+//            let locDrop = object?.coordinate
+//            if locDrop != nil
+//            {
+////                let lat = locDrop?.latitude
+////                let lng = locDrop?.longitude
+//                
+////                if lat != nil && lng != nil
+////                {
+//                //                 //var rideWithUberbutton = RequestButton()
+//                //                self.rideWithUberbutton.setPickupLocation(latitude: loc!.coordinate.latitude, longitude: loc!.coordinate.longitude, nickname: "Pickup")
+////                    self.rideWithUberbutton.setDropoffLocation(latitude: lat!, longitude: lng!, nickname: "Dropoff")
+////                }
+//            }
             self.view.backgroundColor = UIColor.clear
             
             self.dismiss(animated: true, completion: {
@@ -460,9 +470,9 @@ class AsyncVideoViewController: UIViewController, ASVideoNodeDelegate {
             
         }
     }
-//    func routeToVideo(_ sender: AnyObject) {
-//
-//        let object = SingletonData.staticInstance!.selectedObject
+    func routeToVideo(_ sender: AnyObject) {
+        
+//        let object = SingletonData.staticInstance.selectedAnnotation
 //        let loc = object?.coordinate
 //
 //        if loc != nil
@@ -483,9 +493,9 @@ class AsyncVideoViewController: UIViewController, ASVideoNodeDelegate {
 //                    }
 //                })
 //            }
-//        }
-//
-//    }
+        
+        
+    }
     
     deinit{
         videoNode.asset = nil

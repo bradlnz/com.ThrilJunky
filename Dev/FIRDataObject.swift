@@ -13,7 +13,7 @@ class FIRDataObject: NSObject {
         super.init()
         
         for child in (snapshot.children.allObjects as? [FIRDataSnapshot])! {
-            if NSObject.responds(to: Selector(child.key)){
+            if responds(to: Selector(child.key)){
                 setValue(child.value, forKey: child.key)
             }
         }

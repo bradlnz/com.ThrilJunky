@@ -322,7 +322,7 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
 
     }
     func checkMicrophonePermission(){
-        let microPhoneStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.audio)
+        let microPhoneStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeAudio)
         
         switch microPhoneStatus {
         case .authorized:
@@ -340,7 +340,7 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
         // Microphone disabled in settings
         case .notDetermined:
              self.microphoneChecked = true
-             AVCaptureDevice.requestAccess(for: AVMediaType.audio, completionHandler: { (granted: Bool) in
+             AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeAudio, completionHandler: { (granted: Bool) in
                 if granted == true
                 {
                     // User granted
@@ -400,7 +400,7 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
     }
     
     func checkCameraPermissions() {
-        if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) ==  AVAuthorizationStatus.authorized
+        if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) ==  AVAuthorizationStatus.authorized
         {
             // Already Authorized
             self.cameraChecked = true
@@ -411,7 +411,7 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
         }
         else
         {
-            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted :Bool) -> Void in
+            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { (granted :Bool) -> Void in
                 if granted == true
                 {
                     // User granted
@@ -438,7 +438,7 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
         }
     }
 
-    @objc func dismissKeyboard(){
+    func dismissKeyboard(){
         view.endEditing(true)
     }
        override func didReceiveMemoryWarning() {

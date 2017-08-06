@@ -128,7 +128,9 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         {
             key = SingletonData.staticInstance.selectedObject?.key
         }
-     
+      
+        
+        
         FIRDatabase.database().reference(withPath: "profiles/" + currentUser!.uid + "/voted/" + key!).observeSingleEvent(of: .value, with: { (snapshot1) in
             
             
@@ -208,7 +210,10 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         {
          key = SingletonData.staticInstance.selectedObject?.key
         }
-      
+//        if(SingletonData.staticInstance.selectedAnnotation != nil){
+//            key = SingletonData.staticInstance.selectedAnnotation?.key
+//        }
+        
         FIRDatabase.database().reference(withPath: "profiles/" + currentUser!.uid + "/voted/" + key!).observeSingleEvent(of: .value, with: { (snapshot1) in
             
             
@@ -289,7 +294,9 @@ override func viewDidLoad() {
     {
         key = SingletonData.staticInstance.selectedObject?.key
     }
-  
+//    if(SingletonData.staticInstance.selectedAnnotation != nil){
+//        key = SingletonData.staticInstance.selectedAnnotation?.key
+//    }
     
   videosRef.queryOrdered(byChild: "uid").queryEqual(toValue: key!).observe(.value, with: { (snapshot) in
     
@@ -365,7 +372,7 @@ override func viewDidLoad() {
                     self.videoNode?.shouldAutoplay = true
                     self.videoNode?.shouldAutorepeat = true
                     self.videoNode?.muted = true
-                    self.videoNode?.gravity = AVLayerVideoGravity.resizeAspectFill.rawValue
+                    self.videoNode?.gravity = AVLayerVideoGravityResizeAspectFill
                     self.videoNode?.zPosition = 0
                     self.videoNode?.frame = CGRect(origin: origin, size: size)
                     self.videoNode?.url = url
@@ -474,7 +481,7 @@ override func viewDidLoad() {
     }
     
     @IBAction func share(_ sender: Any) {
-           
+   
             let someText:String = "Check out \(SingletonData.staticInstance.selectedObject!.displayName) on ThrilJunky"
             let objectsToShare:URL = URL(string: "https://thriljunky.com/video/\(SingletonData.staticInstance.selectedObject!.key)")!
             let sharedObjects:[AnyObject] = [objectsToShare as AnyObject,someText as AnyObject]
@@ -484,7 +491,7 @@ override func viewDidLoad() {
             activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.mail]
             
             self.present(activityViewController, animated: true, completion: nil)
-      
+        
     }
     
     @IBAction func GetDirections(_ sender: Any) {
@@ -609,96 +616,7 @@ override func viewDidLoad() {
 
         }
         
-//        if(SingletonData.staticInstance.selectedAnnotation != nil){
-//            let lng : Double = Double(SingletonData.staticInstance.selectedAnnotation!.coord.latitude)
-//            let lat : Double = Double(SingletonData.staticInstance.selectedAnnotation!.coord.longitude)
-//
-//            let loc =  SingletonData.staticInstance.location
-//
-//
-//            if item == "Visit Website" && SingletonData.staticInstance.selectedAnnotation!.website != "" {
-//                let url = URL(string: SingletonData.staticInstance.selectedAnnotation!.website!)
-//                UIApplication.shared.openURL(url!)
-//
-//            }
-//
-//            if item == "Watch Again" {
-//
-//                let imageURL = URL(string: SingletonData.staticInstance.selectedAnnotation!.imagePath!)
-//                SingletonData.staticInstance.setVideoImage(imageURL)
-//                SingletonData.staticInstance.setSelectedVideoItem("https://1490263195.rsc.cdn77.org/videos/" + SingletonData.staticInstance.selectedAnnotation!.videoPath!)
-//
-//                self.present(asyncVideoController, animated: true, completion: nil)
-//            }
-//
-//            if item == "Get Directions" {
-//
-//
-//
-//                let url = URL(string: "http://maps.apple.com/?saddr=\(loc!.coordinate.latitude),\(loc!.coordinate.longitude)&daddr=\(lng),\(lat)")
-//                UIApplication.shared.openURL(url!)
-//
-//
-//            }
-//
-//            if item == "Ride With Uber" {
-//
-//                let pickupLocation = CLLocation(latitude: loc!.coordinate.latitude, longitude: loc!.coordinate.longitude)
-//                let dropoffLocation = CLLocation(latitude: lng, longitude: lat)
-//                let dropoffNickname = SingletonData.staticInstance.selectedAnnotation?.displayTitle
-//
-//                print(dropoffLocation)
-//
-//                let builder = RideParametersBuilder().setPickupLocation(pickupLocation).setDropoffLocation(dropoffLocation, nickname: dropoffNickname)
-//                let rideParameters = builder.build()
-//                self.button.requestBehavior.requestRide(rideParameters)
-//
-//            }
-//
-//
-//
-//            if item == "Share" {
-//                let textToShare = "Check out " + SingletonData.staticInstance.selectedAnnotation!.displayTitle! + " on ThrilJunky!"
-//
-//                var url = URL(string: videoRootPath + SingletonData.staticInstance.selectedAnnotation!.videoPath!)!
-//                let urlData = NSData(contentsOf: url)
-//
-//                PHPhotoLibrary.shared().performChanges({
-//                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
-//                }) { saved, error in
-//                    if saved {
-//                        let alertController = UIAlertController(title: "Your video was successfully saved", message: nil, preferredStyle: .alert)
-//                        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-//                        alertController.addAction(defaultAction)
-//                        self.present(alertController, animated: true, completion: nil)
-//                    }
-//                }
-//
-//                if ((urlData) != nil){
-//
-//
-//                    let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-//                    let docDirectory = paths[0]
-//                    let filePath = "\(docDirectory)/tmpVideo.mov"
-//
-//                    urlData?.write(toFile: filePath, atomically: true)
-//                    // file saved
-//
-//                    let videoLink = URL(fileURLWithPath: filePath)
-//
-//
-//                    let activityVC = UIActivityViewController(activityItems: [textToShare, videoLink], applicationActivities: nil)
-//
-//                    activityVC.setValue("Video", forKey: "subject")
-//
-//
-//                    self.present(activityVC, animated: true, completion: nil)
-//                }
-//
-//
-//            }
-//
-//        }
+      
 
       
     }
@@ -865,19 +783,13 @@ override func viewDidLoad() {
                             
                             var object = SingletonData.staticInstance.selectedObject
                             
-                            if(object == nil){
-                                if(SingletonData.staticInstance.selectedObject?.key != item.key){
-                                    self.userGenerateds.append(item)
-                                  
-                                }
-                                
-                            } else {
+                         
                                 if(object?.key != item.key){
                                     self.userGenerateds.append(item)
                                     
                                 }
 
-                            }
+                            
                             
                            
                            }
@@ -890,18 +802,18 @@ override func viewDidLoad() {
     }
 
     
-//    func getRandomColor() -> UIColor{
-//        
-//        var randomRed:CGFloat = CGFloat(drand48())
-//        
-//        var randomGreen:CGFloat = CGFloat(drand48())
-//        
-//        var randomBlue:CGFloat = CGFloat(drand48())
-//        
-//        return UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
-//        
-//    }
-//    
+    func getRandomColor() -> UIColor{
+        
+        var randomRed:CGFloat = CGFloat(drand48())
+        
+        var randomGreen:CGFloat = CGFloat(drand48())
+        
+        var randomBlue:CGFloat = CGFloat(drand48())
+        
+        return UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
+        
+    }
+    
     
     
     override func didReceiveMemoryWarning() {

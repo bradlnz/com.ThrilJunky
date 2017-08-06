@@ -62,7 +62,7 @@ class PickerDialog: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     /* Handle device orientation changes */
-    @objc func deviceOrientationDidChange(notification: NSNotification) {
+    func deviceOrientationDidChange(notification: NSNotification) {
         close() // For now just close it
     }
     
@@ -243,7 +243,7 @@ class PickerDialog: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         container.addSubview(self.doneButton)
     }
     
-    @objc func buttonTapped(sender: UIButton!) {
+    func buttonTapped(sender: UIButton!) {
         if sender.tag == kPickerDialogDoneButtonTag {
             let selectedIndex = self.picker.selectedRow(inComponent: 0)
             let selectedValue = self.pickerData[selectedIndex]["value"]

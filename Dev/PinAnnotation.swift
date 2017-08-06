@@ -10,8 +10,7 @@
 //import Foundation
 //import UIKit
 //
-//
-//class PinAnnotation : MKAnnotation {
+//class PinAnnotation : FBAnnotation {
 //    var coord: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
 //
 //    var key: String? = ""
@@ -33,15 +32,15 @@
 //    var displayTitle : String? = ""
 //    var displayMsg : String? = ""
 //    var displayHint : String? = ""
-//    
-//    
+//
+//
 //    func setCoordinate(_ newCoordinate: CLLocationCoordinate2D) {
 //        self.coord = newCoordinate
 //    }
-//    
+//
 //    deinit{
 //        print(" is being deInitialized.")
-//        
+//
 //    }
 //
 //}

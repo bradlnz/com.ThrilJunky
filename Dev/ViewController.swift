@@ -25,6 +25,7 @@ import GooglePlaces
 class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     let geocoder = CLGeocoder()
+   // var clusteringManager : FBClusteringManager? = nil
     var asyncVideoController = AsyncVideoViewController()
     var playerViewController = PlayerViewController()
     let overlayHintController = OverlayHintController()
@@ -36,6 +37,7 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
     var player = AVPlayer()
     var playerItem : AVPlayerItem?
     var ref: FIRDatabaseReference?
+   // var cluster:[FBAnnotation] = []
     var videoNode : ASVideoNode! = nil
     var networkImage = ASNetworkImageNode()
     var displayNode = ASDisplayNode()
@@ -509,10 +511,10 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
 //        }
     }
     
-    @objc func thumbsDownButtonPressed(){
+    func thumbsDownButtonPressed(){
         self.cardView!.swipe(.left)
     }
-    @objc func thumbsUpButtonPressed(){
+    func thumbsUpButtonPressed(){
         self.cardView!.swipe(.right)
     }
     override func viewDidLoad() {
@@ -567,7 +569,7 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
 //        visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 //        self.navigationController?.navigationBar.addSubview(visualEffectView)
 //        
-      
+        //self.clusteringManager = FBClusteringManager()
         //let logo = UIImage(named: "textNavBar")
         //let imageView = UIImageView(image:logo)
        // self.navigationItem.titleView = imageView
@@ -2184,7 +2186,7 @@ extension ViewController: KolodaViewDataSource {
         
             self.videoNode.muted = false
             self.videoNode.frame = CGRect(origin: origin, size: size)
-            self.videoNode.gravity = AVLayerVideoGravity.resizeAspectFill.rawValue
+            self.videoNode.gravity = AVLayerVideoGravityResizeAspectFill
             self.videoNode.zPosition = 0
             self.videoNode.shouldAutoplay = false
             self.videoNode.layer.shouldRasterize = true

@@ -11,7 +11,6 @@
 #define POP_POP_H
 
 #import <pop/POPDefines.h>
-
 #import <pop/POPAnimatableProperty.h>
 #import <pop/POPAnimation.h>
 #import <pop/POPAnimationEvent.h>
