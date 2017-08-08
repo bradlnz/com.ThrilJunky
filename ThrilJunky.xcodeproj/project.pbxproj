@@ -34,7 +34,13 @@
 		02D919F51D633A530094215F /* PlaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D919F41D633A530094215F /* PlaceController.swift */; };
 		02E0A0541DE14E6F00609917 /* Post.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02E0A0531DE14E6F00609917 /* Post.storyboard */; };
 		02E0A0561DE14E7B00609917 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02E0A0551DE14E7B00609917 /* Login.storyboard */; };
+		0F038E4EBBE8E99933EB2AD6 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A4A3671B3AA95A828B572E /* AssetsLibrary.framework */; };
+		1A3427696A87234C4FAEFF8C /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DDD82C05E575088540401BF /* CoreVideo.framework */; };
+		2BC8C7161E14C3D68B5316E9 /* BuddyBuildSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49B2306C4092A633DD42D97 /* BuddyBuildSDK.framework */; };
 		362804E6DA1B2C9276B33287 /* Pods_ThrilJunky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A967DE6AA66C82E22FE0F67B /* Pods_ThrilJunky.framework */; };
+		49CA2EF8024EF7E310CA4307 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 631FBF7BD6F87D955A26D07E /* SystemConfiguration.framework */; };
+		4B48BF26DF516E3609B5BBBD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62F1620C4CB870DC0422D8C3 /* QuartzCore.framework */; };
+		5014EACBB877E58C7279D6D7 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D55FA259A5C6ADA79D3CA6 /* CoreTelephony.framework */; };
 		8205EE281EC2E7EF0084F88B /* TestSlideShowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205EE271EC2E7EF0084F88B /* TestSlideShowController.swift */; };
 		8205EE2C1EC2EDB50084F88B /* JBKenBurnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205EE2B1EC2EDB50084F88B /* JBKenBurnsView.swift */; };
 		8205EE321EC3BA4F0084F88B /* TestFadeSlideShowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205EE311EC3BA4F0084F88B /* TestFadeSlideShowController.swift */; };
@@ -88,6 +94,8 @@
 		82FA12C61DFAA0A3003CCAB6 /* PickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FA12C51DFAA0A3003CCAB6 /* PickerDialog.swift */; };
 		82FCD0621DEEF61600F4E72D /* FilterCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FCD0611DEEF61600F4E72D /* FilterCollectionView.swift */; };
 		82FCE30A1E641444006348A6 /* TimelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FCE3091E641444006348A6 /* TimelineTableViewCell.swift */; };
+		963ECBD42B8608AEE8BA8351 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC2DC8F9C65CB742F7DE1B56 /* CoreText.framework */; };
+		9EE0884D64437F7FAD476C54 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B0A95545A8E9AA68823BB0B /* AVFoundation.framework */; };
 		A2133A341C420676008ACA2D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2133A331C420676008ACA2D /* AppDelegate.swift */; };
 		A2133A391C420676008ACA2D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A2133A371C420676008ACA2D /* Main.storyboard */; };
 		A2133A3B1C420676008ACA2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2133A3A1C420676008ACA2D /* Assets.xcassets */; };
@@ -144,6 +152,7 @@
 		A2EFAB901C4F947A00635477 /* ForgottenPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFAB8F1C4F947A00635477 /* ForgottenPasswordViewController.swift */; };
 		A2EFAB921C50E26200635477 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EFAB911C50E26200635477 /* CameraViewController.swift */; };
 		A2F683311C75DFA20089FAD8 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F683301C75DFA20089FAD8 /* PlayerViewController.swift */; };
+		A6C41C19F703AEE865A900C9 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B2BEDB67100F86C9CE5E319 /* CoreMedia.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -175,6 +184,12 @@
 		02D919F41D633A530094215F /* PlaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceController.swift; sourceTree = "<group>"; };
 		02E0A0531DE14E6F00609917 /* Post.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Post.storyboard; sourceTree = "<group>"; };
 		02E0A0551DE14E7B00609917 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		04D55FA259A5C6ADA79D3CA6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		1DDD82C05E575088540401BF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		62F1620C4CB870DC0422D8C3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		631FBF7BD6F87D955A26D07E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		71A4A3671B3AA95A828B572E /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		7B2BEDB67100F86C9CE5E319 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		8205EE271EC2E7EF0084F88B /* TestSlideShowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestSlideShowController.swift; sourceTree = "<group>"; };
 		8205EE2B1EC2EDB50084F88B /* JBKenBurnsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JBKenBurnsView.swift; sourceTree = "<group>"; };
 		8205EE311EC3BA4F0084F88B /* TestFadeSlideShowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestFadeSlideShowController.swift; sourceTree = "<group>"; };
@@ -275,6 +290,7 @@
 		82FA12C51DFAA0A3003CCAB6 /* PickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerDialog.swift; sourceTree = "<group>"; };
 		82FCD0611DEEF61600F4E72D /* FilterCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCollectionView.swift; sourceTree = "<group>"; };
 		82FCE3091E641444006348A6 /* TimelineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineTableViewCell.swift; sourceTree = "<group>"; };
+		8B0A95545A8E9AA68823BB0B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		A2133A301C420675008ACA2D /* ThrilJunky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThrilJunky.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2133A331C420676008ACA2D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A2133A381C420676008ACA2D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -336,6 +352,8 @@
 		A2F683301C75DFA20089FAD8 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		A4D9C73F0B3C82ADCB0A4AD9 /* Pods-ThrilJunky.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ThrilJunky.release.xcconfig"; path = "Pods/Target Support Files/Pods-ThrilJunky/Pods-ThrilJunky.release.xcconfig"; sourceTree = "<group>"; };
 		A967DE6AA66C82E22FE0F67B /* Pods_ThrilJunky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ThrilJunky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D49B2306C4092A633DD42D97 /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BuddyBuildSDK.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
+		DC2DC8F9C65CB742F7DE1B56 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,6 +364,15 @@
 				82F40FBB1E9758D600E82ABB /* libc.tbd in Frameworks */,
 				82F40FB91E9758CA00E82ABB /* libc++.tbd in Frameworks */,
 				362804E6DA1B2C9276B33287 /* Pods_ThrilJunky.framework in Frameworks */,
+				2BC8C7161E14C3D68B5316E9 /* BuddyBuildSDK.framework in Frameworks */,
+				0F038E4EBBE8E99933EB2AD6 /* AssetsLibrary.framework in Frameworks */,
+				963ECBD42B8608AEE8BA8351 /* CoreText.framework in Frameworks */,
+				5014EACBB877E58C7279D6D7 /* CoreTelephony.framework in Frameworks */,
+				49CA2EF8024EF7E310CA4307 /* SystemConfiguration.framework in Frameworks */,
+				4B48BF26DF516E3609B5BBBD /* QuartzCore.framework in Frameworks */,
+				9EE0884D64437F7FAD476C54 /* AVFoundation.framework in Frameworks */,
+				A6C41C19F703AEE865A900C9 /* CoreMedia.framework in Frameworks */,
+				1A3427696A87234C4FAEFF8C /* CoreVideo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -681,6 +708,15 @@
 				82F40FBA1E9758D600E82ABB /* libc.tbd */,
 				82F40FB81E9758CA00E82ABB /* libc++.tbd */,
 				A967DE6AA66C82E22FE0F67B /* Pods_ThrilJunky.framework */,
+				D49B2306C4092A633DD42D97 /* BuddyBuildSDK.framework */,
+				71A4A3671B3AA95A828B572E /* AssetsLibrary.framework */,
+				DC2DC8F9C65CB742F7DE1B56 /* CoreText.framework */,
+				04D55FA259A5C6ADA79D3CA6 /* CoreTelephony.framework */,
+				631FBF7BD6F87D955A26D07E /* SystemConfiguration.framework */,
+				62F1620C4CB870DC0422D8C3 /* QuartzCore.framework */,
+				8B0A95545A8E9AA68823BB0B /* AVFoundation.framework */,
+				7B2BEDB67100F86C9CE5E319 /* CoreMedia.framework */,
+				1DDD82C05E575088540401BF /* CoreVideo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1154,6 +1190,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Dev/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1181,6 +1221,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Dev/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
