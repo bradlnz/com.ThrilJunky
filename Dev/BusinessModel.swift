@@ -10,6 +10,7 @@ import Foundation
 
 class BusinessModel : FIRDataObject {
     
+    var uid : String = ""
     var businessName : String = ""
     var address : String = ""
     var website : String = ""

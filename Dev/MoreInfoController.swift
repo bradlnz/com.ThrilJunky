@@ -92,7 +92,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
             i.removeFromSuperview()
         }
     }
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -103,12 +103,189 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
 //        navigationItem.leftBarButtonItem = backButton
         
         title = ""
-//        if(SingletonData.staticInstance.selectedObject == nil){
-//            title = SingletonData.staticInstance.selectedAnnotation!.displayTitle
-//        } else {
-//            title = SingletonData.staticInstance.selectedObject!.displayTitle
-//        }
+        var key: String?
         
+        self.videoNode?.delegate = self
+        self.videoNode = ASVideoNode()
+        
+        if(SingletonData.staticInstance.selectedObject != nil)
+        {
+            key = SingletonData.staticInstance.selectedObject?.key
+        }
+        //    if(SingletonData.staticInstance.selectedAnnotation != nil){
+        //        key = SingletonData.staticInstance.selectedAnnotation?.key
+        //    }
+        
+        videosRef.queryOrdered(byChild: "uid").queryEqual(toValue: key!).observe(.value, with: { (snapshot) in
+            
+            for var item in snapshot.children {
+                let video = VideoModel(snapshot: item as! FIRDataSnapshot)
+                
+                self.update = video.update
+                
+                self.updateLbl.text = self.update
+                
+                if(self.update == ""){
+                    self.updateView.isHidden = true
+                }
+                
+                
+            }
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+        
+        
+        videosRef.queryOrdered(byChild: "uid").queryEqual(toValue: key!).observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            
+            
+            for var item in snapshot.children {
+                let video = VideoModel(snapshot: item as! FIRDataSnapshot)
+                
+                self.ref.child("videos").child(key!).updateChildValues(["views": video.views + 1])
+                
+                
+                self.ref.child("businesses").queryOrdered(byChild: "uid").queryEqual(toValue: video.uid).observe(.value, with: { (snap) in
+                    
+                    for var b in snap.children {
+                        let business = BusinessModel(snapshot: b as! FIRDataSnapshot)
+                        self.displayName = business.businessName
+                        self.displayTitle = business.businessName
+                        self.address = business.address
+                        self.latitude = business.latitude
+                        self.longitude = business.longitude
+                    }
+                    
+                    self.imageName.text = self.displayTitle
+                    self.imageAddress.text = self.address
+                    
+                    self.loadUserGenerated(taggedLocation: self.address)
+                })
+                self.uid = video.uid
+                
+                self.taggedLocation = video.taggedLocation
+                self.userGenerated = video.userGenerated
+                
+                self.videoPath = video.videoPath
+                self.imagePath = video.imagePath
+                
+                self.update = video.update
+                
+                
+                DispatchQueue.main.async {
+                    
+                    
+                    
+                    if video.videoPath.range(of: self.videoPath) != nil {
+                        let url = URL(string: self.videoRootPath + self.videoPath)
+                        let asset = AVAsset(url: url!)
+                        
+                        let origin = CGPoint.zero
+                        let size = CGSize(width: self.moreInfoVideo.frame.width, height: self.moreInfoVideo.frame.height)
+                        
+                        
+                        self.videoNode?.asset = asset
+                        self.videoNode?.shouldAutoplay = true
+                        self.videoNode?.shouldAutorepeat = true
+                        self.videoNode?.muted = true
+                        self.videoNode?.gravity = AVLayerVideoGravityResizeAspectFill
+                        self.videoNode?.zPosition = 0
+                        self.videoNode?.frame = CGRect(origin: origin, size: size)
+                        self.videoNode?.url = url
+                        
+                        
+                        self.moreInfoVideo.addSubnode(self.videoNode!)
+                        
+                    }
+                    
+                    
+                    
+                    //                } else {
+                    //                    if(SingletonData.staticInstance.selectedObject!.website != ""){
+                    //                        self.items.append("Visit Website")
+                    //                    }
+                    //
+                    //                    let url = URL(string:  self.videoRootPath + self.videoPath)
+                    //                    let asset = AVAsset(url: url!)
+                    //
+                    //                    let origin = CGPoint.zero
+                    //                    let size = CGSize(width: self.moreInfoVideo.frame.width, height: self.moreInfoVideo.frame.height)
+                    //                    self.videoNode = ASVideoNode()
+                    //
+                    //                    self.videoNode?.delegate = self
+                    //
+                    //                    self.videoNode?.asset = asset
+                    //                    self.videoNode?.shouldAutoplay = true
+                    //                    self.videoNode?.shouldAutorepeat = true
+                    //                    self.videoNode?.muted = true
+                    //                    self.videoNode?.gravity = AVLayerVideoGravityResizeAspectFill
+                    //                    self.videoNode?.zPosition = 0
+                    //                    self.videoNode?.frame = CGRect(origin: origin, size: size)
+                    //                    self.videoNode?.assetURL = URL(string: "https://storage.googleapis.com/project-316688844667019748.appspot.com/" + self.videoPath)
+                    //                    self.videoNode?.url = url
+                    //
+                    //                    for var i in self.moreInfoVideo.subviews {
+                    //                        i.removeFromSuperview()
+                    //                    }
+                    //
+                    //                    self.moreInfoVideo.addSubnode(self.videoNode!)
+                    //
+                    //
+                    //
+                    //                    self.imageName.text = SingletonData.staticInstance.selectedObject?.displayTitle
+                    //                    self.imageAddress.text = SingletonData.staticInstance.selectedObject?.address
+                    //
+                    //                    self.loadUserGenerated(taggedLocation: SingletonData.staticInstance.selectedObject?.address)
+                    //
+                    //                }
+                    
+                    //                self.collectionView.delegate = self
+                    //                self.collectionView.dataSource = self
+                    self.tableView.delegate = self
+                    self.tableView.dataSource = self
+                    
+                    //                let visibleItems: NSArray = self.collectionView.indexPathsForVisibleItems as NSArray
+                    //
+                    //                if(visibleItems.count > 0){
+                    //                    let currentItem: IndexPath = visibleItems.object(at: 0) as! IndexPath
+                    //                    let nextItem: IndexPath = IndexPath(item: currentItem.item + 1, section: 0)
+                    //                    self.collectionView.scrollToItem(at: nextItem, at: .right, animated: true)
+                    //
+                    //                }
+                    
+                }
+                
+            }
+            
+            
+            self.updateLbl.text = self.update
+            
+            if(self.update == ""){
+                self.updateView.isHidden = true
+            }
+            
+            //    let video = ["uid": self.uid,
+            //                 "update": self.update,
+            //                 "displayTitle": self.displayTitle,
+            //                 "displayName": self.displayName,
+            //                 // "displayHint": displayHint,
+            //        "taggedLocation": self.taggedLocation,
+            //        "userGenerated": self.userGenerated,
+            //        "address": self.address,
+            //        "videoPath" : self.videoPath,
+            //        "imagePath": self.imagePath,
+            //        "latitude": self.latitude,
+            //        "longitude": self.longitude] as [String : Any]
+            //
+            //
+            //
+            
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
     }
     
     
@@ -284,190 +461,8 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         })
     }
     
-override func viewDidLoad() {
-    var key: String?
-    
-    self.videoNode?.delegate = self
-       self.videoNode = ASVideoNode()
-    
-    if(SingletonData.staticInstance.selectedObject != nil)
-    {
-        key = SingletonData.staticInstance.selectedObject?.key
-    }
-//    if(SingletonData.staticInstance.selectedAnnotation != nil){
-//        key = SingletonData.staticInstance.selectedAnnotation?.key
-//    }
-    
-  videosRef.queryOrdered(byChild: "uid").queryEqual(toValue: key!).observe(.value, with: { (snapshot) in
-    
-    for var item in snapshot.children {
-        let video = VideoModel(snapshot: item as! FIRDataSnapshot)
-        
-        self.update = video.update
-        
-        self.updateLbl.text = self.update
-        
-        if(self.update == ""){
-            self.updateView.isHidden = true
-        }
-        
-        
-    }
-        
-      }) { (error) in
-        print(error.localizedDescription)
-     }
-    
-    
-    videosRef.queryOrdered(byChild: "uid").queryEqual(toValue: key!).observeSingleEvent(of: .value, with: { (snapshot) in
-        // Get user value
-        
-        
-        for var item in snapshot.children {
-            let video = VideoModel(snapshot: item as! FIRDataSnapshot)
-            
-            self.ref.child("videos").child(key!).updateChildValues(["views": video.views + 1])
-            
-            
-              self.ref.child("businesses").queryOrdered(byChild: "uid").queryEqual(toValue: video.uid).observe(.value, with: { (snap) in
-                
-                for var b in snap.children {
-                    let business = BusinessModel(snapshot: b as! FIRDataSnapshot)
-                    self.displayName = business.businessName
-                    self.displayTitle = business.businessName
-                    self.address = business.address
-                    self.latitude = business.latitude
-                    self.longitude = business.longitude
-                }
-                
-                self.imageName.text = self.displayTitle
-                self.imageAddress.text = self.address
-                
-                self.loadUserGenerated(taggedLocation: self.address)
-              })
-            self.uid = video.uid
-                
-            self.taggedLocation = video.taggedLocation
-            self.userGenerated = video.userGenerated
-                
-            self.videoPath = video.videoPath
-            self.imagePath = video.imagePath
-                
-            self.update = video.update
-            
-            
-            DispatchQueue.main.async {
-                
-                
-                    
-                if video.videoPath.range(of: self.videoPath) != nil {
-                    let url = URL(string: self.videoRootPath + self.videoPath)
-                    let asset = AVAsset(url: url!)
-                    
-                    let origin = CGPoint.zero
-                    let size = CGSize(width: self.moreInfoVideo.frame.width, height: self.moreInfoVideo.frame.height)
-                    
-                    
-                    self.videoNode?.asset = asset
-                    self.videoNode?.shouldAutoplay = true
-                    self.videoNode?.shouldAutorepeat = true
-                    self.videoNode?.muted = true
-                    self.videoNode?.gravity = AVLayerVideoGravityResizeAspectFill
-                    self.videoNode?.zPosition = 0
-                    self.videoNode?.frame = CGRect(origin: origin, size: size)
-                    self.videoNode?.url = url
-                    
-                    
-                    self.moreInfoVideo.addSubnode(self.videoNode!)
-                    
-                }
-                
-                
-                    
-//                } else {
-//                    if(SingletonData.staticInstance.selectedObject!.website != ""){
-//                        self.items.append("Visit Website")
-//                    }
-//
-//                    let url = URL(string:  self.videoRootPath + self.videoPath)
-//                    let asset = AVAsset(url: url!)
-//
-//                    let origin = CGPoint.zero
-//                    let size = CGSize(width: self.moreInfoVideo.frame.width, height: self.moreInfoVideo.frame.height)
-//                    self.videoNode = ASVideoNode()
-//
-//                    self.videoNode?.delegate = self
-//
-//                    self.videoNode?.asset = asset
-//                    self.videoNode?.shouldAutoplay = true
-//                    self.videoNode?.shouldAutorepeat = true
-//                    self.videoNode?.muted = true
-//                    self.videoNode?.gravity = AVLayerVideoGravityResizeAspectFill
-//                    self.videoNode?.zPosition = 0
-//                    self.videoNode?.frame = CGRect(origin: origin, size: size)
-//                    self.videoNode?.assetURL = URL(string: "https://storage.googleapis.com/project-316688844667019748.appspot.com/" + self.videoPath)
-//                    self.videoNode?.url = url
-//
-//                    for var i in self.moreInfoVideo.subviews {
-//                        i.removeFromSuperview()
-//                    }
-//
-//                    self.moreInfoVideo.addSubnode(self.videoNode!)
-//
-//
-//
-//                    self.imageName.text = SingletonData.staticInstance.selectedObject?.displayTitle
-//                    self.imageAddress.text = SingletonData.staticInstance.selectedObject?.address
-//
-//                    self.loadUserGenerated(taggedLocation: SingletonData.staticInstance.selectedObject?.address)
-//
-//                }
-                    
-//                self.collectionView.delegate = self
-//                self.collectionView.dataSource = self
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                
-//                let visibleItems: NSArray = self.collectionView.indexPathsForVisibleItems as NSArray
-//
-//                if(visibleItems.count > 0){
-//                    let currentItem: IndexPath = visibleItems.object(at: 0) as! IndexPath
-//                    let nextItem: IndexPath = IndexPath(item: currentItem.item + 1, section: 0)
-//                    self.collectionView.scrollToItem(at: nextItem, at: .right, animated: true)
-//
-//                }
-                
-            }
-            
-        }
-        
-        
-        self.updateLbl.text = self.update
-        
-        if(self.update == ""){
-            self.updateView.isHidden = true
-        }
-    
-//    let video = ["uid": self.uid,
-//                 "update": self.update,
-//                 "displayTitle": self.displayTitle,
-//                 "displayName": self.displayName,
-//                 // "displayHint": displayHint,
-//        "taggedLocation": self.taggedLocation,
-//        "userGenerated": self.userGenerated,
-//        "address": self.address,
-//        "videoPath" : self.videoPath,
-//        "imagePath": self.imagePath,
-//        "latitude": self.latitude,
-//        "longitude": self.longitude] as [String : Any]
-//
-//
-//
-        
-        
-    }) { (error) in
-        print(error.localizedDescription)
-    }
+    override func viewDidLoad() {
+  
     }
     
     
@@ -477,7 +472,6 @@ override func viewDidLoad() {
     
     
     @IBAction func contribute(_ sender: Any) {
-     
     }
     
     @IBAction func share(_ sender: Any) {

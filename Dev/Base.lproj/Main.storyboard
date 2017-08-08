@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13156.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13168.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13137.5"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13147.4"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -96,7 +96,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="MWH-iF-cU3" customClass="KolodaView" customModule="Koloda">
-                                <rect key="frame" x="40" y="219" width="334" height="404"/>
+                                <rect key="frame" x="40" y="199" width="334" height="424"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="424" id="OTS-rA-X9o"/>
@@ -129,7 +129,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dWd-co-VUG">
-                                <rect key="frame" x="0.0" y="84" width="414" height="114"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="114"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="114" id="Afm-lI-UHH"/>
@@ -1030,7 +1030,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                 </view>
-                                                <view alpha="0.29999999999999999" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wwS-9e-Q7C">
+                                                <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wwS-9e-Q7C">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="207.66666666666666"/>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
@@ -1086,13 +1086,13 @@
                                                 <constraint firstAttribute="trailing" secondItem="kQc-zc-7y4" secondAttribute="trailing" constant="8" id="uAu-gH-Rx8"/>
                                             </constraints>
                                         </view>
-                                        <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="cd0-U1-4XZ">
+                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="cd0-U1-4XZ">
                                             <rect key="frame" x="0.0" y="207.66666666666663" width="414" height="207.33333333333337"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="QIG-A0-nnY">
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="QIG-A0-nnY">
                                                     <rect key="frame" x="0.0" y="0.0" width="207" height="207.33333333333334"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jq5-mA-INZ">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jq5-mA-INZ">
                                                             <rect key="frame" x="0.0" y="0.0" width="207" height="51.666666666666657"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fdA-0i-DBx">
@@ -1113,7 +1113,7 @@
                                                                 <constraint firstItem="fdA-0i-DBx" firstAttribute="leading" secondItem="Jq5-mA-INZ" secondAttribute="leading" constant="8" id="X87-5s-jbg"/>
                                                             </constraints>
                                                         </view>
-                                                        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rGn-lQ-yDh">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rGn-lQ-yDh">
                                                             <rect key="frame" x="0.0" y="51.666666666666657" width="207" height="52"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SEM-Np-WLl">
@@ -1140,7 +1140,7 @@
                                                                 <constraint firstItem="SEM-Np-WLl" firstAttribute="top" secondItem="rGn-lQ-yDh" secondAttribute="top" constant="16" id="wjJ-xk-Xho"/>
                                                             </constraints>
                                                         </view>
-                                                        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ePv-uf-6hD">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ePv-uf-6hD">
                                                             <rect key="frame" x="0.0" y="103.66666666666666" width="207" height="51.666666666666686"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m5A-5G-z6b">
@@ -1167,7 +1167,7 @@
                                                                 <constraint firstAttribute="bottom" secondItem="m5A-5G-z6b" secondAttribute="bottom" constant="19.670000000000002" id="zef-3g-Nl1"/>
                                                             </constraints>
                                                         </view>
-                                                        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FMl-AC-NUf">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FMl-AC-NUf">
                                                             <rect key="frame" x="0.0" y="155.33333333333334" width="207" height="52"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Website" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JPx-On-7nP">
@@ -1210,10 +1210,10 @@
                                                         <constraint firstItem="FMl-AC-NUf" firstAttribute="top" secondItem="ePv-uf-6hD" secondAttribute="bottom" id="tj3-sg-YGq"/>
                                                     </constraints>
                                                 </stackView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="TT6-gZ-EGX">
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="TT6-gZ-EGX">
                                                     <rect key="frame" x="207" y="0.0" width="207" height="207.33333333333334"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Lm-nI-DTH">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Lm-nI-DTH">
                                                             <rect key="frame" x="0.0" y="0.0" width="207" height="51.666666666666657"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4gO-Xu-SKr">
@@ -1234,7 +1234,7 @@
                                                                 <constraint firstItem="4gO-Xu-SKr" firstAttribute="leading" secondItem="2Lm-nI-DTH" secondAttribute="leading" id="uD2-za-pVR"/>
                                                             </constraints>
                                                         </view>
-                                                        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EyC-dH-44Z">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EyC-dH-44Z">
                                                             <rect key="frame" x="0.0" y="51.666666666666657" width="207" height="52"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="address" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z5p-P6-w5X">
@@ -1251,7 +1251,7 @@
                                                                 <constraint firstItem="z5p-P6-w5X" firstAttribute="top" secondItem="EyC-dH-44Z" secondAttribute="top" constant="15" id="otI-Y2-hXR"/>
                                                             </constraints>
                                                         </view>
-                                                        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VIG-ju-AU4">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VIG-ju-AU4">
                                                             <rect key="frame" x="0.0" y="103.66666666666666" width="207" height="51.666666666666686"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="phone" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LPd-EO-rEN">
@@ -1268,7 +1268,7 @@
                                                                 <constraint firstAttribute="bottom" secondItem="LPd-EO-rEN" secondAttribute="bottom" constant="21" id="bL4-C3-5XV"/>
                                                             </constraints>
                                                         </view>
-                                                        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VF1-Sx-F1u">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VF1-Sx-F1u">
                                                             <rect key="frame" x="0.0" y="155.33333333333334" width="207" height="52"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="website" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OUm-Di-88r">
@@ -1390,7 +1390,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sGb-dR-Rcn">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sGb-dR-Rcn">
                                 <rect key="frame" x="348" y="670" width="59" height="58"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eQF-od-th1">
@@ -1399,6 +1399,7 @@
                                         <state key="normal" image="video-camera-7"/>
                                         <connections>
                                             <action selector="contribute:" destination="p85-tO-5jL" eventType="touchUpInside" id="GHl-FX-xr5"/>
+                                            <segue destination="R6Z-zs-DA2" kind="push" identifier="" id="eeQ-Hc-6Ys"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1449,6 +1450,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XYu-U4-euw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1580" y="-3690"/>
+        </scene>
+        <!--Camera View Controller-->
+        <scene sceneID="ANM-fr-gYh">
+            <objects>
+                <viewController id="R6Z-zs-DA2" customClass="CameraViewController" customModule="ThrilJunky" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8BN-mU-lKO"/>
+                        <viewControllerLayoutGuide type="bottom" id="n9i-W5-zWD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qv4-U9-DKV">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="oZB-JM-oqo"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DZV-LS-gzB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2085" y="-3513"/>
         </scene>
         <!--Preferences-->
         <scene sceneID="Quu-Ry-irP">

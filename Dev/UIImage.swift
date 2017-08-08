@@ -10,6 +10,48 @@ import UIKit
 
 
 extension UIImage {
+    func imageWithColor(color: UIColor) -> UIImage? {
+        var image = withRenderingMode(.alwaysTemplate)
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        color.set()
+        image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
+    
+    func resized(withPercentage percentage: CGFloat) -> UIImage? {
+        let canvasSize = CGSize(width: size.width * percentage, height: size.height * percentage)
+        UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        draw(in: CGRect(origin: .zero, size: canvasSize))
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+    
+    // MARK: - UIImage+Resize
+    func compressTo(_ expectedSizeInMb:Int) -> UIImage? {
+        let sizeInBytes = expectedSizeInMb * 1024 * 1024
+        var needCompress:Bool = true
+        var imgData:Data?
+        var compressingValue:CGFloat = 1.0
+        while (needCompress) {
+            if let data:Data = UIImageJPEGRepresentation(self, compressingValue) {
+                if data.count < sizeInBytes {
+                    needCompress = false
+                    imgData = data
+                } else {
+                    compressingValue -= 0.1
+                }
+            }
+        }
+        
+        if let data = imgData {
+            return UIImage(data: data)
+        }
+        return nil
+    }
+
+    
     class func circle(_ radius: CGFloat, color: UIColor) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSize(width: radius, height: radius), false, 0)
         let ctx = UIGraphicsGetCurrentContext()

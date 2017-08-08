@@ -25,6 +25,7 @@ class RealmObject : Object {
     dynamic var imagePath : String = ""
     dynamic var lat : Float = 0.0
     dynamic var lng : Float = 0.0
+    dynamic var userGenerated : String = ""
 //    dynamic var phoneNumber : String = ""
 //    dynamic var uid : String = ""
     dynamic var videoPath : String = ""

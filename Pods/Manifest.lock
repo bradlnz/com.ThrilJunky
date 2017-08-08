@@ -17,6 +17,7 @@ PODS:
   - Alamofire (4.5.0)
   - AlamofireImage (3.2.0):
     - Alamofire (~> 4.1)
+  - APESuperHUD (1.1.2)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -170,6 +171,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.1)
   - AlamofireImage
+  - APESuperHUD
   - ClusterKit
   - FBSDKCoreKit
   - FBSDKLoginKit
@@ -239,6 +241,7 @@ SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
   AlamofireImage: 157ed682cc81d3b9db4fb90c1f12180ac552d93b
+  APESuperHUD: 9c7ea17cea21b4a9212f1c43810b0c8b9ee585a6
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   ClusterKit: f198b2d4fb9656b00889d1df319791237a6b9855
   FBSDKCoreKit: 53e3f4bfb64e80c5f229dd30ae33ff57fbbbd2d1
@@ -283,6 +286,6 @@ SPEC CHECKSUMS:
   Texture: 8cf0872fe33328c20d7e6c1fcbf1f23a82162f2f
   UberRides: 96eb232374a6e8e616c20fdba83c2643a6ad08dc
 
-PODFILE CHECKSUM: faeefe94af16869f648768658af02cd16736d883
+PODFILE CHECKSUM: 9107a524d5d89bd4d08d10f1aa437f11bdca136b
 
 COCOAPODS: 1.1.1

@@ -17,6 +17,7 @@ class FIRItem: FIRDataObject {
     var address : String = ""
     var businessName : String = ""
     var createdAt : String = ""
+    var userGenerated : String = ""
     var displayName : String = ""
     var displayHint: String = ""
     var displayMsg: String = ""

@@ -723,9 +723,10 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
                    // self.mapView.removeAnnotations(allAnnotations!)
                     
                     for snap in snapshot.children{
+                    
                         let item = FIRItem(snapshot: snap as! FIRDataSnapshot)
                         
-                        if(item.videoPath != ""){
+                        if(item.userGenerated == "false"){
                            
                           //  let pinAnnotation = PinAnnotation()
                             
@@ -998,8 +999,9 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
        
             for item in results2 {
                 
-                SingletonData.staticInstance.appendObject(item)
-                self.videos.append(item)
+                    SingletonData.staticInstance.appendObject(item)
+                    self.videos.append(item)
+                
             }
     }
 
