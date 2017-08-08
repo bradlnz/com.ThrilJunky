@@ -185,10 +185,10 @@ class AsyncVideoViewController: UIViewController, ASVideoNodeDelegate {
         self.view.addSubview(self.closeBtn)
        // self.view.addSubview(self.tickBtn)
         self.view.addSubview(self.timeLabel)
-        self.view.addSubview(self.profileLabel)
+      //  self.view.addSubview(self.profileLabel)
      //   self.view.addSubview(self.wouldYouDoThisLabel)
         self.view.addSubview(self.Desc)
-        self.view.addSubview(self.DisplayTitle)
+      //  self.view.addSubview(self.DisplayTitle)
         self.view.addSubview(self.blurEffectView!)
         
 

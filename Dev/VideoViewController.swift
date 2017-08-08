@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 import Firebase
 import AVKit
+import APESuperHUD
 
 class VideoViewController: UIViewController {
     
@@ -13,6 +14,7 @@ class VideoViewController: UIViewController {
     var address : String = ""
     var phone : String = ""
     var website : String = ""
+    var aKey : String = ""
     
     private var videoURL: URL
     
@@ -99,24 +101,15 @@ class VideoViewController: UIViewController {
         }) { (error) in
             print(error.localizedDescription)
         }
-        
-        let a = self.ref.child("businesses").childByAutoId().key
-        let key = user?.uid as! String
-        
-        let item = [
-            "url" : "\(a).mp4"
-        ]
-        self.ref.updateChildValues(["/businesses/\(key)/content/\(a)": item])
-        
-        // Create a reference to the file you want to upload
-        let ref = storageRef.child("images/business/\(key)/\(a).mp4")
-        
-        // Upload the file to the path "images/rivers.jpg"
-        
+     
         let data = NSData(contentsOf: videoURL) as Data?
         // let data = UIImagePNGRepresentation(backgroundImage) as Data?
         
-        let uploadTask = ref.put(data!, metadata: nil) { (metadata, error) in
+        let a = self.ref.child("videos").childByAutoId().key
+        let stoRef = self.storageRef.child("videos/\(self.user!.uid)/\(a).mp4")
+        self.aKey = a
+       
+        let uploadTask = stoRef.put(data!, metadata: nil) { (metadata, error) in
             
         }
         
@@ -133,11 +126,45 @@ class VideoViewController: UIViewController {
             
         }
         
+        uploadTask.observe(.failure) { snapchat in
+            APESuperHUD.showOrUpdateHUD(icon: IconType.sadFace, message: "Incomplete.. Try again", presentingView: self.view, completion: nil)
+        }
+        
+        
         uploadTask.observe(.success) { snapshot in
-            print("done!")
-            self.dismiss(animated: true, completion: {
+            let date = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ssZZZ"
+            dateFormatter.timeZone = TimeZone.autoupdatingCurrent
+            
+            print(dateFormatter.string(from: date))
+            let parseDate = dateFormatter.string(from: date)
+            
+            let image = ["uid": self.user!.uid,
+                         "displayTitle": self.businessName,
+                         "displayName": self.businessName,
+                         "userGenerated": "true",
+                         "address": self.address,
+                         "videoPath" : "https://project-316688844667019748.appspot.com.storage.googleapis.com/videos/\(self.user!.uid)/\(self.aKey).mp4",
+                         "imagePath": "https://project-316688844667019748.appspot.com.storage.googleapis.com/images/\(self.user!.uid)/\(self.aKey)_thumb.jpg",
+                "latitude": "\(SingletonData.staticInstance.selectedObject!.lat)",
+                // "tags": tags,
+                "longitude": "\(SingletonData.staticInstance.selectedObject!.lng)",
+                "createdAt": parseDate] as [String : Any]
+            
+            self.ref.updateChildValues(["/videos/\(self.aKey)": image])
+            
+            
+            APESuperHUD.showOrUpdateHUD(icon: .checkMark, message: "Completed", presentingView: self.view, completion: {
+                APESuperHUD.removeHUD(animated: true, presentingView: self.view, completion: { _ in
+                    // Completed
+                })
+                self.dismiss(animated: true, completion: {
+                    
+                })
                 
             })
+            
         }
     }
 }

@@ -82,6 +82,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func viewWebsite(_ sender: Any) {
+        print(SingletonData.staticInstance.selectedObject!.website)
         if SingletonData.staticInstance.selectedObject!.website != "" {
             let url = URL(string: SingletonData.staticInstance.selectedObject!.website)
             UIApplication.shared.open(url!)

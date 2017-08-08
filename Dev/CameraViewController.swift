@@ -17,7 +17,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         super.viewDidLoad()
         
         cameraDelegate = self
-        maximumVideoDuration = 0.1
+        maximumVideoDuration = 10.0
         shouldUseDeviceOrientation = true
         
         let cancelButton = UIButton(frame: CGRect(x: 10.0, y: 10.0, width: 30.0, height: 30.0))
