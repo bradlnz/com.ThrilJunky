@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>ThrilJunky is monitoring your location</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en_US</string>
 	<key>CFBundleExecutable</key>
@@ -54,7 +56,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Open the Camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location service</string>
+	<string>ThrilJunky will use your location</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>ThrilJunky would like to use your microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>

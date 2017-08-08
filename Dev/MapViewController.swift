@@ -26,7 +26,10 @@ class MapViewController: UIViewController {
         locationManager.delegate = nil
         mapView.delegate = nil
     }
-    override func viewWillAppear(_ animated: Bool) {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -41,11 +44,6 @@ class MapViewController: UIViewController {
         locationManager.startUpdatingLocation()
         locationManager.delegate = self
         mapView.delegate = self
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
         
         
         dismissMapBtn.layer.cornerRadius = 25
@@ -61,7 +59,7 @@ class MapViewController: UIViewController {
                 print(snapshot.children)
                 let item = FIRItem(snapshot: snap as! FIRDataSnapshot)
                 
-                if(item.videoPath != ""){
+                if(item.userGenerated == "false"){
                     
                     
                     FIRDatabase.database().reference().child("businesses").queryOrdered(byChild: "uid").queryEqual(toValue: item.uid).observeSingleEvent(of: .value, with: { (snap) in

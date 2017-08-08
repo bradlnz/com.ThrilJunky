@@ -352,7 +352,7 @@
 		A2F683301C75DFA20089FAD8 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		A4D9C73F0B3C82ADCB0A4AD9 /* Pods-ThrilJunky.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ThrilJunky.release.xcconfig"; path = "Pods/Target Support Files/Pods-ThrilJunky/Pods-ThrilJunky.release.xcconfig"; sourceTree = "<group>"; };
 		A967DE6AA66C82E22FE0F67B /* Pods_ThrilJunky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ThrilJunky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D49B2306C4092A633DD42D97 /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BuddyBuildSDK.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
+		D49B2306C4092A633DD42D97 /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
 		DC2DC8F9C65CB742F7DE1B56 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 

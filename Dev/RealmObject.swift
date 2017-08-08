@@ -30,6 +30,7 @@ class RealmObject : Object {
 //    dynamic var uid : String = ""
     dynamic var videoPath : String = ""
     dynamic var website : String = ""
+    dynamic var phone : String = ""
 //    dynamic var userPhoto : String = ""
 //    dynamic var taggedLocation : String = ""
     dynamic var voteUp : Int = 0

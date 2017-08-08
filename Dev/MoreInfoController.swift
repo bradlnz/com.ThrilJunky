@@ -81,18 +81,25 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         self.navigationController?.popViewController(animated: true)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        videoNode?.delegate = nil
-       videoNode = nil
-     
-        self.tableView.delegate = nil
-        self.tableView.dataSource = nil
-        
-        for var i in self.moreInfoVideo.subviews {
-            i.removeFromSuperview()
+    @IBAction func viewWebsite(_ sender: Any) {
+        if SingletonData.staticInstance.selectedObject!.website != "" {
+            let url = URL(string: SingletonData.staticInstance.selectedObject!.website)
+            UIApplication.shared.open(url!)
         }
     }
-    override func viewDidAppear(_ animated: Bool) {
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        videoNode?.delegate = nil
+//       videoNode = nil
+     
+       // self.tableView.delegate = nil
+       // self.tableView.dataSource = nil
+//
+//        for var i in self.moreInfoVideo.subviews {
+//            i.removeFromSuperview()
+//        }
+    }
+    override func viewDidLoad(){
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -111,7 +118,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         if(SingletonData.staticInstance.selectedObject != nil)
         {
             key = SingletonData.staticInstance.selectedObject?.key
-        }
+        
         //    if(SingletonData.staticInstance.selectedAnnotation != nil){
         //        key = SingletonData.staticInstance.selectedAnnotation?.key
         //    }
@@ -285,6 +292,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
             
         }) { (error) in
             print(error.localizedDescription)
+        }
         }
     }
     
@@ -461,30 +469,46 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         })
     }
     
-    override func viewDidLoad() {
-  
-    }
-    
-    
+   
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.items.count
     }
     
+    @IBAction func call(_ sender: Any) {
+          if SingletonData.staticInstance.selectedObject!.phone != "" {
+            if let url = URL(string: "tel://\(SingletonData.staticInstance.selectedObject!.phone)") {
+                UIApplication.shared.open(url)
+            }
+        }
+    }
     
     @IBAction func contribute(_ sender: Any) {
     }
     
     @IBAction func share(_ sender: Any) {
    
-            let someText:String = "Check out \(SingletonData.staticInstance.selectedObject!.displayName) on ThrilJunky"
-            let objectsToShare:URL = URL(string: "https://thriljunky.com/video/\(SingletonData.staticInstance.selectedObject!.key)")!
-            let sharedObjects:[AnyObject] = [objectsToShare as AnyObject,someText as AnyObject]
-            let activityViewController = UIActivityViewController(activityItems : sharedObjects, applicationActivities: nil)
-            activityViewController.popoverPresentationController?.sourceView = self.view
+        let urlData = NSData(contentsOf: NSURL(string: "https://storage.googleapis.com/project-316688844667019748.appspot.com/\(SingletonData.staticInstance.selectedObject!.videoPath)")! as URL)
+        
+        if ((urlData) != nil){
             
-            activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.mail]
+            let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docDirectory = paths[0]
+            let filePath = "\(docDirectory)/tmpVideo.mov"
+            urlData?.write(toFile: filePath, atomically: true)
+            // file saved
             
-            self.present(activityViewController, animated: true, completion: nil)
+            let videoLink = NSURL(fileURLWithPath: filePath)
+            
+            
+            let objectsToShare = [videoLink] //comment!, imageData!, myWebsite!]
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            
+            activityVC.setValue("Video", forKey: "subject")
+            
+            
+            
+            self.present(activityVC, animated: true, completion: nil)
+        }
         
     }
     
@@ -496,7 +520,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         let loc =  SingletonData.staticInstance.location
         
         let url = URL(string: "http://maps.apple.com/?saddr=\(loc!.coordinate.latitude),\(loc!.coordinate.longitude)&daddr=\(lng),\(lat)")
-        UIApplication.shared.openURL(url!)
+        UIApplication.shared.open(url!)
         
     }
     
@@ -698,7 +722,8 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.displayTitle.text = item.displayTitle
         
         cell.displayImg.imageFromServerURL(urlString: item.imagePath)
-        
+        cell.displayImg.layer.masksToBounds = true
+        cell.displayImg.layer.cornerRadius = 40
         cell.backgroundColor = UIColor.lightGray
 
         
@@ -774,7 +799,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                             
                            for group in snapshot.children {
                                let item = FIRItem(snapshot: group as! FIRDataSnapshot)
-                            
+                            if item.userGenerated == "true" {
                             var object = SingletonData.staticInstance.selectedObject
                             
                          
@@ -783,7 +808,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                                     
                                 }
 
-                            
+                            }
                             
                            
                            }

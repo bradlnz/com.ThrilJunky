@@ -226,7 +226,7 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
                     if let accessToken = FBSDKAccessToken.current(){
                         print(accessToken)
                      //   HUD.hide()
-                              if(self.cameraChecked && self.photosChecked && self.microphoneChecked){
+                      if(self.cameraChecked && self.photosChecked && self.microphoneChecked){
                         
                         self.goToHomeView()
                         }

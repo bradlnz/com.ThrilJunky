@@ -168,7 +168,7 @@ class PhotoViewController: UIViewController {
                              "userGenerated": "true",
                              "address": self.address,
                              "videoPath" : "-",
-                             "imagePath": "images/\(self.user!.uid)/\(self.aKey).jpg",
+                             "imagePath": "https://project-316688844667019748.appspot.com.storage.googleapis.com/images/\(self.user!.uid)/\(self.aKey).jpg",
                              "latitude": "\(SingletonData.staticInstance.selectedObject!.lat)",
                     // "tags": tags,
                     "longitude": "\(SingletonData.staticInstance.selectedObject!.lng)",

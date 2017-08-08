@@ -764,7 +764,7 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
                                         obj.lng = Float(lng!)
                                         obj.videoPath = item.videoPath
                                         obj.website = item.website
-                                        
+                                        obj.phone = item.phone
                                         
                                         realm.add(obj)
                                     }

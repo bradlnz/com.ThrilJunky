@@ -29,6 +29,7 @@ class FIRItem: FIRDataObject {
     var uid : String = ""
     var videoPath : String = ""
     var website : String = ""
+    var phone : String = ""
     var userPhoto : String = ""
     var taggedLocation : String = ""
     var images = [UIImageView]()
