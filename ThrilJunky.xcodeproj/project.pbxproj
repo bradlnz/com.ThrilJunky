@@ -33,7 +33,6 @@
 		02E0A0561DE14E7B00609917 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02E0A0551DE14E7B00609917 /* Login.storyboard */; };
 		0F038E4EBBE8E99933EB2AD6 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A4A3671B3AA95A828B572E /* AssetsLibrary.framework */; };
 		1A3427696A87234C4FAEFF8C /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DDD82C05E575088540401BF /* CoreVideo.framework */; };
-		2BC8C7161E14C3D68B5316E9 /* BuddyBuildSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49B2306C4092A633DD42D97 /* BuddyBuildSDK.framework */; };
 		362804E6DA1B2C9276B33287 /* Pods_ThrilJunky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A967DE6AA66C82E22FE0F67B /* Pods_ThrilJunky.framework */; };
 		49CA2EF8024EF7E310CA4307 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 631FBF7BD6F87D955A26D07E /* SystemConfiguration.framework */; };
 		4B48BF26DF516E3609B5BBBD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62F1620C4CB870DC0422D8C3 /* QuartzCore.framework */; };
@@ -319,7 +318,6 @@
 				82F40FBB1E9758D600E82ABB /* libc.tbd in Frameworks */,
 				82F40FB91E9758CA00E82ABB /* libc++.tbd in Frameworks */,
 				362804E6DA1B2C9276B33287 /* Pods_ThrilJunky.framework in Frameworks */,
-				2BC8C7161E14C3D68B5316E9 /* BuddyBuildSDK.framework in Frameworks */,
 				0F038E4EBBE8E99933EB2AD6 /* AssetsLibrary.framework in Frameworks */,
 				963ECBD42B8608AEE8BA8351 /* CoreText.framework in Frameworks */,
 				5014EACBB877E58C7279D6D7 /* CoreTelephony.framework in Frameworks */,
