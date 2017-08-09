@@ -238,7 +238,7 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
         yesBtn.backgroundColor = UIColor.white
         yesBtn.clipsToBounds = true
         yesBtn.tintColor = UIColor.green
-        yesBtn.setImage(UIImage(named:"icons8-like"), for: .normal)
+        yesBtn.setImage(UIImage(named:"icons8-like_filled"), for: .normal)
         yesBtn.addTarget(self, action: #selector(thumbsUpButtonPressed), for: .touchUpInside)
     
         noBtn.layer.cornerRadius = 0.5 * noBtn.bounds.size.width

@@ -483,9 +483,12 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func contribute(_ sender: Any) {
+        DispatchQueue.main.async {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "CameraViewController")
         self.present(vc, animated: true) {
+            
+            }
             
         }
     }
