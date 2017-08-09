@@ -10,9 +10,9 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     
     func cancel() {
-        dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,7 +25,8 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         cancelButton.setImage(UIImage(named: "icons8-delete_sign_filled"), for: UIControlState())
         cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         view.addSubview(cancelButton)
-        
+     UIApplication.shared.isStatusBarHidden = true
+      self.navigationController?.isNavigationBarHidden = true
         addButtons()
     }
     

@@ -42,7 +42,7 @@
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <color key="tintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <state key="normal" image="icons8-star_filled">
+                                                        <state key="normal" image="icons8-shipping_container">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
@@ -56,7 +56,7 @@
                                                 <rect key="frame" x="82.666666666666657" y="0.0" width="82.999999999999972" height="63"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e5v-Dp-4ep">
+                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e5v-Dp-4ep">
                                                 <rect key="frame" x="165.66666666666666" y="0.0" width="82.666666666666686" height="63"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
@@ -72,7 +72,7 @@
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <state key="normal" image="icons8-map_filled">
+                                                        <state key="normal" image="icons8-point_objects">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
@@ -168,21 +168,41 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bzd-yp-98z">
+                                <rect key="frame" x="227" y="648" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="EpB-7J-1iA"/>
+                                    <constraint firstAttribute="width" constant="80" id="rsD-e3-Ija"/>
+                                </constraints>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u0Z-R0-iWx">
+                                <rect key="frame" x="127" y="648" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="Q59-He-MPO"/>
+                                    <constraint firstAttribute="height" constant="80" id="h5M-AE-4ft"/>
+                                </constraints>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="oSW-Vb-ykF" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="0Bq-Jh-lfg"/>
+                            <constraint firstItem="XSR-lX-2FZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="0Ug-VU-u2n"/>
                             <constraint firstAttribute="trailing" secondItem="dWd-co-VUG" secondAttribute="trailing" id="1Zy-5r-Sa6"/>
+                            <constraint firstItem="u0Z-R0-iWx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-40" id="2HI-tQ-cxu"/>
                             <constraint firstItem="ByS-7C-8Bv" firstAttribute="top" secondItem="o0G-Sa-njL" secondAttribute="bottom" constant="15" id="3V7-bS-FIy"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="u0Z-R0-iWx" secondAttribute="bottom" constant="8" id="5ft-qS-yC5"/>
                             <constraint firstItem="o0G-Sa-njL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8wu-d7-Wr6"/>
                             <constraint firstItem="oSW-Vb-ykF" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="91K-9e-1wC"/>
                             <constraint firstAttribute="trailing" secondItem="dWd-co-VUG" secondAttribute="trailing" id="CZ0-sO-yzx"/>
                             <constraint firstItem="ByS-7C-8Bv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Cf8-zo-NEG"/>
                             <constraint firstItem="MWH-iF-cU3" firstAttribute="top" secondItem="dWd-co-VUG" secondAttribute="bottom" constant="21" id="Exq-WQ-wbS"/>
+                            <constraint firstItem="bzd-yp-98z" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="60" id="G1V-DX-0z5"/>
                             <constraint firstAttribute="trailing" secondItem="XSR-lX-2FZ" secondAttribute="trailing" id="NGy-yS-XXh"/>
                             <constraint firstAttribute="trailing" secondItem="MWH-iF-cU3" secondAttribute="trailing" constant="40" id="NKk-qI-ypJ"/>
                             <constraint firstItem="dWd-co-VUG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="PZn-z5-mG9"/>
+                            <constraint firstAttribute="trailing" secondItem="XSR-lX-2FZ" secondAttribute="trailing" id="R0K-oI-a2U"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="bzd-yp-98z" secondAttribute="bottom" constant="8" id="TPp-p6-vxC"/>
                             <constraint firstItem="XSR-lX-2FZ" firstAttribute="top" secondItem="MWH-iF-cU3" secondAttribute="bottom" constant="50" id="UkD-UN-PHU"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="XSR-lX-2FZ" secondAttribute="bottom" id="aLQ-rA-d7b"/>
                             <constraint firstItem="o0G-Sa-njL" firstAttribute="top" secondItem="oSW-Vb-ykF" secondAttribute="bottom" constant="4.0000000000000568" id="kmq-vR-k7j"/>
@@ -190,6 +210,7 @@
                             <constraint firstItem="dWd-co-VUG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rR6-Nv-ctz"/>
                             <constraint firstItem="MWH-iF-cU3" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="40" id="sPU-Tc-KI0"/>
                             <constraint firstItem="dWd-co-VUG" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="uSO-kZ-Q0P"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="XSR-lX-2FZ" secondAttribute="bottom" id="wOa-Sl-2IN"/>
                             <constraint firstItem="XSR-lX-2FZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="zx7-wA-wee"/>
                         </constraints>
                     </view>
@@ -214,9 +235,11 @@
                         <outlet property="filterBtn" destination="yfm-ra-waZ" id="brk-mS-8a3"/>
                         <outlet property="menu" destination="XSR-lX-2FZ" id="uyj-b8-Opp"/>
                         <outlet property="navItem" destination="7ZR-Jh-0bu" id="zCf-Cg-MW5"/>
+                        <outlet property="noBtn" destination="u0Z-R0-iWx" id="bNR-ia-C66"/>
                         <outlet property="noMoreTitle" destination="oSW-Vb-ykF" id="WcZ-sk-YAI"/>
                         <outlet property="refreshBtn" destination="ByS-7C-8Bv" id="TCQ-cc-qDY"/>
                         <outlet property="toggleMap" destination="OqF-tI-2Kn" id="Jxa-6x-JdE"/>
+                        <outlet property="yesBtn" destination="bzd-yp-98z" id="aK1-MM-tw6"/>
                         <outlet property="yourPicksBtn" destination="UKa-nb-UuO" id="7Hk-fA-CqO"/>
                         <segue destination="p85-tO-5jL" kind="push" identifier="moreInfoSegue" id="lvS-mz-bjk"/>
                     </connections>
@@ -1111,7 +1134,7 @@
                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="map-paper-pin" translatesAutoresizingMaskIntoConstraints="NO" id="oeu-TN-Rp5">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-small_business" translatesAutoresizingMaskIntoConstraints="NO" id="oeu-TN-Rp5">
                                                                     <rect key="frame" x="20" y="16" width="17" height="17"/>
                                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <constraints>
@@ -1133,7 +1156,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ePv-uf-6hD">
                                                             <rect key="frame" x="0.0" y="103.66666666666666" width="207" height="51.666666666666686"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone" translatesAutoresizingMaskIntoConstraints="NO" id="gcK-C7-wRt">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-phone_filled" translatesAutoresizingMaskIntoConstraints="NO" id="gcK-C7-wRt">
                                                                     <rect key="frame" x="20" y="18" width="17" height="17"/>
                                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <constraints>
@@ -1164,7 +1187,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3rA-YX-Alz">
                                                             <rect key="frame" x="0.0" y="155.33333333333334" width="207" height="52"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="share1" translatesAutoresizingMaskIntoConstraints="NO" id="6Cu-bz-AQC">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-upload" translatesAutoresizingMaskIntoConstraints="NO" id="6Cu-bz-AQC">
                                                                     <rect key="frame" x="20" y="17" width="17" height="17"/>
                                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <constraints>
@@ -1247,7 +1270,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FMl-AC-NUf">
                                                             <rect key="frame" x="0.0" y="103.66666666666666" width="207" height="51.666666666666686"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="website" translatesAutoresizingMaskIntoConstraints="NO" id="wA7-yN-dKe">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-sidebar_menu" translatesAutoresizingMaskIntoConstraints="NO" id="wA7-yN-dKe">
                                                                     <rect key="frame" x="24" y="16" width="17" height="17"/>
                                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <constraints>
@@ -1286,10 +1309,9 @@
                                                                     </state>
                                                                     <connections>
                                                                         <action selector="contribute:" destination="p85-tO-5jL" eventType="touchUpInside" id="GHl-FX-xr5"/>
-                                                                        <segue destination="R6Z-zs-DA2" kind="push" identifier="" id="eeQ-Hc-6Ys"/>
                                                                     </connections>
                                                                 </button>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera" translatesAutoresizingMaskIntoConstraints="NO" id="dZF-aF-cXk">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-camera_filled" translatesAutoresizingMaskIntoConstraints="NO" id="dZF-aF-cXk">
                                                                     <rect key="frame" x="24" y="18" width="17" height="17"/>
                                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <constraints>
@@ -1451,12 +1473,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XYu-U4-euw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1580" y="-3690"/>
+            <point key="canvasLocation" x="1576" y="-3723"/>
         </scene>
         <!--Camera View Controller-->
         <scene sceneID="ANM-fr-gYh">
             <objects>
-                <viewController id="R6Z-zs-DA2" customClass="CameraViewController" customModule="ThrilJunky" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CameraViewController" id="R6Z-zs-DA2" customClass="CameraViewController" customModule="ThrilJunky" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8BN-mU-lKO"/>
                         <viewControllerLayoutGuide type="bottom" id="n9i-W5-zWD"/>
@@ -2122,19 +2144,19 @@
         </scene>
     </scenes>
     <resources>
-        <image name="camera" width="30" height="30"/>
         <image name="close" width="22" height="22"/>
         <image name="food-1" width="25" height="25"/>
+        <image name="icons8-camera_filled" width="30" height="30"/>
         <image name="icons8-long_arrow_left_filled" width="30" height="30"/>
-        <image name="icons8-map_filled" width="30" height="30"/>
-        <image name="icons8-star_filled" width="30" height="30"/>
-        <image name="map-paper-pin" width="29" height="30"/>
-        <image name="phone" width="30" height="30"/>
-        <image name="share1" width="100" height="100"/>
+        <image name="icons8-phone_filled" width="30" height="30"/>
+        <image name="icons8-point_objects" width="30" height="30"/>
+        <image name="icons8-shipping_container" width="30" height="30"/>
+        <image name="icons8-sidebar_menu" width="30" height="30"/>
+        <image name="icons8-small_business" width="30" height="30"/>
+        <image name="icons8-upload" width="30" height="30"/>
         <image name="thumb-down" width="30" height="30"/>
         <image name="thumb-up" width="30" height="30"/>
         <image name="ui-bullets" width="32" height="32"/>
-        <image name="website" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="lvS-mz-bjk"/>
