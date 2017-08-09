@@ -39,8 +39,7 @@ extension LocationSearchTable: UISearchResultsUpdating {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        let cell = tableView.cellForRow(at: indexPath)
-        print(cell?.detailTextLabel?.text)
-        
+         
         if(cell?.detailTextLabel?.text != "  "){
         searchMap(cell?.detailTextLabel?.text)
         }
@@ -56,7 +55,7 @@ extension LocationSearchTable: UISearchResultsUpdating {
         geocoder.geocodeAddressString(input!) { (placemarks, error) -> Void in
             
             if error != nil {
-                print(error?.localizedDescription)
+               
             } else {
                 if placemarks!.count > 0 {
                     let placemark = placemarks![0] as CLPlacemark

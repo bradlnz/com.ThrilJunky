@@ -110,7 +110,7 @@ class PhotoViewController: UIViewController {
             self.ref.child("businesses").queryOrdered(byChild: "uid").queryEqual(toValue: SingletonData.staticInstance.selectedObject!.key).observe(.value, with: { (snapshot) in
                 // Get user value
                 
-                for var item in snapshot.children {
+                for item in snapshot.children {
                     let business = BusinessModel(snapshot: item as! FIRDataSnapshot)
                     
                     self.businessName = business.businessName

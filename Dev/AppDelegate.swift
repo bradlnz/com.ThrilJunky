@@ -45,24 +45,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         GMSServices.provideAPIKey("AIzaSyB1CfDdCqRr4Xx6lBVNCcXigG1lWA1MJiI")
         GMSPlacesClient.provideAPIKey("AIzaSyDx-_HkMZEHQEoZLt66laEsTfeGx2I4irc")
         
-        
-        if #available(iOS 10.0, *) {
-            // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = self
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: {_, _ in })
-            // For iOS 10 data message (sent via FCM
-            FIRMessaging.messaging().remoteMessageDelegate = self
-        } else {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
-        }
-        
-        application.registerForRemoteNotifications()
-        
+//
+//        if #available(iOS 10.0, *) {
+//            // For iOS 10 display notification (sent via APNS)
+//            UNUserNotificationCenter.current().delegate = self
+//            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+//            UNUserNotificationCenter.current().requestAuthorization(
+//                options: authOptions,
+//                completionHandler: {_, _ in })
+//            // For iOS 10 data message (sent via FCM
+//            FIRMessaging.messaging().remoteMessageDelegate = self
+//        } else {
+//            let settings: UIUserNotificationSettings =
+//                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+//            application.registerUserNotificationSettings(settings)
+//        }
+//
+//        application.registerForRemoteNotifications()
+//
         FIRApp.configure()
       //  FIRDatabase.database().persistenceEnabled = true
        

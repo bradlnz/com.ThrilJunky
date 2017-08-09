@@ -89,17 +89,25 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        videoNode?.delegate = nil
-//       videoNode = nil
-     
-       // self.tableView.delegate = nil
-       // self.tableView.dataSource = nil
-//
-//        for var i in self.moreInfoVideo.subviews {
-//            i.removeFromSuperview()
-//        }
+    
+    func reportVideo(_ item : RealmObject) {
+        let pickerData = [
+            ["value": "NotForMe", "display": "Not for me"],
+            ["value": "AlreadySeenVideo", "display": "Already seen video"],
+            ["value": "VideoDoesntLoad", "display": "Video doesn't load"],
+            ["value": "Spam", "display": "Spam"],
+            ["value": "WrongCategory", "display": "Wrong Category"],
+            ["value": "BlockVideo", "display": "Block Video"]
+        ]
+        
+        
+        PickerDialog().show(title: "Report Inappropriate", options: pickerData, selected: "NotForMe") {
+            (value) -> Void in
+            
+            print("Unit selected: \(value)")
+        }
     }
+    
     override func viewDidLoad(){
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -328,8 +336,6 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                     var snap = FIRItem(snapshot: snapshot)
                     
                     
-                    if count == 0 {
-                        
                         self.videosRef.child(key!).updateChildValues(["voteUp": snap.voteUp + 1])
                         let videoCount : Float = Float(self.mostPopularVideos.count)
                         
@@ -360,9 +366,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                         // Present Alert Controller
                         self.present(alertController, animated: true, completion: nil)
                         
-                        
-                        count = 1
-                    }
+                    
                     
                     
                 }) { (error) in
@@ -411,9 +415,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                     
                     var snap = FIRItem(snapshot: snapshot)
                     
-                    
-                    if count == 0 {
-                        
+                
                         self.videosRef.child(key!).updateChildValues(["voteDown": snap.voteDown + 1])
                         let videoCount : Float = Float(self.mostPopularVideos.count)
                         
@@ -443,10 +445,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                         
                         // Present Alert Controller
                         self.present(alertController, animated: true, completion: nil)
-                        
-                        
-                        count = 1
-                    }
+                     
                     
                     
                 }) { (error) in
@@ -484,6 +483,11 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func contribute(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "CameraViewController")
+        self.present(vc, animated: true) {
+            
+        }
     }
     
     @IBAction func share(_ sender: Any) {
@@ -578,10 +582,10 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
             if item == "Get Directions" {
                 
                 
-                let url = URL(string: "http://maps.apple.com/?saddr=\(loc!.coordinate.latitude),\(loc!.coordinate.longitude)&daddr=\(lng),\(lat)")
-                UIApplication.shared.openURL(url!)
+                if let url = URL(string: "http://maps.apple.com/?saddr=\(loc!.coordinate.latitude),\(loc!.coordinate.longitude)&daddr=\(lng),\(lat)"){
+                UIApplication.shared.open(url)
                 
-                
+                }
             }
             
             if item == "Ride With Uber" {
@@ -601,14 +605,14 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
             if item == "Share" {
                 let textToShare = "Check out " + SingletonData.staticInstance.selectedObject!.displayTitle + " on ThrilJunky!"
                 
-                var url = URL(string: videoRootPath + SingletonData.staticInstance.selectedObject!.videoPath)!
+                let url = URL(string: videoRootPath + SingletonData.staticInstance.selectedObject!.videoPath)!
                 let urlData = NSData(contentsOf: url)
                
                 
                 if ((urlData) != nil){
                 
                     
-                    var options = FBSDKMessengerShareOptions()
+                    let options = FBSDKMessengerShareOptions()
                     options.metadata = textToShare
                     
                     FBSDKMessengerSharer.shareVideo(urlData! as Data, with: options)
@@ -712,7 +716,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
  
         let item = self.userGenerateds[(indexPath as NSIndexPath).row]
         
-        var dateFormatter = DateFormatter()
+        let dateFormatter = DateFormatter()
         
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ssZZZ"
         dateFormatter.timeZone = TimeZone.autoupdatingCurrent
@@ -758,7 +762,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var obj = userGenerateds[indexPath.row]
+        let obj = userGenerateds[indexPath.row]
         
         let imageURL = URL(string: obj.imagePath)
         
@@ -801,9 +805,8 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                            for group in snapshot.children {
                                let item = FIRItem(snapshot: group as! FIRDataSnapshot)
                             if item.userGenerated == "true" {
-                            var object = SingletonData.staticInstance.selectedObject
+                            let object = SingletonData.staticInstance.selectedObject
                             
-                         
                                 if(object?.key != item.key){
                                     self.userGenerateds.append(item)
                                     
@@ -821,21 +824,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
-    
-    func getRandomColor() -> UIColor{
-        
-        var randomRed:CGFloat = CGFloat(drand48())
-        
-        var randomGreen:CGFloat = CGFloat(drand48())
-        
-        var randomBlue:CGFloat = CGFloat(drand48())
-        
-        return UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
-        
-    }
-    
-    
-    
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

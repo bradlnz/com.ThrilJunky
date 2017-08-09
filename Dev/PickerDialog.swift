@@ -130,7 +130,7 @@ class PickerDialog: UIView, UIPickerViewDataSource, UIPickerViewDelegate {
         let currentTransform = self.dialogView.layer.transform
         
         let startRotation = (self.value(forKeyPath: "layer.transform.rotation.z") as? NSNumber) as? Double ?? 0.0
-        let rotation = CATransform3DMakeRotation((CGFloat)(-startRotation + M_PI * 270 / 180), 0, 0, 0)
+        let rotation = CATransform3DMakeRotation((CGFloat)(-startRotation + Double.pi * 270 / 180), 0, 0, 0)
         
         self.dialogView.layer.transform = CATransform3DConcat(rotation, CATransform3DMakeScale(1, 1, 1))
         self.dialogView.layer.opacity = 1
