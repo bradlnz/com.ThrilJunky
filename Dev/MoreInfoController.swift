@@ -108,6 +108,11 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.isStatusBarHidden = false
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
     override func viewDidLoad(){
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -390,7 +395,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         })
 
     }
-    
+ 
     @IBAction func voteDown(_ sender: Any) {
         let currentUser = FIRAuth.auth()?.currentUser
         

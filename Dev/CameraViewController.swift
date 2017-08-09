@@ -38,10 +38,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         super.viewDidAppear(animated)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        UIApplication.shared.isStatusBarHidden = false
-        self.navigationController?.isNavigationBarHidden = false
-    }
+   
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         
