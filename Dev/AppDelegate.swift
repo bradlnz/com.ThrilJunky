@@ -25,7 +25,7 @@ import GoogleMaps
 import GooglePlaces
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate, FIRMessagingDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
     
     var window: UIWindow?
     let locationManager = CLLocationManager()
@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.black]
 //        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
 //            print("TEST")
-//           
+//
 //        }
         
 //        var colors = [UIColor]()
