@@ -96,7 +96,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="MWH-iF-cU3" customClass="KolodaView" customModule="Koloda">
-                                <rect key="frame" x="40" y="199" width="334" height="424"/>
+                                <rect key="frame" x="40" y="219" width="334" height="404"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="424" id="OTS-rA-X9o"/>
@@ -129,7 +129,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dWd-co-VUG">
-                                <rect key="frame" x="0.0" y="64" width="414" height="114"/>
+                                <rect key="frame" x="0.0" y="84" width="414" height="114"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="114" id="Afm-lI-UHH"/>
