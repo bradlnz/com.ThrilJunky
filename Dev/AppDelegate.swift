@@ -32,13 +32,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var reachability: Reachability? = nil
     
    
-    // The callback to handle data message received via FCM for devices running iOS 10 or above.
-    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
-        print(remoteMessage.appData)
-    }
+//    // The callback to handle data message received via FCM for devices running iOS 10 or above.
+//    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+//        print(remoteMessage.appData)
+//    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        BuddyBuildSDK.setup()
+       // BuddyBuildSDK.setup()
         
         
         
@@ -73,10 +73,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         //UINavigationBar.appearance().barTintColor = uicolorFromHex(0xFFFFFF)
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.black]
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            print("TEST")
-           
-        }
+//        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+//            print("TEST")
+//           
+//        }
         
 //        var colors = [UIColor]()
 //     
