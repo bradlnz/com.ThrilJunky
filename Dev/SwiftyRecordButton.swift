@@ -39,6 +39,7 @@ class SwiftyRecordButton: SwiftyCamButton {
         
     }
     
+    
     public  func growButton() {
         innerCircle = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         innerCircle.center = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
@@ -61,8 +62,7 @@ class SwiftyRecordButton: SwiftyCamButton {
             self.circleBorder.setAffineTransform(CGAffineTransform(scaleX: 1.0, y: 1.0))
             self.circleBorder.borderWidth = 6.0
         }, completion: { (success) in
-            self.innerCircle.removeFromSuperview()
-            self.innerCircle = nil
+           
         })
     }
 }

@@ -775,7 +775,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         let imageURL = URL(string: obj.imagePath)
         
         SingletonData.staticInstance.setVideoImage(imageURL)
-        SingletonData.staticInstance.setSelectedVideoItem("https://1490263195.rsc.cdn77.org/videos/" + obj.videoPath)
+        SingletonData.staticInstance.setSelectedVideoItem(obj.videoPath)
         
         self.present(asyncVideoController, animated: true, completion: nil)
 

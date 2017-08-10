@@ -21,6 +21,8 @@ import Koloda
 import RealmSwift
 import GeoQueries
 import GooglePlaces
+import Crashlytics // If using Answers with Crashlytics
+//import Answers // If using Answers without Crashlytics
 
 class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
@@ -877,6 +879,14 @@ extension ViewController: KolodaViewDelegate {
   
         SingletonData.staticInstance.setSelectedObject(self.videos[index])
     
+        var item = self.videos[index]
+        
+        Answers.logContentView(withName: item.displayName,
+                                       contentType: "business",
+                                       contentId: item.key,
+                                       customAttributes: ["address": item.address
+            ])
+        
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
         let vc : MoreInfoController = storyboard.instantiateViewController(withIdentifier: "MoreInfoController") as! MoreInfoController
@@ -894,6 +904,10 @@ extension ViewController: KolodaViewDelegate {
            
             
             DispatchQueue.main.async {
+                Answers.logCustomEvent(withName: "Swiped Left",
+                                               customAttributes: [
+                                                "amount": 1
+                    ])
                 self.ref = FIRDatabase.database().reference()
                 
                 print(self.videos.count)
@@ -958,6 +972,11 @@ extension ViewController: KolodaViewDelegate {
         if direction == .right {
             
             DispatchQueue.main.async {
+                
+                Answers.logCustomEvent(withName: "Swiped Right",
+                                               customAttributes: [
+                                                "amount": 1
+                    ])
                 
                 self.ref = FIRDatabase.database().reference()
                 

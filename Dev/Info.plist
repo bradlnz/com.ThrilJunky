@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>ThrilJunky is monitoring your location</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en_US</string>
 	<key>CFBundleExecutable</key>
@@ -31,6 +29,29 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>3.1</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>3eb754d1f3a70a2d1da5dfe67f35527d56bc4f7b</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+			<dict>
+				<key>KitInfo</key>
+				<dict>
+					<key>apikey</key>
+					<string>d69e3eff197e4eabbf5372a9b5d998e6</string>
+				</dict>
+				<key>KitName</key>
+				<string>Appsee</string>
+			</dict>
+		</array>
+	</dict>
 	<key>FacebookAppID</key>
 	<string>1573817276252294</string>
 	<key>FacebookDisplayName</key>
@@ -55,6 +76,8 @@
 	<string>Open the calendars</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Open the Camera</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>ThrilJunky is monitoring your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>ThrilJunky will use your location</string>
 	<key>NSMicrophoneUsageDescription</key>

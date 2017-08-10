@@ -139,11 +139,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Rollbar.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>SlideMenuControllerSwift.xcscheme</key>
 		<dict>
 			<key>isShown</key>

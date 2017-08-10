@@ -85,6 +85,7 @@ class VideoViewController: UIViewController {
     }
     
     func add() {
+        APESuperHUD.showOrUpdateHUD(loadingIndicator: .standard, message: "Uploading...", presentingView: self.view)
         
         self.ref.child("businesses").queryOrdered(byChild: "uid").queryEqual(toValue: user!.uid).observe(.value, with: { (snapshot) in
             // Get user value
@@ -159,6 +160,7 @@ class VideoViewController: UIViewController {
                 APESuperHUD.removeHUD(animated: true, presentingView: self.view, completion: { _ in
                     // Completed
                 })
+                self.player?.pause()
                 self.dismiss(animated: true, completion: {
                     
                 })

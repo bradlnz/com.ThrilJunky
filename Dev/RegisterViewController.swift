@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import Crashlytics
+//import Answers
 //import PKHUD
 //import SCLAlertView
 
@@ -39,7 +41,13 @@ class RegisterViewController: UIViewController {
                          //   HUD.show(.error)
                          //   HUD.hide()
                         } else {
-            
+                            Answers.logSignUp(withMethod: "Signed up",
+                                                        success: true,
+                                                        customAttributes: [
+                                                            "First name": self.firstName.text!,
+                                                            "Last name": self.lastName.text!,
+                                                            "Email address": self.emailAddress.text!
+                                ])
                           //  HUD.hide()
                             self.goToHomeView()
                         }

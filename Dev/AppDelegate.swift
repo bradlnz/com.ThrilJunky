@@ -23,7 +23,10 @@ import FBSDKShareKit
 import SlideMenuControllerSwift
 import GoogleMaps
 import GooglePlaces
-import Rollbar
+import Fabric
+import Crashlytics
+import Appsee
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
@@ -43,8 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
         GMSServices.provideAPIKey("AIzaSyB1CfDdCqRr4Xx6lBVNCcXigG1lWA1MJiI")
         GMSPlacesClient.provideAPIKey("AIzaSyDx-_HkMZEHQEoZLt66laEsTfeGx2I4irc")
-        Rollbar.initWithAccessToken("bb83b1fe28104a30ba16deb2427f7c23")
-//
+        Fabric.with([Crashlytics.self, Appsee.self])
+
 //        if #available(iOS 10.0, *) {
 //            // For iOS 10 display notification (sent via APNS)
 //            UNUserNotificationCenter.current().delegate = self
