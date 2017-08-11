@@ -85,7 +85,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func viewWebsite(_ sender: Any) {
-        if self.websiteAddress != "" {
+        if self.websiteAddress != nil {
             let url = URL(string: self.websiteAddress)
             UIApplication.shared.open(url!)
         }
@@ -139,7 +139,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         //        key = SingletonData.staticInstance.selectedAnnotation?.key
         //    }
         
-        videosRef.queryOrdered(byChild: "uid").queryEqual(toValue: key!).observe(.value, with: { (snapshot) in
+            videosRef.queryOrdered(byChild: "uid").queryEqual(toValue: key!).observeSingleEvent(of: .value, with: { (snapshot) in
             
             for item in snapshot.children {
                 let video = VideoModel(snapshot: item as! FIRDataSnapshot)
@@ -484,7 +484,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
     
     @IBAction func call(_ sender: Any) {
         DispatchQueue.main.async {
-          if self.phoneNumber != "" {
+          if self.phoneNumber != nil {
             if let url = URL(string: "tel://\(self.phoneNumber)") {
                 UIApplication.shared.open(url)
             }
@@ -504,7 +504,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func share(_ sender: Any) {
-           DispatchQueue.main.async {
+      
             
             APESuperHUD.showOrUpdateHUD(loadingIndicator: .standard, message: "Uploading...", presentingView: self.view)
            
@@ -525,7 +525,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
             let objectsToShare = [videoLink] //comment!, imageData!, myWebsite!]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             
-            activityVC.setValue("Video", forKey: "subject")
+          //  activityVC.setValue("Video", forKey: "subject")
             
           
                 APESuperHUD.removeHUD(animated: true, presentingView: self.view, completion: { _ in
@@ -534,9 +534,12 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                
             
             
-            self.present(activityVC, animated: true, completion: nil)
+            self.present(activityVC, animated: true, completion: {
+                
+                
+            })
         }
-        }
+        
     }
     
     @IBAction func GetDirections(_ sender: Any) {

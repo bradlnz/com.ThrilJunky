@@ -1093,29 +1093,28 @@ extension ViewController: KolodaViewDataSource {
 
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
     
-        
         self.noLabel?.isHidden = true
         self.yesLabel?.isHidden = true
    
-       setView = UIView(frame: self.cardView.frame)
+       self.setView = UIView(frame: self.cardView.frame)
 
       
   
             let video =  self.videos[index]
            
-            setView.backgroundColor = UIColor.black
+            self.setView.backgroundColor = UIColor.black
             let dateFormatter = DateFormatter()
-            let overlayView = UIView(frame: CGRect(x: 0, y: 0, width: setView.frame.width, height: setView.frame.height))
+            let overlayView = UIView(frame: CGRect(x: 0, y: 0, width: self.setView.frame.width, height: self.setView.frame.height))
             overlayView.backgroundColor = UIColor(white: 0, alpha: 0.2)
         
-            let DisplayTitle = UILabel(frame: CGRect(x: 10, y: 20, width: setView.frame.width, height: 40))
-            let DisplayAddress = UILabel(frame: CGRect(x: 10, y: 50, width: setView.frame.width, height: 40))
-            let timeLabel = UILabel(frame: CGRect(x: 10, y: setView.frame.height - 40, width: setView.frame.width, height: 40))
+            let DisplayTitle = UILabel(frame: CGRect(x: 10, y: 20, width: self.setView.frame.width, height: 40))
+            let DisplayAddress = UILabel(frame: CGRect(x: 10, y: 50, width: self.setView.frame.width, height: 40))
+            let timeLabel = UILabel(frame: CGRect(x: 10, y: self.setView.frame.height - 40, width: self.setView.frame.width, height: 40))
         
-            let distanceLabel = UILabel(frame: CGRect(x: 10, y: setView.frame.height - 60, width: setView.frame.width, height: 40))
+            let distanceLabel = UILabel(frame: CGRect(x: 10, y: self.setView.frame.height - 60, width: self.setView.frame.width, height: 40))
         
-            self.yesLabel = UILabel(frame: CGRect(x: (UIScreen.main.bounds.width / 2 - 150) / 2, y: setView.frame.height / 2, width: 150, height: 40))
-            self.noLabel = UILabel(frame: CGRect(x: (UIScreen.main.bounds.width / 2 - 150) / 2, y: setView.frame.height / 2, width: 150, height: 40))
+            self.yesLabel = UILabel(frame: CGRect(x: (UIScreen.main.bounds.width / 2 - 150) / 2, y: self.setView.frame.height / 2, width: 150, height: 40))
+            self.noLabel = UILabel(frame: CGRect(x: (UIScreen.main.bounds.width / 2 - 150) / 2, y: self.setView.frame.height / 2, width: 150, height: 40))
         
             if let yesLabel = self.yesLabel {
                 yesLabel.textColor = UIColor.white
@@ -1147,8 +1146,8 @@ extension ViewController: KolodaViewDataSource {
             distanceLabel.font =  UIFont.boldSystemFont(ofSize: 16.0)
             distanceLabel.numberOfLines = 0
             
-            let height = setView.frame.size.height
-            let width = setView.frame.size.width
+            let height = self.setView.frame.size.height
+            let width = self.setView.frame.size.width
             
             
             SingletonData.staticInstance.setSelectedObject(nil)
@@ -1158,7 +1157,7 @@ extension ViewController: KolodaViewDataSource {
         
             let origin = CGPoint.zero
             let size = CGSize(width: SingletonData.staticInstance.videoFrameWidth!, height: SingletonData.staticInstance.videoFrameHeight!)
-        
+       
             self.videoNode = ASVideoNode()
             self.videoNode.delegate = self
             self.videoNode.shouldAutorepeat = true
@@ -1166,17 +1165,19 @@ extension ViewController: KolodaViewDataSource {
             self.videoNode.muted = false
             self.videoNode.frame = CGRect(origin: origin, size: size)
             self.videoNode.gravity = AVLayerVideoGravityResizeAspectFill
-            self.videoNode.zPosition = 0
+           // self.videoNode.zPosition = 0
             self.videoNode.shouldAutoplay = false
-            self.videoNode.layer.shouldRasterize = true
+            //self.videoNode.layer.shouldRasterize = true
         
             self.videoNode.layer.borderColor = UIColor.clear.cgColor
         
            self.videoNode.assetURL = URL(string: "https://storage.googleapis.com/project-316688844667019748.appspot.com/" + video.videoPath)
-        
+    
              if(video.imagePath != ""){
                self.videoNode.url = URL(string: video.imagePath)
             }
+         self.videoNode.shouldRenderProgressImages = true
+        self.videoNode.shouldCacheImage = true
         
         SingletonData.staticInstance.setKey(video.key)
                     
@@ -1197,42 +1198,42 @@ extension ViewController: KolodaViewDataSource {
                     DisplayTitle.text = video.displayTitle
                     DisplayAddress.text = video.address
         
-                    setView.addSubnode(self.videoNode)
-                    setView.addSubview(overlayView)
-                    setView.addSubview(distanceLabel)
-                    setView.addSubview(DisplayTitle)
+                    self.setView.addSubnode(self.videoNode)
+                    self.setView.addSubview(overlayView)
+                    self.setView.addSubview(distanceLabel)
+                    self.setView.addSubview(DisplayTitle)
                     
                     DisplayTitle.translatesAutoresizingMaskIntoConstraints = false
-                    DisplayTitle.topAnchor.constraint(equalTo: setView.topAnchor, constant: 10).isActive = true
-                    DisplayTitle.leadingAnchor.constraint(equalTo: setView.leadingAnchor, constant: 10).isActive = true
+                    DisplayTitle.topAnchor.constraint(equalTo: self.setView.topAnchor, constant: 10).isActive = true
+                    DisplayTitle.leadingAnchor.constraint(equalTo: self.setView.leadingAnchor, constant: 10).isActive = true
                     
                     distanceLabel.translatesAutoresizingMaskIntoConstraints = false
-                    distanceLabel.bottomAnchor.constraint(equalTo: setView.bottomAnchor, constant: -15).isActive = true
-                    distanceLabel.leadingAnchor.constraint(equalTo: setView.leadingAnchor, constant: 10).isActive = true
+                    distanceLabel.bottomAnchor.constraint(equalTo: self.setView.bottomAnchor, constant: -15).isActive = true
+                    distanceLabel.leadingAnchor.constraint(equalTo: self.setView.leadingAnchor, constant: 10).isActive = true
                     
                     if let yesLabel = self.yesLabel {
-                        setView.addSubview(yesLabel)
+                        self.setView.addSubview(yesLabel)
                         yesLabel.isHidden = true
                     }
         
                     if let noLabel = self.noLabel {
-                        setView.addSubview(noLabel)
+                        self.setView.addSubview(noLabel)
                         noLabel.isHidden = true
                     }
         
-                    setView.layer.cornerRadius = 10
-                    setView.layer.masksToBounds = true
+            self.setView.layer.cornerRadius = 10
+                    self.setView.layer.masksToBounds = true
         
-                    setView.layer.shadowColor = UIColor.black.cgColor
-                    setView.layer.shadowOpacity = 1
-                    setView.layer.shadowOffset = CGSize.zero
-                    setView.layer.shadowRadius = 10
-                    setView.layer.shadowPath = UIBezierPath(rect: setView.bounds).cgPath
-                    setView.layer.shouldRasterize = true
-        
-                    return setView
-        }
-    
+                   // self.setView.layer.shadowColor = UIColor.black.cgColor
+                 //   self.setView.layer.shadowOpacity = 1
+                //    self.setView.layer.shadowOffset = CGSize.zero
+                //    self.setView.layer.shadowRadius = 10
+                //    self.setView.layer.shadowPath = UIBezierPath(rect: self.setView.bounds).cgPath
+                  //  self.setView.layer.shouldRasterize = true
+
+      
+         return self.setView
+    }
 }
 
 extension ViewController: GMSAutocompleteViewControllerDelegate {
