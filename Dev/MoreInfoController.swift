@@ -14,6 +14,7 @@ import Firebase
 import FBSDKShareKit
 import FBSDKMessengerShareKit
 //import PKHUD
+import APESuperHUD
 
 class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDelegate, ASVideoNodeDelegate {
 
@@ -46,6 +47,8 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
     var latitude : String = ""
     var longitude : String = ""
     var update : String = ""
+    var websiteAddress : String = ""
+    var phoneNumber : String = ""
     
     let videoRootPath = "https://storage.googleapis.com/project-316688844667019748.appspot.com/"
     let isFinishedPlaying : Bool = false
@@ -82,9 +85,8 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func viewWebsite(_ sender: Any) {
-        print(SingletonData.staticInstance.selectedObject!.website)
-        if SingletonData.staticInstance.selectedObject!.website != "" {
-            let url = URL(string: SingletonData.staticInstance.selectedObject!.website)
+        if self.websiteAddress != "" {
+            let url = URL(string: self.websiteAddress)
             UIApplication.shared.open(url!)
         }
     }
@@ -139,7 +141,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         
         videosRef.queryOrdered(byChild: "uid").queryEqual(toValue: key!).observe(.value, with: { (snapshot) in
             
-            for var item in snapshot.children {
+            for item in snapshot.children {
                 let video = VideoModel(snapshot: item as! FIRDataSnapshot)
                 
                 self.update = video.update
@@ -161,8 +163,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         videosRef.queryOrdered(byChild: "uid").queryEqual(toValue: key!).observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
             
-            
-            for var item in snapshot.children {
+            for item in snapshot.children {
                 let video = VideoModel(snapshot: item as! FIRDataSnapshot)
                 
                 self.ref.child("videos").child(key!).updateChildValues(["views": video.views + 1])
@@ -170,13 +171,15 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                 
                 self.ref.child("businesses").queryOrdered(byChild: "uid").queryEqual(toValue: video.uid).observe(.value, with: { (snap) in
                     
-                    for var b in snap.children {
+                    for b in snap.children {
                         let business = BusinessModel(snapshot: b as! FIRDataSnapshot)
                         self.displayName = business.businessName
                         self.displayTitle = business.businessName
                         self.address = business.address
                         self.latitude = business.latitude
                         self.longitude = business.longitude
+                        self.phoneNumber = business.phone
+                        self.websiteAddress = business.website
                     }
                     
                     self.imageName.text = self.displayTitle
@@ -338,7 +341,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                 
                 self.videosRef.child(key!).observe(.value, with: { (snapshot) in
                     
-                    var snap = FIRItem(snapshot: snapshot)
+                    let snap = FIRItem(snapshot: snapshot)
                     
                     
                         self.videosRef.child(key!).updateChildValues(["voteUp": snap.voteUp + 1])
@@ -480,10 +483,12 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func call(_ sender: Any) {
-          if SingletonData.staticInstance.selectedObject!.phone != "" {
-            if let url = URL(string: "tel://\(SingletonData.staticInstance.selectedObject!.phone)") {
+        DispatchQueue.main.async {
+          if self.phoneNumber != "" {
+            if let url = URL(string: "tel://\(self.phoneNumber)") {
                 UIApplication.shared.open(url)
             }
+          }
         }
     }
     
@@ -499,10 +504,14 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func share(_ sender: Any) {
-   
+           DispatchQueue.main.async {
+            
+            APESuperHUD.showOrUpdateHUD(loadingIndicator: .standard, message: "Uploading...", presentingView: self.view)
+           
         let urlData = NSData(contentsOf: NSURL(string: "https://storage.googleapis.com/project-316688844667019748.appspot.com/\(SingletonData.staticInstance.selectedObject!.videoPath)")! as URL)
         
         if ((urlData) != nil){
+            
             
             let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docDirectory = paths[0]
@@ -518,139 +527,53 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
             
             activityVC.setValue("Video", forKey: "subject")
             
+          
+                APESuperHUD.removeHUD(animated: true, presentingView: self.view, completion: { _ in
+                    // Completed
+                })
+               
             
             
             self.present(activityVC, animated: true, completion: nil)
         }
-        
+        }
     }
     
     @IBAction func GetDirections(_ sender: Any) {
    
-        var lng : Float = SingletonData.staticInstance.selectedObject!.lat
-        var lat : Float = SingletonData.staticInstance.selectedObject!.lng
-        
+                DispatchQueue.main.async {
+                    let lng : Float = Float(self.latitude)!
+                    let lat : Float = Float(self.longitude)!
+                    
         let loc =  SingletonData.staticInstance.location
         
         let url = URL(string: "http://maps.apple.com/?saddr=\(loc!.coordinate.latitude),\(loc!.coordinate.longitude)&daddr=\(lng),\(lat)")
         UIApplication.shared.open(url!)
-        
+        }
     }
     
     
     @IBAction func rideWithUber(_ sender: Any) {
-        let lng : Float = SingletonData.staticInstance.selectedObject!.lat
-        let lat : Float = SingletonData.staticInstance.selectedObject!.lng
+           DispatchQueue.main.async {
+            let lng : Float = Float(self.latitude)!
+            let lat : Float = Float(self.longitude)!
         
         let loc =  SingletonData.staticInstance.location
         
         let pickupLocation = CLLocation(latitude: loc!.coordinate.latitude, longitude: loc!.coordinate.longitude)
         let dropoffLocation = CLLocation(latitude: CLLocationDegrees(lng), longitude: CLLocationDegrees(lat))
-        let dropoffNickname = SingletonData.staticInstance.selectedObject?.displayTitle
+        let dropoffNickname = self.displayTitle
         
         print(dropoffLocation)
         
         let builder = RideParametersBuilder().setPickupLocation(pickupLocation).setDropoffLocation(dropoffLocation, nickname: dropoffNickname)
         let rideParameters = builder.build()
         self.button.requestBehavior.requestRide(rideParameters)
+            
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = self.items[indexPath.row]
-     
-        if(SingletonData.staticInstance.selectedObject != nil){
-            let lng : Float = SingletonData.staticInstance.selectedObject!.lat
-            let lat : Float = SingletonData.staticInstance.selectedObject!.lng
-            
-            let loc =  SingletonData.staticInstance.location
-            
-            if(item == "Contribute"){
-//                let storyBoard : UIStoryboard = UIStoryboard(name: "Post", bundle:nil)
-//                let camera : CameraViewController = storyBoard.instantiateViewController(withIdentifier: "Share") as! CameraViewController
-//                // let navigationController = UINavigationController(rootViewController: popup)
-//                
-//                self.present(camera, animated: false, completion: nil)
-            }
-            
-            if item == "Visit Website" && SingletonData.staticInstance.selectedObject!.website != "" {
-                let url = URL(string: SingletonData.staticInstance.selectedObject!.website)
-                UIApplication.shared.openURL(url!)
-                
-            }
-//            
-//            if item == "Watch Again" {
-//                
-//                let imageURL = URL(string: SingletonData.staticInstance.selectedObject!.imagePath)
-//                SingletonData.staticInstance.setVideoImage(imageURL)
-//                SingletonData.staticInstance.setSelectedVideoItem("https://project-316688844667019748.appspot.com.storage.googleapis.com/videos/" + SingletonData.staticInstance.selectedObject!.videoPath)
-//                
-//                self.present(asyncVideoController, animated: true, completion: nil)
-//            }
-//            
-            if item == "Get Directions" {
-                
-                
-                if let url = URL(string: "http://maps.apple.com/?saddr=\(loc!.coordinate.latitude),\(loc!.coordinate.longitude)&daddr=\(lng),\(lat)"){
-                UIApplication.shared.open(url)
-                
-                }
-            }
-            
-            if item == "Ride With Uber" {
-                
-                let pickupLocation = CLLocation(latitude: loc!.coordinate.latitude, longitude: loc!.coordinate.longitude)
-                let dropoffLocation = CLLocation(latitude: CLLocationDegrees(lng), longitude: CLLocationDegrees(lat))
-                let dropoffNickname = SingletonData.staticInstance.selectedObject?.displayTitle
-                
-                print(dropoffLocation)
-                
-                let builder = RideParametersBuilder().setPickupLocation(pickupLocation).setDropoffLocation(dropoffLocation, nickname: dropoffNickname)
-                let rideParameters = builder.build()
-                self.button.requestBehavior.requestRide(rideParameters)
-                
-            }
-            
-            if item == "Share" {
-                let textToShare = "Check out " + SingletonData.staticInstance.selectedObject!.displayTitle + " on ThrilJunky!"
-                
-                let url = URL(string: videoRootPath + SingletonData.staticInstance.selectedObject!.videoPath)!
-                let urlData = NSData(contentsOf: url)
-               
-                
-                if ((urlData) != nil){
-                
-                    
-                    let options = FBSDKMessengerShareOptions()
-                    options.metadata = textToShare
-                    
-                    FBSDKMessengerSharer.shareVideo(urlData! as Data, with: options)
-//                    let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-//                    let docDirectory = paths[0]
-//                    let filePath = "\(docDirectory)/tmpVideo.mov"
-//                    urlData?.write(toFile: filePath, atomically: true)
-//                    // file saved
-//                    
-//                    let videoLink = NSURL(fileURLWithPath: filePath)
-//                    var items : [Any] = [videoLink]
-//                    
-//                    let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-//                    
-//                    
-//                    activityVC.setValue("Video", forKey: "subject")
-//
-//                    
-//                    self.present(activityVC, animated: true, completion: nil)
-                }
-
-                
-            }
-
-        }
-        
-      
-
-      
-    }
+  
     
 
     @IBAction func reportBtn(_ sender: Any) {
@@ -734,7 +657,9 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         cell.displayTitle.text = item.displayTitle
         
+        DispatchQueue.main.async {
         cell.displayImg.imageFromServerURL(urlString: item.imagePath)
+        }
         cell.displayImg.layer.masksToBounds = true
         cell.displayImg.layer.cornerRadius = 40
         cell.backgroundColor = UIColor.lightGray
@@ -801,8 +726,6 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
     func loadUserGenerated(taggedLocation: String?) {
        
         DispatchQueue.main.async {
-
-            DispatchQueue.main.async {
                 
                 self.ref.child("videos").queryOrdered(byChild: "address").queryEqual(toValue: taggedLocation).observe(.value, with: { snapshot in
                    
@@ -827,8 +750,6 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                       }
                     self.tableView.reloadData()
                 })
-            
-            }
         }
     }
 
