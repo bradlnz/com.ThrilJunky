@@ -129,6 +129,10 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         flashButton.addTarget(self, action: #selector(toggleFlashAction(_:)), for: .touchUpInside)
         self.view.addSubview(flashButton)
     }
+    
+    override func didReceiveMemoryWarning() {
+        print("warning")
+    }
 }
 
 

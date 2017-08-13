@@ -271,11 +271,6 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
             realm.deleteAll()
         }
 
-        let popup : IntroController = self.storyboard?.instantiateViewController(withIdentifier: "IntroController") as! IntroController
-        let navigationController = UINavigationController(rootViewController: popup)
-        
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        self.present(navigationController, animated: false, completion: nil)
      
         self.refreshBtn.isHidden = true
         self.expandRadius.isHidden = true
@@ -1108,7 +1103,8 @@ extension ViewController: KolodaViewDataSource {
             overlayView.backgroundColor = UIColor(white: 0, alpha: 0.2)
         
             let DisplayTitle = UILabel(frame: CGRect(x: 10, y: 20, width: self.setView.frame.width, height: 40))
-            let DisplayAddress = UILabel(frame: CGRect(x: 10, y: 50, width: self.setView.frame.width, height: 40))
+        
+            let DisplayAddress = UILabel(frame: CGRect(x: 10, y: 30, width: self.setView.frame.width - 20, height: 40))
             let timeLabel = UILabel(frame: CGRect(x: 10, y: self.setView.frame.height - 40, width: self.setView.frame.width, height: 40))
         
             let distanceLabel = UILabel(frame: CGRect(x: 10, y: self.setView.frame.height - 60, width: self.setView.frame.width, height: 40))
@@ -1139,8 +1135,8 @@ extension ViewController: KolodaViewDataSource {
         
             
             DisplayAddress.textColor = UIColor.white
-            DisplayAddress.font = UIFont(name: "System", size: 15)
-            DisplayAddress.numberOfLines = 5
+            DisplayAddress.font = UIFont(name: "System", size: 9)
+            DisplayAddress.numberOfLines = 0
             
             distanceLabel.textColor = UIColor.white
             distanceLabel.font =  UIFont.boldSystemFont(ofSize: 16.0)
@@ -1202,11 +1198,14 @@ extension ViewController: KolodaViewDataSource {
                     self.setView.addSubview(overlayView)
                     self.setView.addSubview(distanceLabel)
                     self.setView.addSubview(DisplayTitle)
-                    
+                         self.setView.addSubview(DisplayAddress)
                     DisplayTitle.translatesAutoresizingMaskIntoConstraints = false
                     DisplayTitle.topAnchor.constraint(equalTo: self.setView.topAnchor, constant: 10).isActive = true
                     DisplayTitle.leadingAnchor.constraint(equalTo: self.setView.leadingAnchor, constant: 10).isActive = true
-                    
+                    DisplayAddress.translatesAutoresizingMaskIntoConstraints = false
+                    DisplayAddress.topAnchor.constraint(equalTo: self.setView.topAnchor, constant: 35).isActive = true
+                    DisplayAddress.leadingAnchor.constraint(equalTo: self.setView.leadingAnchor, constant: 10).isActive = true
+        DisplayAddress.trailingAnchor.constraint(equalTo: self.setView.trailingAnchor, constant: 20).isActive = true
                     distanceLabel.translatesAutoresizingMaskIntoConstraints = false
                     distanceLabel.bottomAnchor.constraint(equalTo: self.setView.bottomAnchor, constant: -15).isActive = true
                     distanceLabel.leadingAnchor.constraint(equalTo: self.setView.leadingAnchor, constant: 10).isActive = true

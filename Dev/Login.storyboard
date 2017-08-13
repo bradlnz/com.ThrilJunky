@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13156.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="SoJ-94-RLo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13168.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="SoJ-94-RLo">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13137.5"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13147.4"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -72,7 +72,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Obt-fP-TwF">
-                                <rect key="frame" x="117" y="417" width="143" height="30"/>
+                                <rect key="frame" x="100" y="417" width="175" height="30"/>
                                 <state key="normal" title="Forgot Password?">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -108,7 +108,7 @@
                             <constraint firstItem="8IW-si-M8g" firstAttribute="top" secondItem="xNj-Kv-o9A" secondAttribute="bottom" constant="20" id="Jwo-P7-uV4"/>
                             <constraint firstAttribute="trailing" secondItem="xNj-Kv-o9A" secondAttribute="trailing" constant="36" id="MHY-ll-cYe"/>
                             <constraint firstAttribute="trailing" secondItem="AgA-FC-Pbw" secondAttribute="trailing" constant="115" id="Ndq-Hm-Ked"/>
-                            <constraint firstAttribute="trailing" secondItem="Obt-fP-TwF" secondAttribute="trailing" constant="115" id="RSL-CU-jFa"/>
+                            <constraint firstAttribute="trailing" secondItem="Obt-fP-TwF" secondAttribute="trailing" constant="100" id="RSL-CU-jFa"/>
                             <constraint firstItem="xtX-PS-yP1" firstAttribute="top" secondItem="6PY-K5-xUG" secondAttribute="bottom" constant="113" id="RxV-sT-jhe"/>
                             <constraint firstAttribute="trailing" secondItem="G52-bO-8tj" secondAttribute="trailing" constant="36" id="WAb-xk-7h4"/>
                             <constraint firstItem="G52-bO-8tj" firstAttribute="top" secondItem="iJI-HS-cxR" secondAttribute="bottom" constant="111" id="cfc-lE-jYs"/>
@@ -118,7 +118,7 @@
                             <constraint firstItem="xNj-Kv-o9A" firstAttribute="top" secondItem="G52-bO-8tj" secondAttribute="bottom" constant="15" id="kcJ-fm-jdC"/>
                             <constraint firstAttribute="trailing" secondItem="Aq0-gC-8Sq" secondAttribute="trailing" constant="36" id="ngo-gQ-4dj"/>
                             <constraint firstItem="xNj-Kv-o9A" firstAttribute="centerX" secondItem="fH6-Zb-cM9" secondAttribute="centerX" id="ntt-Gm-2Ow"/>
-                            <constraint firstItem="Obt-fP-TwF" firstAttribute="leading" secondItem="fH6-Zb-cM9" secondAttribute="leading" constant="117" id="pFd-ZV-JPt"/>
+                            <constraint firstItem="Obt-fP-TwF" firstAttribute="leading" secondItem="fH6-Zb-cM9" secondAttribute="leading" constant="100" id="pFd-ZV-JPt"/>
                             <constraint firstItem="JIJ-vA-irt" firstAttribute="centerX" secondItem="fH6-Zb-cM9" secondAttribute="centerX" id="pbt-Qp-tj1"/>
                             <constraint firstAttribute="trailing" secondItem="6PY-K5-xUG" secondAttribute="trailing" id="q2m-4u-4bb"/>
                             <constraint firstItem="Aq0-gC-8Sq" firstAttribute="top" secondItem="8IW-si-M8g" secondAttribute="bottom" constant="15" id="qGU-1q-UH4"/>

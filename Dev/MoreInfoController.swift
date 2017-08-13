@@ -169,7 +169,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                 self.ref.child("videos").child(key!).updateChildValues(["views": video.views + 1])
                 
                 
-                self.ref.child("businesses").queryOrdered(byChild: "uid").queryEqual(toValue: video.uid).observe(.value, with: { (snap) in
+                self.ref.child("businesses").queryOrdered(byChild: "uid").queryEqual(toValue: video.uid).observeSingleEvent(of: .value, with: { (snap) in
                     
                     for b in snap.children {
                         let business = BusinessModel(snapshot: b as! FIRDataSnapshot)
@@ -320,26 +320,21 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
              videoNode = nil
         }
     }
-    @IBAction func voteUp(_ sender: Any) {
-        
+    @IBAction func voteUp(_ sender: UIButton) {
         let currentUser = FIRAuth.auth()?.currentUser
-
-        var key: String?
         
-        if(SingletonData.staticInstance.selectedObject != nil)
-        {
-            key = SingletonData.staticInstance.selectedObject?.key
-        }
+        let key: String?
+        
+        let item = self.userGenerateds[sender.tag]
+        
+        key = item.key
+        
       
-        
-        
         FIRDatabase.database().reference(withPath: "profiles/" + currentUser!.uid + "/voted/" + key!).observeSingleEvent(of: .value, with: { (snapshot1) in
-            
-            
+           
             if(!snapshot1.exists()){
-                
-                
-                self.videosRef.child(key!).observe(.value, with: { (snapshot) in
+            
+                self.videosRef.child(key!).observeSingleEvent(of: .value, with: { (snapshot) in
                     
                     let snap = FIRItem(snapshot: snapshot)
                     
@@ -373,10 +368,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                         
                         // Present Alert Controller
                         self.present(alertController, animated: true, completion: nil)
-                        
-                    
-                    
-                    
+                  
                 }) { (error) in
                     print(error.localizedDescription)
                 }
@@ -399,15 +391,15 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
 
     }
  
-    @IBAction func voteDown(_ sender: Any) {
+    @IBAction func voteDown(_ sender: UIButton) {
         let currentUser = FIRAuth.auth()?.currentUser
         
-        var key: String?
+        let key: String?
         
-        if(SingletonData.staticInstance.selectedObject != nil)
-        {
-         key = SingletonData.staticInstance.selectedObject?.key
-        }
+        let item = self.userGenerateds[sender.tag]
+      
+        key = item.key
+            
 //        if(SingletonData.staticInstance.selectedAnnotation != nil){
 //            key = SingletonData.staticInstance.selectedAnnotation?.key
 //        }
@@ -419,7 +411,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
             if(!snapshot1.exists()){
                 
                 
-                self.videosRef.child(key!).observe(.value, with: { (snapshot) in
+                self.videosRef.child(key!).observeSingleEvent(of: .value, with: { (snapshot) in
                     
                     var snap = FIRItem(snapshot: snapshot)
                     
@@ -493,14 +485,17 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func contribute(_ sender: Any) {
-        DispatchQueue.main.async {
+         APESuperHUD.showOrUpdateHUD(loadingIndicator: .standard, message: "Loading...", presentingView: self.view)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "CameraViewController")
+        APESuperHUD.removeHUD(animated: true, presentingView: self.view, completion: { _ in
+            // Completed
+        })
+        
         self.present(vc, animated: true) {
             
             }
-            
-        }
+    
     }
     
     @IBAction func share(_ sender: Any) {
@@ -667,6 +662,8 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.displayImg.layer.cornerRadius = 40
         cell.backgroundColor = UIColor.lightGray
 
+        cell.voteUp.tag = indexPath.row
+        cell.voteDown.tag = indexPath.row
         
         return cell
         
@@ -730,7 +727,7 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
        
         DispatchQueue.main.async {
                 
-                self.ref.child("videos").queryOrdered(byChild: "address").queryEqual(toValue: taggedLocation).observe(.value, with: { snapshot in
+            self.ref.child("videos").queryOrdered(byChild: "address").queryEqual(toValue: taggedLocation).observeSingleEvent(of: .value, with: { snapshot in
                    
                     self.userGenerateds.removeAll()
                     
@@ -743,18 +740,18 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
                             
                                 if(object?.key != item.key){
                                     self.userGenerateds.append(item)
-                                    
+                                     self.userGenerateds.sort(by: { $0.averageVote > $1.averageVote})
                                 }
-
                             }
+                       }
                             
-                           
-                           }
-                      }
                     self.tableView.reloadData()
-                })
+                            
+                  }
+              })
         }
     }
+  
 
    
     override func didReceiveMemoryWarning() {

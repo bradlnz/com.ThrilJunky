@@ -83,7 +83,26 @@ class VideoViewController: UIViewController {
     func cancel() {
         dismiss(animated: true, completion: nil)
     }
-    
+    func getThumbnailFrom(path: URL) -> UIImage? {
+        
+        do {
+            
+            let asset = AVURLAsset(url: path , options: nil)
+            let imgGenerator = AVAssetImageGenerator(asset: asset)
+            imgGenerator.appliesPreferredTrackTransform = true
+            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+            let thumbnail = UIImage(cgImage: cgImage)
+            
+            return thumbnail
+            
+        } catch let error {
+            
+            print("*** Error generating thumbnail: \(error.localizedDescription)")
+            return nil
+            
+        }
+        
+    }
     func add() {
         APESuperHUD.showOrUpdateHUD(loadingIndicator: .standard, message: "Uploading...", presentingView: self.view)
         
@@ -133,39 +152,77 @@ class VideoViewController: UIViewController {
         
         
         uploadTask.observe(.success) { snapshot in
-            let date = Date()
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ssZZZ"
-            dateFormatter.timeZone = TimeZone.autoupdatingCurrent
-            
-            print(dateFormatter.string(from: date))
-            let parseDate = dateFormatter.string(from: date)
-            
-            let image = ["uid": self.user!.uid,
-                         "displayTitle": self.businessName,
-                         "displayName": self.businessName,
-                         "userGenerated": "true",
-                         "address": self.address,
-                         "videoPath" : "https://project-316688844667019748.appspot.com.storage.googleapis.com/videos/\(self.user!.uid)/\(self.aKey).mp4",
-                         "imagePath": "https://project-316688844667019748.appspot.com.storage.googleapis.com/images/\(self.user!.uid)/\(self.aKey)_thumb.jpg",
-                "latitude": "\(SingletonData.staticInstance.selectedObject!.lat)",
-                // "tags": tags,
-                "longitude": "\(SingletonData.staticInstance.selectedObject!.lng)",
-                "createdAt": parseDate] as [String : Any]
-            
-            self.ref.updateChildValues(["/videos/\(self.aKey)": image])
             
             
-            APESuperHUD.showOrUpdateHUD(icon: .checkMark, message: "Completed", presentingView: self.view, completion: {
-                APESuperHUD.removeHUD(animated: true, presentingView: self.view, completion: { _ in
-                    // Completed
-                })
-                self.player?.pause()
-                self.dismiss(animated: true, completion: {
+            let img = self.getThumbnailFrom(path: URL(string: "https://project-316688844667019748.appspot.com.storage.googleapis.com/videos/\(self.user!.uid)/\(self.aKey).mp4")!)
+            
+            let dataImg = UIImageJPEGRepresentation(img!, 1) as Data?
+            
+            let imgMetadata = FIRStorageMetadata()
+            imgMetadata.contentType = "image/jpeg"
+              let stoRef = self.storageRef.child("videos/\(self.user!.uid)/\(a).jpg")
+            let uploadTaskImg = stoRef.put(dataImg!, metadata: imgMetadata) { (metadata, error) in
+                
+            }
+            
+            // Listen for state changes, errors, and completion of the upload.
+            uploadTaskImg.observe(.pause) { snapshot in
+                // Upload paused
+            }
+            
+            uploadTaskImg.observe(.resume) { snapshot in
+                // Upload resumed, also fires when the upload starts
+            }
+            
+            uploadTaskImg.observe(.progress) { snapshot in
+                
+            }
+            
+            uploadTaskImg.observe(.failure) { snapchat in
+                APESuperHUD.showOrUpdateHUD(icon: IconType.sadFace, message: "Incomplete.. Try again", presentingView: self.view, completion: nil)
+            }
+            
+            
+            uploadTaskImg.observe(.success) { snapshot in
+                print("done!")
+                
+                let date = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ssZZZ"
+                dateFormatter.timeZone = TimeZone.autoupdatingCurrent
+                
+                print(dateFormatter.string(from: date))
+                let parseDate = dateFormatter.string(from: date)
+                
+                let image = ["uid": self.user!.uid,
+                             "displayTitle": self.businessName,
+                             "displayName": self.businessName,
+                             "userGenerated": "true",
+                             "address": self.address,
+                             "videoPath" : "https://project-316688844667019748.appspot.com.storage.googleapis.com/videos/\(self.user!.uid)/\(self.aKey).mp4",
+                    "imagePath": "https://project-316688844667019748.appspot.com.storage.googleapis.com/videos/\(self.user!.uid)/\(self.aKey).jpg",
+                    "latitude": "\(SingletonData.staticInstance.selectedObject!.lat)",
+                    // "tags": tags,
+                    "longitude": "\(SingletonData.staticInstance.selectedObject!.lng)",
+                    "createdAt": parseDate] as [String : Any]
+                
+                self.ref.updateChildValues(["/videos/\(self.aKey)": image])
+                
+                
+                APESuperHUD.showOrUpdateHUD(icon: .checkMark, message: "Completed", presentingView: self.view, completion: {
+                    APESuperHUD.removeHUD(animated: true, presentingView: self.view, completion: { _ in
+                        // Completed
+                    })
+                    self.player?.pause()
+                    self.dismiss(animated: true, completion: {
+                        
+                    })
                     
                 })
                 
-            })
+            }
+            
+           
             
         }
     }
