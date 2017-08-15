@@ -1412,25 +1412,26 @@
                                                         <action selector="voteDown:" destination="p85-tO-5jL" eventType="touchUpInside" id="fvQ-Wf-hXr"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9nA-Lv-xMD">
-                                                    <rect key="frame" x="117" y="123" width="0.0" height="0.0"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CreatedAt" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9nA-Lv-xMD">
+                                                    <rect key="frame" x="346" y="53" width="57.333333333333314" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
+                                                <constraint firstItem="9nA-Lv-xMD" firstAttribute="top" secondItem="HLj-1T-ZHj" secondAttribute="top" constant="53" id="04o-0s-Nh9"/>
                                                 <constraint firstAttribute="trailing" secondItem="MvV-Um-uIT" secondAttribute="trailing" constant="20" id="0ss-bS-zg7"/>
                                                 <constraint firstItem="AVZ-vD-G1y" firstAttribute="leading" secondItem="HLj-1T-ZHj" secondAttribute="leading" constant="18" id="11t-b4-fN6"/>
-                                                <constraint firstItem="9nA-Lv-xMD" firstAttribute="leading" secondItem="AVZ-vD-G1y" secondAttribute="trailing" constant="14" id="8cK-PS-9No"/>
                                                 <constraint firstItem="gex-Fb-V4y" firstAttribute="top" secondItem="HLj-1T-ZHj" secondAttribute="top" constant="20" id="Cw2-0M-Iep"/>
                                                 <constraint firstAttribute="bottom" secondItem="AVZ-vD-G1y" secondAttribute="bottom" constant="27.670000000000002" id="I4b-4S-gYQ"/>
                                                 <constraint firstAttribute="bottom" secondItem="MvV-Um-uIT" secondAttribute="bottom" constant="14.67" id="JwC-IV-t3P"/>
-                                                <constraint firstAttribute="bottom" secondItem="9nA-Lv-xMD" secondAttribute="bottom" constant="17.670000000000002" id="Llf-fw-FbR"/>
                                                 <constraint firstItem="MvV-Um-uIT" firstAttribute="leading" secondItem="Hwj-pP-gyl" secondAttribute="trailing" constant="17" id="TKw-Z7-2dL"/>
                                                 <constraint firstItem="gex-Fb-V4y" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="HLj-1T-ZHj" secondAttribute="leading" constant="20" symbolic="YES" id="TPR-M8-yrP"/>
                                                 <constraint firstItem="AVZ-vD-G1y" firstAttribute="top" secondItem="HLj-1T-ZHj" secondAttribute="top" constant="28" id="d6O-ng-P7N"/>
+                                                <constraint firstItem="Hwj-pP-gyl" firstAttribute="top" secondItem="9nA-Lv-xMD" secondAttribute="bottom" constant="25" id="eKu-10-HGe"/>
                                                 <constraint firstAttribute="bottom" secondItem="Hwj-pP-gyl" secondAttribute="bottom" constant="14.666666666666657" id="hgM-wH-55q"/>
+                                                <constraint firstAttribute="trailing" secondItem="9nA-Lv-xMD" secondAttribute="trailing" constant="10.666666666666686" id="l9J-mQ-H2X"/>
                                                 <constraint firstAttribute="trailing" secondItem="gex-Fb-V4y" secondAttribute="trailing" constant="11" id="lJX-VT-pg1"/>
                                             </constraints>
                                         </tableViewCellContentView>

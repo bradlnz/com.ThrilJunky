@@ -106,13 +106,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.925851"
+            timestampString = "524480289.12812"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "635"
             endingLineNumber = "635"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -138,13 +138,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.927556"
+            timestampString = "524480289.130781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "597"
             endingLineNumber = "597"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -154,13 +154,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.928693"
+            timestampString = "524480289.132972"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "635"
             endingLineNumber = "635"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -170,13 +170,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.929825"
+            timestampString = "524480289.135352"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "635"
             endingLineNumber = "635"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -186,13 +186,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.930952"
+            timestampString = "524480289.137908"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "635"
             endingLineNumber = "635"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -282,13 +282,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.932207"
+            timestampString = "524480289.140397"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
             endingLineNumber = "30"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -298,13 +298,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.933265"
+            timestampString = "524480289.142621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "597"
             endingLineNumber = "597"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -458,13 +458,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/PickerDialog.swift"
-            timestampString = "524319716.935266"
+            timestampString = "524472984.037697"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "110"
             endingLineNumber = "110"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "show(title:doneButtonTitle:cancelButtonTitle:options:selected:callback:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -810,13 +810,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/SingletonData.swift"
-            timestampString = "524319716.936211"
+            timestampString = "524480289.145683"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "104"
             endingLineNumber = "104"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "setSelectedObjects(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1382,13 +1382,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.939835"
+            timestampString = "524480289.146788"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "831"
             endingLineNumber = "831"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "collectionView(_:didSelectItemAt:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1414,13 +1414,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.941024"
+            timestampString = "524480289.149247"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "853"
             endingLineNumber = "853"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1430,13 +1430,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/SingletonData.swift"
-            timestampString = "524319716.942211"
+            timestampString = "524480289.151439"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "407"
             endingLineNumber = "407"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "deinit"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1622,13 +1622,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.942811"
+            timestampString = "524480289.152052"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1064"
             endingLineNumber = "1064"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "koloda(_:draggedCardWithPercentage:in:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1638,7 +1638,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.944058"
+            timestampString = "524480289.154644"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1073"
@@ -1654,7 +1654,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.945086"
+            timestampString = "524480289.156962"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1074"
@@ -1670,13 +1670,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.946157"
+            timestampString = "524480289.159149"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1071"
             endingLineNumber = "1071"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1702,13 +1702,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.947245"
+            timestampString = "524480289.161298"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1036"
             endingLineNumber = "1036"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1718,13 +1718,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.948349"
+            timestampString = "524480289.163513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1052"
             endingLineNumber = "1052"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "koloda(_:draggedCardWithPercentage:in:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1734,13 +1734,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.94947"
+            timestampString = "524480289.165575"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1053"
             endingLineNumber = "1053"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "koloda(_:draggedCardWithPercentage:in:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1782,13 +1782,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.975843"
+            timestampString = "524480289.167693"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "597"
             endingLineNumber = "597"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1922,13 +1922,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.978855"
+            timestampString = "524480289.170648"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "987"
             endingLineNumber = "987"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "koloda(_:didSwipeCardAt:in:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1938,13 +1938,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.979952"
+            timestampString = "524480289.173003"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "191"
             endingLineNumber = "191"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "reloadCards(input:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1954,13 +1954,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.981084"
+            timestampString = "524480289.175098"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1080"
             endingLineNumber = "1080"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "kolodaNumberOfCards(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1970,13 +1970,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.982345"
+            timestampString = "524480289.177229"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1065"
             endingLineNumber = "1065"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "koloda(_:draggedCardWithPercentage:in:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1986,13 +1986,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.983569"
+            timestampString = "524480289.179408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "843"
             endingLineNumber = "843"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2002,13 +2002,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.984905"
+            timestampString = "524480289.181692"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "843"
             endingLineNumber = "843"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2018,13 +2018,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.985996"
+            timestampString = "524480289.18384"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "843"
             endingLineNumber = "843"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2034,13 +2034,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.987572"
+            timestampString = "524480289.186691"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "597"
             endingLineNumber = "597"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2050,13 +2050,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.988837"
+            timestampString = "524480289.189511"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1035"
             endingLineNumber = "1035"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "koloda(_:didSwipeCardAt:in:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2066,13 +2066,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/SingletonData.swift"
-            timestampString = "524319716.990199"
+            timestampString = "524480289.191723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "171"
             endingLineNumber = "171"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "setLocation(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2082,13 +2082,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/SingletonData.swift"
-            timestampString = "524319716.990795"
+            timestampString = "524480289.19205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "163"
             endingLineNumber = "163"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "setOverrideLocation(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2098,13 +2098,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/SingletonData.swift"
-            timestampString = "524319716.991235"
+            timestampString = "524480289.192339"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "174"
             endingLineNumber = "174"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "setTaggedLocation(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2146,13 +2146,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/SingletonData.swift"
-            timestampString = "524319716.991832"
+            timestampString = "524480289.192733"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "16"
             endingLineNumber = "16"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "SingletonData"
+            landmarkType = "3">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -2209,13 +2209,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/SingletonData.swift"
-            timestampString = "524319716.992177"
+            timestampString = "524480289.193023"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "15"
             endingLineNumber = "15"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "SingletonData"
+            landmarkType = "3">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -2272,13 +2272,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.992486"
+            timestampString = "524480289.193314"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1084"
             endingLineNumber = "1084"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "kolodaSpeedThatCardShouldDrag(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2288,13 +2288,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.993583"
+            timestampString = "524480289.195771"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "597"
             endingLineNumber = "597"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2304,13 +2304,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.994616"
+            timestampString = "524480289.198163"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1033"
             endingLineNumber = "1033"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "koloda(_:didSwipeCardAt:in:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2320,13 +2320,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.995634"
+            timestampString = "524480289.200296"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "854"
             endingLineNumber = "854"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "deinit"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2336,13 +2336,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.996708"
+            timestampString = "524480289.20283"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1085"
             endingLineNumber = "1085"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "kolodaSpeedThatCardShouldDrag(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2384,13 +2384,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.998056"
+            timestampString = "524480289.205755"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1235"
             endingLineNumber = "1235"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "koloda(_:viewForCardAt:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2400,13 +2400,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319716.999346"
+            timestampString = "524480289.208195"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1249"
             endingLineNumber = "1249"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "viewController(_:didAutocompleteWith:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2416,13 +2416,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/ViewController.swift"
-            timestampString = "524319717.000938"
+            timestampString = "524480289.210605"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1235"
             endingLineNumber = "1235"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "koloda(_:viewForCardAt:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2815,13 +2815,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/AppDelegate.swift"
-            timestampString = "524319717.003319"
+            timestampString = "524480289.213341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "154"
             endingLineNumber = "154"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "applicationWillResignActive(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2831,29 +2831,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/PhotoViewController.swift"
-            timestampString = "524319717.006938"
+            timestampString = "524480289.213566"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "36"
             endingLineNumber = "36"
-            landmarkName = "unknown"
-            landmarkType = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Dev/PhotoViewController.swift"
-            timestampString = "524319717.007383"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "init(image:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2863,29 +2847,77 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/PhotoViewController.swift"
-            timestampString = "524319717.007639"
+            timestampString = "524480289.213835"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "157"
+            endingLineNumber = "157"
+            landmarkName = "add()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/PhotoViewController.swift"
-            timestampString = "524319717.007858"
+            timestampString = "524480289.214074"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
+            landmarkName = "add()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Dev/PhotoViewController.swift"
+            timestampString = "524480289.214299"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "184"
             endingLineNumber = "184"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "add()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #8 (__ObjC.FIRStorageTaskSnapshot) -&gt; () in closure #1 () -&gt; () in ThrilJunky.PhotoViewController.add() -&gt; ()"
+                  moduleName = "ThrilJunky"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bradlietz/com.ThrilJunky/Dev/PhotoViewController.swift"
+                  timestampString = "524472366.65996"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "184"
+                  endingLineNumber = "184"
+                  offsetFromSymbolStart = "278">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; () in closure #1 () -&gt; () in closure #8 (__ObjC.FIRStorageTaskSnapshot) -&gt; () in closure #1 () -&gt; () in ThrilJunky.PhotoViewController.add() -&gt; ()"
+                  moduleName = "ThrilJunky"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bradlietz/com.ThrilJunky/Dev/PhotoViewController.swift"
+                  timestampString = "524472366.66308"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "186"
+                  endingLineNumber = "186"
+                  offsetFromSymbolStart = "3">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3023,13 +3055,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dev/VideoViewController.swift"
-            timestampString = "524319717.019721"
+            timestampString = "524480289.214678"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "52"
             endingLineNumber = "52"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3046,6 +3078,70 @@
             endingLineNumber = "187"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Dev/MoreInfoController.swift"
+            timestampString = "524480289.214909"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "fusumaMultipleImageSelected(_:source:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Dev/MoreInfoController.swift"
+            timestampString = "524480289.216141"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "fusumaImageSelected(_:source:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ThrilJunky.MoreInfoController.fusumaImageSelected(__ObjC.UIImage, source: Fusuma.FusumaMode) -&gt; ()"
+                  moduleName = "ThrilJunky"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bradlietz/com.ThrilJunky/Dev/MoreInfoController.swift"
+                  timestampString = "524472460.73342"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "33">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in ThrilJunky.MoreInfoController.fusumaImageSelected(__ObjC.UIImage, source: Fusuma.FusumaMode) -&gt; ()"
+                  moduleName = "ThrilJunky"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bradlietz/com.ThrilJunky/Dev/MoreInfoController.swift"
+                  timestampString = "524472460.735034"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
+                  offsetFromSymbolStart = "27">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

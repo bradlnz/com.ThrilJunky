@@ -46,6 +46,7 @@ pod 'APESuperHUD'
 pod 'Fabric'
 pod 'Crashlytics'
 pod 'Appsee'
+pod 'Nuke'
 
 #pod 'Crashlytics'
 #pod 'Appsee'

@@ -1104,7 +1104,7 @@ extension ViewController: KolodaViewDataSource {
         
             let DisplayTitle = UILabel(frame: CGRect(x: 10, y: 20, width: self.setView.frame.width, height: 40))
         
-            let DisplayAddress = UILabel(frame: CGRect(x: 10, y: 30, width: self.setView.frame.width - 20, height: 40))
+            let DisplayAddress = UILabel(frame: CGRect(x: 10, y: 30, width: 100, height: 40))
             let timeLabel = UILabel(frame: CGRect(x: 10, y: self.setView.frame.height - 40, width: self.setView.frame.width, height: 40))
         
             let distanceLabel = UILabel(frame: CGRect(x: 10, y: self.setView.frame.height - 60, width: self.setView.frame.width, height: 40))
@@ -1135,7 +1135,7 @@ extension ViewController: KolodaViewDataSource {
         
             
             DisplayAddress.textColor = UIColor.white
-            DisplayAddress.font = UIFont(name: "System", size: 9)
+            DisplayAddress.font = UIFont.systemFont(ofSize: 12)
             DisplayAddress.numberOfLines = 0
             
             distanceLabel.textColor = UIColor.white
@@ -1200,12 +1200,12 @@ extension ViewController: KolodaViewDataSource {
                     self.setView.addSubview(DisplayTitle)
                          self.setView.addSubview(DisplayAddress)
                     DisplayTitle.translatesAutoresizingMaskIntoConstraints = false
-                    DisplayTitle.topAnchor.constraint(equalTo: self.setView.topAnchor, constant: 10).isActive = true
+                    DisplayTitle.topAnchor.constraint(equalTo: self.setView.topAnchor, constant: 25).isActive = true
                     DisplayTitle.leadingAnchor.constraint(equalTo: self.setView.leadingAnchor, constant: 10).isActive = true
                     DisplayAddress.translatesAutoresizingMaskIntoConstraints = false
-                    DisplayAddress.topAnchor.constraint(equalTo: self.setView.topAnchor, constant: 35).isActive = true
+                    DisplayAddress.topAnchor.constraint(equalTo: self.setView.topAnchor, constant: 55).isActive = true
                     DisplayAddress.leadingAnchor.constraint(equalTo: self.setView.leadingAnchor, constant: 10).isActive = true
-        DisplayAddress.trailingAnchor.constraint(equalTo: self.setView.trailingAnchor, constant: 20).isActive = true
+                    DisplayAddress.trailingAnchor.constraint(equalTo: self.setView.trailingAnchor, constant: 10).isActive = true
                     distanceLabel.translatesAutoresizingMaskIntoConstraints = false
                     distanceLabel.bottomAnchor.constraint(equalTo: self.setView.bottomAnchor, constant: -15).isActive = true
                     distanceLabel.leadingAnchor.constraint(equalTo: self.setView.leadingAnchor, constant: 10).isActive = true

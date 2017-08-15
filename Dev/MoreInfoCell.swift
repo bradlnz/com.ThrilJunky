@@ -19,4 +19,7 @@ class MoreInfoCell : UITableViewCell {
     @IBOutlet weak var voteDown: UIButton!
     
     @IBOutlet weak var displayImg: UIImageView!
+    
+    
+   
 }

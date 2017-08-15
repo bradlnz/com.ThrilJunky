@@ -132,6 +132,7 @@ PODS:
   - Koloda (4.1):
     - pop (~> 1.0)
   - MIBadgeButton-Swift (0.5)
+  - Nuke (5.1.1)
   - OAuthSwift (1.1.2)
   - ObjectMapper (2.2.8)
   - PINCache (3.0.1-beta.5):
@@ -201,6 +202,7 @@ DEPENDENCIES:
   - Kingfisher
   - Koloda (~> 4.0)
   - MIBadgeButton-Swift (from `https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git`, branch `master`)
+  - Nuke
   - OAuthSwift (~> 1.1)
   - PKHUD
   - ReachabilitySwift (~> 3)
@@ -279,6 +281,7 @@ SPEC CHECKSUMS:
   Kingfisher: dc3a4983e86d2dfa89513664983a82340c11a289
   Koloda: 6c4fa3ce9a68776a8ef973311e53fdda432799a8
   MIBadgeButton-Swift: 9e57309b00b168d75ca8fecb45bc75124a8ffddf
+  Nuke: 0a2ddb4bd13d75782964bf598a159ca2a836d826
   OAuthSwift: 5aa5659984d3ca3206ba636a9e7a9c6626b2e8bd
   ObjectMapper: 3d571bb5af471c779e1160828cd9ad5c4ef90958
   PINCache: 98e7b1ef782824ad231ade51987c218b758c30d8
@@ -296,6 +299,6 @@ SPEC CHECKSUMS:
   Texture: 8cf0872fe33328c20d7e6c1fcbf1f23a82162f2f
   UberRides: 96eb232374a6e8e616c20fdba83c2643a6ad08dc
 
-PODFILE CHECKSUM: c1d6cd0f2b84a152cd8c8acf1f5c1024603ca645
+PODFILE CHECKSUM: 9e176aff5f95b7e2bac71746a081aabf290a99f0
 
 COCOAPODS: 1.1.1

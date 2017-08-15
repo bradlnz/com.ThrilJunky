@@ -14,6 +14,7 @@ import Firebase
 import FBSDKShareKit
 import FBSDKMessengerShareKit
 import Fusuma
+import Nuke
 //import PKHUD
 import APESuperHUD
 
@@ -696,10 +697,11 @@ class MoreInfoController: UIViewController, UITableViewDataSource, UITableViewDe
             cell.createdAt.text = SingletonData.staticInstance.timeAgoSinceDate(date!, numericDates: true)
         }
         cell.displayTitle.text = item.displayTitle
+       
+        cell.displayImg.image = nil
+
+        Nuke.loadImage(with: URL(string: item.imagePath)!, into: cell.displayImg)
         
-        DispatchQueue.main.async {
-            cell.displayImg.imageFromServerURL(urlString: item.imagePath)
-        }
         cell.displayImg.layer.masksToBounds = true
         cell.displayImg.layer.cornerRadius = 40
         cell.backgroundColor = UIColor.lightGray
