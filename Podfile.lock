@@ -106,6 +106,7 @@ PODS:
   - FirebaseStorage (1.1.0):
     - FirebaseAnalytics (~> 3.7)
     - GTMSessionFetcher/Core (~> 1.1)
+  - Fusuma (1.1.5)
   - Google-Mobile-Ads-SDK (7.19.1)
   - GoogleMaps (2.4.0):
     - GoogleMaps/Maps (= 2.4.0)
@@ -160,7 +161,6 @@ PODS:
   - RealmSwift (2.9.1):
     - Realm (= 2.9.1)
   - SlideMenuControllerSwift (3.0.1)
-  - SwiftyCam (2.4.0)
   - SwiftyImage (1.1.0)
   - Texture (2.3.4):
     - Texture/PINRemoteImage (= 2.3.4)
@@ -195,6 +195,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Firebase/RemoteConfig
   - Firebase/Storage
+  - Fusuma
   - GoogleMaps
   - GooglePlaces
   - Kingfisher
@@ -207,7 +208,6 @@ DEPENDENCIES:
   - RealmGeoQueries
   - RealmSwift (from `https://github.com/realm/realm-cocoa.git`, branch `master`)
   - SlideMenuControllerSwift
-  - SwiftyCam
   - SwiftyImage (~> 1.0)
   - Texture
   - UberRides (from `https://github.com/long/rides-ios-sdk.git`, branch `swift-3-dev`)
@@ -270,6 +270,7 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 753d05a925e9eb8eadd09a0ffc9b808578b72fac
   FirebaseRemoteConfig: af3003f4e8daa2bd1d5cf90d3cccc1fe224f8ed9
   FirebaseStorage: a5c55b23741a49a72af8f30f95b3bb5ddbeda12d
+  Fusuma: a5c8b0619906892d99789e9c5152f78e27063a8c
   Google-Mobile-Ads-SDK: 43ac87810e4961f5093024d3525bfe022f956da3
   GoogleMaps: 8436ab5d1c25e36915b2f7416d0c8e3fa2e76c61
   GooglePlaces: aafe5990fa7951e98e078761bbdaaf236d7e0c65
@@ -291,11 +292,10 @@ SPEC CHECKSUMS:
   RealmGeoQueries: 84f2628e2fcc7593a41639c7b8526d6e88a1f071
   RealmSwift: 9b93f053d46d4fc4145e691c14eb06b5410ffdc9
   SlideMenuControllerSwift: 9a163b16d54afab734add42858cba7ef7c307755
-  SwiftyCam: cb83b9a8e181f70fb741d30cea724c6b045a4549
   SwiftyImage: 4d3feb0211beb7217b39ac553e3ee64ceb72d611
   Texture: 8cf0872fe33328c20d7e6c1fcbf1f23a82162f2f
   UberRides: 96eb232374a6e8e616c20fdba83c2643a6ad08dc
 
-PODFILE CHECKSUM: 1fb65ed49c617ed7402517074f4139ad997f8f30
+PODFILE CHECKSUM: c1d6cd0f2b84a152cd8c8acf1f5c1024603ca645
 
 COCOAPODS: 1.1.1
