@@ -47,6 +47,7 @@ pod 'Fabric'
 pod 'Crashlytics'
 pod 'Appsee'
 pod 'Nuke'
+pod 'RandomColorSwift'
 
 #pod 'Crashlytics'
 #pod 'Appsee'

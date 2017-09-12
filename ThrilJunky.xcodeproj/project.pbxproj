@@ -72,8 +72,10 @@
 		827405661EBE964500AB3EF3 /* MoreInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827405651EBE964500AB3EF3 /* MoreInfoCell.swift */; };
 		827405681EBE965B00AB3EF3 /* MoreInfoCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827405671EBE965B00AB3EF3 /* MoreInfoCollectionCell.swift */; };
 		8274056A1EBE994A00AB3EF3 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827405691EBE994A00AB3EF3 /* Action.swift */; };
+		8284E18C1F6691BE00E3C89F /* DesignableUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8284E18B1F6691BE00E3C89F /* DesignableUITextField.swift */; };
 		82A545E21EE8D83700A401C4 /* RealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A545E11EE8D83700A401C4 /* RealmObject.swift */; };
 		82CB9F441ECFAD3600AC46DA /* ModalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CB9F431ECFAD3600AC46DA /* ModalController.swift */; };
+		82D698AA1F668A0C006762EA /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D698A91F668A0C006762EA /* GradientView.swift */; };
 		82E4A6571F1ACB5800F6D636 /* BusinessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E4A6561F1ACB5800F6D636 /* BusinessModel.swift */; };
 		82E4A6591F1ACB7D00F6D636 /* ContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E4A6581F1ACB7D00F6D636 /* ContentModel.swift */; };
 		82E4A65B1F1B4A2200F6D636 /* CameraSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E4A65A1F1B4A2200F6D636 /* CameraSectionController.swift */; };
@@ -229,8 +231,10 @@
 		827405651EBE964500AB3EF3 /* MoreInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreInfoCell.swift; sourceTree = "<group>"; };
 		827405671EBE965B00AB3EF3 /* MoreInfoCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreInfoCollectionCell.swift; sourceTree = "<group>"; };
 		827405691EBE994A00AB3EF3 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		8284E18B1F6691BE00E3C89F /* DesignableUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableUITextField.swift; sourceTree = "<group>"; };
 		82A545E11EE8D83700A401C4 /* RealmObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmObject.swift; sourceTree = "<group>"; };
 		82CB9F431ECFAD3600AC46DA /* ModalController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalController.swift; sourceTree = "<group>"; };
+		82D698A91F668A0C006762EA /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		82E4A6561F1ACB5800F6D636 /* BusinessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessModel.swift; sourceTree = "<group>"; };
 		82E4A6581F1ACB7D00F6D636 /* ContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModel.swift; sourceTree = "<group>"; };
 		82E4A65A1F1B4A2200F6D636 /* CameraSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSectionController.swift; sourceTree = "<group>"; };
@@ -564,6 +568,8 @@
 				824150F11F13978D00ED6D2A /* VideoModel.swift */,
 				82E4A6561F1ACB5800F6D636 /* BusinessModel.swift */,
 				82E4A6581F1ACB7D00F6D636 /* ContentModel.swift */,
+				82D698A91F668A0C006762EA /* GradientView.swift */,
+				8284E18B1F6691BE00E3C89F /* DesignableUITextField.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -943,6 +949,7 @@
 				8236C5221ECFBE090010C0AC /* ModalPlaceCell.swift in Sources */,
 				8252077C1F1C9379000BA503 /* DebugMapViewController.swift in Sources */,
 				82CB9F441ECFAD3600AC46DA /* ModalController.swift in Sources */,
+				82D698AA1F668A0C006762EA /* GradientView.swift in Sources */,
 				825207761F1C933C000BA503 /* ARConfiguration.swift in Sources */,
 				8240043D1ED8EB4800665511 /* UINavigationBar.swift in Sources */,
 				A2948CB01D6FC6DD008DE726 /* LocationSearchViewController.swift in Sources */,
@@ -961,6 +968,7 @@
 				A2799E9E1CCE12AF00EFA09B /* ContentViewController.swift in Sources */,
 				8205EE321EC3BA4F0084F88B /* TestFadeSlideShowController.swift in Sources */,
 				02787BC41D648B5C007B8C8D /* VideoCollectionViewCell.swift in Sources */,
+				8284E18C1F6691BE00E3C89F /* DesignableUITextField.swift in Sources */,
 				A2BFEB1A1CF01DE60062CC3C /* LocationSearchTable.swift in Sources */,
 				025857B01D506FA50077F2AA /* MostRecentCollectionViewCell.swift in Sources */,
 				A2EFAB901C4F947A00635477 /* ForgottenPasswordViewController.swift in Sources */,

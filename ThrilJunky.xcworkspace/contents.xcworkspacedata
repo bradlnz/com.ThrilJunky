@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Dev/FactualEngine.h">
+   </FileRef>
+   <FileRef
+      location = "group:Dev/libFactualEngine.a">
+   </FileRef>
+   <FileRef
       location = "group:ThrilJunky.xcodeproj">
    </FileRef>
    <FileRef

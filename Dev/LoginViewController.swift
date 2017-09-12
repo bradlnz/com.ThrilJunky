@@ -181,7 +181,7 @@ class LoginViewController: UIViewController, ForgotPasswordDelegate, FBSDKLoginB
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         FIRAuth.auth()!.addStateDidChangeListener() { auth, user in
             // 2
             if user != nil {

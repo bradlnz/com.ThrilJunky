@@ -153,6 +153,7 @@ PODS:
   - PKHUD (4.2.3)
   - pop (1.0.10)
   - Protobuf (3.3.0)
+  - RandomColorSwift (1.0.0)
   - ReachabilitySwift (3)
   - Realm (2.9.1):
     - Realm/Headers (= 2.9.1)
@@ -205,6 +206,7 @@ DEPENDENCIES:
   - Nuke
   - OAuthSwift (~> 1.1)
   - PKHUD
+  - RandomColorSwift
   - ReachabilitySwift (~> 3)
   - Realm (from `https://github.com/realm/realm-cocoa.git`, branch `master`)
   - RealmGeoQueries
@@ -290,6 +292,7 @@ SPEC CHECKSUMS:
   PKHUD: c7692163a09875cbf15827dc581df3c5cf7f1015
   pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
+  RandomColorSwift: 9f85058b721665d52d239ca166a913e083506444
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
   Realm: f91fb43bd474c4f731a116ebf7392c75dd015920
   RealmGeoQueries: 84f2628e2fcc7593a41639c7b8526d6e88a1f071
@@ -299,6 +302,6 @@ SPEC CHECKSUMS:
   Texture: 8cf0872fe33328c20d7e6c1fcbf1f23a82162f2f
   UberRides: 96eb232374a6e8e616c20fdba83c2643a6ad08dc
 
-PODFILE CHECKSUM: 9e176aff5f95b7e2bac71746a081aabf290a99f0
+PODFILE CHECKSUM: 5b917f84648bc90697932d78583d52bf2693f62c
 
 COCOAPODS: 1.1.1

@@ -21,6 +21,7 @@ import Koloda
 import RealmSwift
 import GeoQueries
 import GooglePlaces
+import RandomColorSwift
 import Crashlytics // If using Answers with Crashlytics
 //import Answers // If using Answers without Crashlytics
 
@@ -237,16 +238,16 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
         
    
         yesBtn.layer.cornerRadius = 0.5 * yesBtn.bounds.size.width
-        yesBtn.backgroundColor = UIColor.white
+        yesBtn.backgroundColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 0.28)
         yesBtn.clipsToBounds = true
-        yesBtn.tintColor = UIColor.green
+        yesBtn.tintColor = UIColor.white
         yesBtn.setImage(UIImage(named:"icons8-like_filled"), for: .normal)
         yesBtn.addTarget(self, action: #selector(thumbsUpButtonPressed), for: .touchUpInside)
     
         noBtn.layer.cornerRadius = 0.5 * noBtn.bounds.size.width
-        noBtn.backgroundColor = UIColor.white
+        noBtn.backgroundColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 0.28)
         noBtn.clipsToBounds = true
-        noBtn.tintColor = UIColor.red
+        noBtn.tintColor = UIColor.white
         noBtn.setImage(UIImage(named:"cancel"), for: .normal)
         noBtn.addTarget(self, action: #selector(thumbsDownButtonPressed), for: .touchUpInside)
       
@@ -554,11 +555,15 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
 
  override func viewWillAppear(_ animated: Bool) {
     
+    let logo = UIImage(named: "textNavBar")
+    let imageView = UIImageView(image:logo)
+    self.navigationItem.titleView = imageView
+    
      UIApplication.shared.isStatusBarHidden = false
     self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
     self.navigationController?.navigationBar.shadowImage = UIImage()
     self.navigationController?.navigationBar.isTranslucent = true
-    self.navigationController?.navigationBar.tintColor = UIColor.black
+    self.navigationController?.navigationBar.tintColor = UIColor.white
     
     UIApplication.shared.statusBarStyle = .default
     
@@ -637,13 +642,20 @@ class ViewController: UIViewController, FIRDatabaseReferenceable, ASVideoNodeDel
         return self.categories.count
     }
     
+    
+    let greenColors = randomColors(count: 100, hue: .blue, luminosity: .bright)
+    
+    
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
   
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath as IndexPath) as! FilterCollectionView
 
+       
         cell.textLbl.text = self.categories[indexPath.row]
-    
-         cell.textLbl.textColor = UIColor.black
+        cell.textLbl.backgroundColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 0.28)
+         cell.textLbl.textColor = UIColor.white
+        cell.textLbl.layer.cornerRadius = 40
+       cell.textLbl.layer.masksToBounds = true
         return cell
   
     }
@@ -1105,6 +1117,10 @@ extension ViewController: KolodaViewDataSource {
             let DisplayTitle = UILabel(frame: CGRect(x: 10, y: 20, width: self.setView.frame.width, height: 40))
         
             let DisplayAddress = UILabel(frame: CGRect(x: 10, y: 30, width: 100, height: 40))
+        
+            DisplayAddress.lineBreakMode = .byWordWrapping
+            DisplayAddress.numberOfLines = 0
+        
             let timeLabel = UILabel(frame: CGRect(x: 10, y: self.setView.frame.height - 40, width: self.setView.frame.width, height: 40))
         
             let distanceLabel = UILabel(frame: CGRect(x: 10, y: self.setView.frame.height - 60, width: self.setView.frame.width, height: 40))
@@ -1130,16 +1146,16 @@ extension ViewController: KolodaViewDataSource {
             timeLabel.font = UIFont(name: "System", size: 14)
         
             DisplayTitle.textColor = UIColor.white
-            DisplayTitle.font = UIFont.systemFont(ofSize: 26.0)
+            DisplayTitle.font = UIFont.boldSystemFont(ofSize: 26.0)
             DisplayTitle.numberOfLines = 0
         
             
             DisplayAddress.textColor = UIColor.white
-            DisplayAddress.font = UIFont.systemFont(ofSize: 12)
+            DisplayAddress.font = UIFont.systemFont(ofSize: 16)
             DisplayAddress.numberOfLines = 0
             
             distanceLabel.textColor = UIColor.white
-            distanceLabel.font =  UIFont.boldSystemFont(ofSize: 16.0)
+            distanceLabel.font =  UIFont.boldSystemFont(ofSize: 20.0)
             distanceLabel.numberOfLines = 0
             
             let height = self.setView.frame.size.height
@@ -1203,9 +1219,9 @@ extension ViewController: KolodaViewDataSource {
                     DisplayTitle.topAnchor.constraint(equalTo: self.setView.topAnchor, constant: 25).isActive = true
                     DisplayTitle.leadingAnchor.constraint(equalTo: self.setView.leadingAnchor, constant: 10).isActive = true
                     DisplayAddress.translatesAutoresizingMaskIntoConstraints = false
-                    DisplayAddress.topAnchor.constraint(equalTo: self.setView.topAnchor, constant: 55).isActive = true
+                    DisplayAddress.topAnchor.constraint(equalTo: self.setView.topAnchor, constant: 60).isActive = true
                     DisplayAddress.leadingAnchor.constraint(equalTo: self.setView.leadingAnchor, constant: 10).isActive = true
-                  //  DisplayAddress.trailingAnchor.constraint(equalTo: self.setView.trailingAnchor, constant: 10).isActive = true
+                   DisplayAddress.trailingAnchor.constraint(equalTo: self.setView.trailingAnchor, constant: 30).isActive = true
                     distanceLabel.translatesAutoresizingMaskIntoConstraints = false
                     distanceLabel.bottomAnchor.constraint(equalTo: self.setView.bottomAnchor, constant: -15).isActive = true
                     distanceLabel.leadingAnchor.constraint(equalTo: self.setView.leadingAnchor, constant: 10).isActive = true

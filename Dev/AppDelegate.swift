@@ -27,7 +27,6 @@ import Fabric
 import Crashlytics
 import Appsee
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
     
@@ -43,7 +42,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
       
-    
+       
+        locationManager.requestAlwaysAuthorization()
+        
+        
+        // start the SDK.
+        // Note, you don't need to worry about whether or not the necessary
+        // authorizations have returned from the user before calling start.
+        // Engine will automatically detect for any changes to location
+        // authorizations and behave accordingly.
+//        FactualEngine.start(withApiKey: "MfUyhAWAbrKwyqdybhPBEYtbH9zbZ8RYWVNGt2Bs", acceptedTosUrl: "www.thriljunky.com/tos", acceptedTosDate: Date(), delegate: self)
+        // FactualEngineDelegate
+        return true
         GMSServices.provideAPIKey("AIzaSyB1CfDdCqRr4Xx6lBVNCcXigG1lWA1MJiI")
         GMSPlacesClient.provideAPIKey("AIzaSyDx-_HkMZEHQEoZLt66laEsTfeGx2I4irc")
         Fabric.with([Crashlytics.self, Appsee.self])
@@ -71,10 +81,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
       //  UIApplication.shared.isStatusBarHidden = true
         //UIApplication.shared.statusBarStyle = UIStatusBarStyle.
         
-        UINavigationBar.appearance().tintColor = UIColor.black
+        UINavigationBar.appearance().tintColor = UIColor.white
         
-        //UINavigationBar.appearance().barTintColor = uicolorFromHex(0xFFFFFF)
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.black]
+        UINavigationBar.appearance().barTintColor = UIColor.white
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
 //        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
 //            print("TEST")
 //
@@ -126,29 +136,90 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         return true
     }
     
-   
-//    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-//        if (url.host == "oauth-callback") {
-//            OAuthSwift.handleOpenURL(url)
-//        }
-//        
-//        return true
+        // ---- methods to support the FactualEngineDelegate interface ----
+//    func engineDidStart(withInstance engine: FactualEngine) {
+//        print("Engine started.")
+//        // register a call back method for the "log-event" action:
+//        engine.registerAction(withId: "log-event", listener: self)
+//        // FactualActionHandler
+//        // Example of getting a list of candidates for my current location. (results will show up in
+//        // logging console, so this example won't be interesting outside of the device emulator).
+//        engine.genPlaceCandidates(with: self)
+//        // FactualPlacesDelegate
+//        // Example of *optionally* creating circumstances client-side rather than through the Garage UI.
+//        // The handler associated with the action id "log-event" will be invoked if this circumstance is
+//        // met.
+//        engine.register(FactualCircumstance(id: "circ-id", expr: "(at any-factual-place)", actionId: "log-event"))
 //    }
-    
-    
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-      
-               if (url.host == "oauth-callback") {
-                   OAuthSwift.handle(url: url)
-               }
-        
-            return FBSDKApplicationDelegate.sharedInstance().application(
-                application,
-                open: url,
-                sourceApplication: sourceApplication,
-                annotation: annotation)
-        
-    }
+//
+//    func engineDidStop() {
+//        print("Engine stopped.")
+//    }
+//
+//    func engineDidFailWithError(_ error: FactualError) {
+//        print("Engine error: \(error.message)")
+//    }
+//
+//    func engineDidReportInfo(_ infoMessage: String) {
+//        print("Engine debug info: \(infoMessage)")
+//    }
+//
+//    func engineDidSyncWithGarage() {
+//        print("Engine updated configuration.")
+//    }
+//
+//    func engineDidLoadConfig(_ data: FactualConfigMetadata) {
+//        print("Engine config loaded: \(data.version)")
+//    }
+//
+//    // ---- methods to support the FactualPlacesDelegate interface ----
+//    func placeCandidatesDidGenerate(_ candidates: PlaceCandidateResponse) {
+//        print("Engine Candidates returned: \(candidates.toDict())")
+//    }
+//
+//    func placeCandidatesDidFailWithError(_ error: FactualError) {
+//        print("Engine Place Candidate error: \(error.message)")
+//    }
+//
+//    // ---- methods to support the FactualActionHandler interface ----
+//    func circumstancesDidOccur(_ circumstances: [CircumstanceResponse]) {
+//        for myCircumstance: CircumstanceResponse in circumstances {
+//            print("Engine circumstance triggered action: \(myCircumstance)")
+//            // you can find the location(s) wher ethe current circumstance occured at in [myCircumstance atLocations]
+//            // you can find the nearby locations that were required to fulfill the circumstance in [myCircumstance nearLocations]
+//        }
+//    }
+//
+//    func circumstance(_ circumstance: FactualCircumstance!, didFailWithError error: FactualError!) {
+//        print(circumstance)
+//    }
+//
+////    func circumstance(_ circumstance: FactualCircumstance, didFailWithError error: String) {
+////        print("Engine Circumstance Evaluation error: \(error)")
+////    }
+////
+////    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+////        if (url.host == "oauth-callback") {
+////            OAuthSwift.handleOpenURL(url)
+////        }
+////
+////        return true
+////    }
+//
+//
+//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+//
+//               if (url.host == "oauth-callback") {
+//                   OAuthSwift.handle(url: url)
+//               }
+//
+//            return FBSDKApplicationDelegate.sharedInstance().application(
+//                application,
+//                open: url,
+//                sourceApplication: sourceApplication,
+//                annotation: annotation)
+//
+//    }
 
     
     func applicationWillResignActive(_ application: UIApplication) {
