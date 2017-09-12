@@ -116,7 +116,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dyG-mR-HLE">
-                                                    <rect key="frame" x="17.333333333333329" y="14" width="80" height="80"/>
+                                                    <rect key="frame" x="17" y="14" width="80" height="80"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="80" id="14N-XA-fra"/>
                                                         <constraint firstAttribute="width" constant="80" id="F10-7t-oO6"/>
@@ -146,7 +146,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hit refresh to load more cards" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o0G-Sa-njL">
-                                <rect key="frame" x="42" y="340" width="329" height="20"/>
+                                <rect key="frame" x="42" y="268" width="329" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="p37-zg-mah"/>
                                 </constraints>
@@ -155,13 +155,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No more cards to load" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oSW-Vb-ykF">
-                                <rect key="frame" x="42" y="300" width="331" height="30"/>
+                                <rect key="frame" x="42" y="228" width="331" height="30"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ByS-7C-8Bv">
-                                <rect key="frame" x="164" y="407.66666666666669" width="85" height="41"/>
+                                <rect key="frame" x="164" y="336" width="85" height="41"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                 <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -193,12 +193,12 @@
                             <constraint firstItem="XSR-lX-2FZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="0Ug-VU-u2n"/>
                             <constraint firstItem="u0Z-R0-iWx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-40" id="2HI-tQ-cxu"/>
                             <constraint firstAttribute="trailing" secondItem="oSW-Vb-ykF" secondAttribute="trailing" constant="41" id="2Nq-lt-995"/>
-                            <constraint firstItem="oSW-Vb-ykF" firstAttribute="top" secondItem="dWd-co-VUG" secondAttribute="bottom" constant="122" id="3Do-yz-TCZ"/>
+                            <constraint firstItem="oSW-Vb-ykF" firstAttribute="top" secondItem="dWd-co-VUG" secondAttribute="bottom" constant="50" id="3Do-yz-TCZ"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="u0Z-R0-iWx" secondAttribute="bottom" constant="8" id="5ft-qS-yC5"/>
                             <constraint firstAttribute="trailing" secondItem="dWd-co-VUG" secondAttribute="trailing" id="CZ0-sO-yzx"/>
+                            <constraint firstItem="ByS-7C-8Bv" firstAttribute="top" secondItem="o0G-Sa-njL" secondAttribute="bottom" constant="47.666666666666686" id="DON-x7-1Jw"/>
                             <constraint firstItem="MWH-iF-cU3" firstAttribute="top" secondItem="dWd-co-VUG" secondAttribute="bottom" constant="21" id="Exq-WQ-wbS"/>
                             <constraint firstItem="bzd-yp-98z" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="60" id="G1V-DX-0z5"/>
-                            <constraint firstItem="ByS-7C-8Bv" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="60" id="Hdn-sI-nTR"/>
                             <constraint firstAttribute="trailing" secondItem="XSR-lX-2FZ" secondAttribute="trailing" id="NGy-yS-XXh"/>
                             <constraint firstAttribute="trailing" secondItem="MWH-iF-cU3" secondAttribute="trailing" constant="20" id="NKk-qI-ypJ"/>
                             <constraint firstItem="dWd-co-VUG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="PZn-z5-mG9"/>
@@ -208,7 +208,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="XSR-lX-2FZ" secondAttribute="bottom" id="aLQ-rA-d7b"/>
                             <constraint firstItem="o0G-Sa-njL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="42" id="cnh-sl-Qbz"/>
                             <constraint firstItem="o0G-Sa-njL" firstAttribute="top" secondItem="oSW-Vb-ykF" secondAttribute="bottom" constant="10" id="eNB-5U-tTG"/>
-                            <constraint firstItem="ByS-7C-8Bv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fxU-11-OtX"/>
+                            <constraint firstItem="ByS-7C-8Bv" firstAttribute="centerX" secondItem="o0G-Sa-njL" secondAttribute="centerX" id="h4Y-i4-3Jf"/>
                             <constraint firstAttribute="trailing" secondItem="o0G-Sa-njL" secondAttribute="trailing" constant="43" id="jfP-bo-ckq"/>
                             <constraint firstItem="oSW-Vb-ykF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="42" id="oMN-rI-Fhv"/>
                             <constraint firstItem="MWH-iF-cU3" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="sPU-Tc-KI0"/>
@@ -772,8 +772,9 @@
                                     <action selector="sendEmail:" destination="fa7-bS-SlC" eventType="touchUpInside" id="ET0-fW-0GN"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please type your email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="y0L-Tt-0bO" customClass="RoundTextField" customModule="ThrilJunky" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type your email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="y0L-Tt-0bO" customClass="RoundTextField" customModule="ThrilJunky" customModuleProvider="target">
                                 <rect key="frame" x="46" y="80" width="321" height="50"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="10d-H5-9l0"/>
                                     <constraint firstAttribute="width" constant="321" id="C5X-AY-yeG"/>
@@ -811,7 +812,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38.329999999999998" id="oSG-TQ-Mrj"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
