@@ -161,7 +161,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ByS-7C-8Bv">
-                                <rect key="frame" x="164" y="336" width="85" height="41"/>
+                                <rect key="frame" x="164" y="298" width="85" height="41"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                 <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -196,7 +196,7 @@
                             <constraint firstItem="oSW-Vb-ykF" firstAttribute="top" secondItem="dWd-co-VUG" secondAttribute="bottom" constant="50" id="3Do-yz-TCZ"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="u0Z-R0-iWx" secondAttribute="bottom" constant="8" id="5ft-qS-yC5"/>
                             <constraint firstAttribute="trailing" secondItem="dWd-co-VUG" secondAttribute="trailing" id="CZ0-sO-yzx"/>
-                            <constraint firstItem="ByS-7C-8Bv" firstAttribute="top" secondItem="o0G-Sa-njL" secondAttribute="bottom" constant="47.666666666666686" id="DON-x7-1Jw"/>
+                            <constraint firstItem="ByS-7C-8Bv" firstAttribute="top" secondItem="o0G-Sa-njL" secondAttribute="bottom" constant="10" id="DON-x7-1Jw"/>
                             <constraint firstItem="MWH-iF-cU3" firstAttribute="top" secondItem="dWd-co-VUG" secondAttribute="bottom" constant="21" id="Exq-WQ-wbS"/>
                             <constraint firstItem="bzd-yp-98z" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="60" id="G1V-DX-0z5"/>
                             <constraint firstAttribute="trailing" secondItem="XSR-lX-2FZ" secondAttribute="trailing" id="NGy-yS-XXh"/>

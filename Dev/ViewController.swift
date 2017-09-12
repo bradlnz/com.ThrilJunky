@@ -1221,7 +1221,7 @@ extension ViewController: KolodaViewDataSource {
                     DisplayAddress.translatesAutoresizingMaskIntoConstraints = false
                     DisplayAddress.topAnchor.constraint(equalTo: self.setView.topAnchor, constant: 60).isActive = true
                     DisplayAddress.leadingAnchor.constraint(equalTo: self.setView.leadingAnchor, constant: 10).isActive = true
-                   DisplayAddress.trailingAnchor.constraint(equalTo: self.setView.trailingAnchor, constant: 30).isActive = true
+                  DisplayAddress.trailingAnchor.constraint(equalTo: self.setView.trailingAnchor, constant: 80).isActive = true
                     distanceLabel.translatesAutoresizingMaskIntoConstraints = false
                     distanceLabel.bottomAnchor.constraint(equalTo: self.setView.bottomAnchor, constant: -15).isActive = true
                     distanceLabel.leadingAnchor.constraint(equalTo: self.setView.leadingAnchor, constant: 10).isActive = true
